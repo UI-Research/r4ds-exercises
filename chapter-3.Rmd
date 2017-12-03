@@ -1,0 +1,65 @@
+---
+title: "Chapter 3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r library}
+library(tidyverse)
+```
+
+## 3.2.4
+
+### Problem 1
+
+Run `ggplot(data = mpg)`. What do you see?
+
+```{r 3-2-4-1}
+ggplot(data = mpg)
+```
+
+We have a blank plot, since we have only constructed the initial plot object.
+
+### Problem 2
+
+How many rows are in `mpg`? How many columns?
+
+```{r 3-2-4-2}
+nrow(mpg)
+ncol(mpg)
+```
+
+There are `r nrow(mpg)` rows and `r ncol(mpg)` columns in the `mpg` dataset.
+
+### Problem 3
+
+What does the `drv` variable describe? Read the help for `?mpg` to find out.
+
+```{r 3-2-4-3}
+?mpg
+```
+
+The variable `drv` describes the drive of the vehicle: f = front-wheel drive, r = rear wheel drive, 4 = 4wd.
+
+### Problem 4
+
+Make a scatterplot of `hwy` vs `cyl`
+
+```{r 3-2-4-4}
+ggplot(mpg, aes(cyl, hwy)) +
+  geom_point()
+```
+
+### Problem 5
+
+What happens if you make a scatterplot of `class` vs `drv`? Why is the plot not useful?
+
+```{r}
+ggplot(mpg, aes(class, drv)) +
+  geom_point()
+```
+
+Since `class` and `drv` are categorical variables, we 
