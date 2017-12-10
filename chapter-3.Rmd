@@ -3,63 +3,169 @@ title: "Chapter 3"
 output: html_document
 ---
 
+Load the libraries needed for these exercises.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r library}
+```{r library, message=FALSE}
 library(tidyverse)
 ```
 
-## 3.2.4
+## 3.2
 
 ### Problem 1
 
 Run `ggplot(data = mpg)`. What do you see?
 
-```{r 3-2-4-1}
+We have a blank plot, since we have only constructed the initial plot object 
+without any aesthetics.
+
+```{r 3-2-1}
 ggplot(data = mpg)
 ```
-
-We have a blank plot, since we have only constructed the initial plot object.
 
 ### Problem 2
 
 How many rows are in `mpg`? How many columns?
 
-```{r 3-2-4-2}
+There are `r nrow(mpg)` rows and `r ncol(mpg)` columns in the `mpg` data set.
+
+```{r 3-2-2}
 nrow(mpg)
 ncol(mpg)
 ```
-
-There are `r nrow(mpg)` rows and `r ncol(mpg)` columns in the `mpg` dataset.
 
 ### Problem 3
 
 What does the `drv` variable describe? Read the help for `?mpg` to find out.
 
-```{r 3-2-4-3}
+The variable `drv` describes the drive of the vehicle: f = front-wheel drive, 
+r = rear wheel drive, 4 = 4wd.
+
+```{r 3-2-3}
 ?mpg
 ```
 
-The variable `drv` describes the drive of the vehicle: f = front-wheel drive, r = rear wheel drive, 4 = 4wd.
-
 ### Problem 4
 
-Make a scatterplot of `hwy` vs `cyl`
+Make a scatter plot of `hwy` vs `cyl`.
 
-```{r 3-2-4-4}
+```{r 3-2-4}
 ggplot(mpg, aes(cyl, hwy)) +
   geom_point()
 ```
 
 ### Problem 5
 
-What happens if you make a scatterplot of `class` vs `drv`? Why is the plot not useful?
+What happens if you make a scatter plot of `class` vs `drv`? Why is the plot 
+not useful?
 
-```{r}
+Since `class` and `drv` are categorical variables, we don't see much of a 
+meaningful relationship in the scatter plot.
+
+```{r 3-2-5}
 ggplot(mpg, aes(class, drv)) +
   geom_point()
 ```
 
-Since `class` and `drv` are categorical variables, we 
+
+## 3.3
+
+### Problem 1
+
+What’s gone wrong with this code? Why are the points not blue?
+
+```{r 3-3-1a}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+```
+
+To set an aesthetic manually, it must go outside of `aes()`.
+
+```{r 3-3-1b}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+```
+
+### Problem 2
+
+Which variables in mpg are categorical? Which variables are continuous? 
+(Hint: type ?mpg to read the documentation for the data set). How can you see 
+this information when you run mpg?
+
+We can use the `summary` function to see the mode of each variable.
+
+```{r 3-3-2a}
+summary(mpg)
+```
+
+Or since the data frame is a tibble, just running `mpg` will show you the 
+various variable types.
+
+```{r 3-3-2b}
+head(mpg)
+```
+
+
+### Problem 3
+
+Map a continuous variable to color, size, and shape. How do these aesthetics 
+behave differently for categorical vs. continuous variables?
+
+Continuous variables will use a gradient to scale `color` and `size`, but will 
+throw an error when applied to shape.
+
+```{r 3-3-3a}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = displ)) + 
+  geom_point()
+```
+
+```{r 3-3-3b}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, size = displ)) + 
+  geom_point()
+```
+
+```{r 3-3-3c, error=FALSE}
+p <- ggplot(data = mpg, mapping = aes(x = cty, y = hwy, shape = displ)) + 
+  geom_point()
+```
+
+
+### Problem 4
+
+What happens if you map the same variable to multiple aesthetics?
+
+Mapping `displ` to `color` and `size` results in the following graph. Not 
+necessarily helpful, but two ways of displaying the some variation.
+```{r 3-3-4}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = displ, size = displ)) + 
+  geom_point()
+```
+
+### Problem 5
+
+What does the stroke aesthetic do? What shapes does it work with? 
+(Hint: use ?geom_point)
+
+The `stroke` aesthetic will modify the width of the border of a shape. From the 
+documentation:
+
+```{r 3-3-5}
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
+```
+
+### Problem 6
+
+What happens if you map an aesthetic to something other than a variable name, 
+like aes(colour = displ < 5)?
+
+In this case the condition we pass to `color` returns a boolean that will map 
+to `color`.
+```{r 3-3-6}
+ggplot(mtcars, aes(wt, mpg, color = disp < 100)) +
+  geom_point()
+```
+
