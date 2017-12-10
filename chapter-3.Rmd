@@ -169,3 +169,114 @@ ggplot(mtcars, aes(wt, mpg, color = disp < 100)) +
   geom_point()
 ```
 
+## 3.5 Facets
+
+### Problem 1
+
+What happens if you facet on a continuous variable?
+
+The `facet_wrap` feature will still produce plots for each unique value.
+
+```{r 3-5-1}
+ggplot(mtcars, aes(disp, mpg)) +
+  geom_point() +
+  facet_wrap(~ wt)
+```
+
+### Problem 2
+
+What do the empty cells in plot with `facet_grid(drv ~ cyl)` mean? How do they 
+relate to this plot?
+
+Empty cells occur when there are no observations within a specific combination 
+of facet variables. We see in the below plot that there are no vehicles with 4wd 
+and 5 cylinders.
+
+```{r 3-5-2}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = drv, y = cyl))
+```
+
+### Problem 3
+
+What plots does the following code make? What does `.` do?
+
+In the first example, using `.` allows us to plot a `facet_grid` without a 
+column variable.
+```{r 3-5-3a}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ .)
+```
+
+This is easier than trying to hack together a similar plot using `facet_wrap`.
+```{r 3-5-3b}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~ drv, nrow = n_distinct(mpg$drv))
+```
+
+We can also use `.` to make a `facet_grid` while omitting a row variable.
+
+```{r 3-5-3c}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ cyl)
+```
+
+### Problem 4
+
+Take the first faceted plot in this section. What are the advantages to using 
+faceting instead of the colour aesthetic? What are the disadvantages? How might 
+the balance change if you had a larger dataset?
+
+Faceting can make it easier to see the variation by `class` than using the color 
+aesthetic, but can be unwieldy when the number of distinct values in `class` is 
+large. For a larger dataset, faceting may be necessary, as the increased number 
+of points may make it difficult to see a variation by color.
+
+```{r 3-5-4}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+```
+
+### Problem 5
+
+Read ?facet_wrap. What does nrow do? What does ncol do? What other options 
+control the layout of the individual panels? Why doesn’t facet_grid() have nrow 
+and ncol arguments?
+
+The `nrow` and `ncol` arguments allow you to control the number of rows or 
+columns in the panel. There are a number of other arguments in `facet_wrap`:
+  * `scales`: can fix scales or allow them to vary
+  * `shrink`: shrink scales to fit output of statistics, not raw data
+  * `labeller`: takes one data frame of labels and returns a list or data frame of character vectors
+  * `as.table`: display facets as a table or a plot
+  * `switch`: flip the labels
+  * `drop`: drop unused factor lebels
+  * `dir`: control direction of the panel
+  * `strip.position`: control where to place the labels
+
+The `facet_grid` function has `nrow` and `ncol` predefined by the faceting variables.
+
+### Problem 6
+
+When using facet_grid() you should usually put the variable with more unique 
+levels in the columns. Why?
+
+This will expand your panel vertically, making it easier to scroll through 
+the grid.
+
+```{r 3-5-6a}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(trans ~ drv)
+```
+
+```{r 3-5-6b}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ trans)
+```
+
