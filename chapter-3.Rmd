@@ -280,3 +280,151 @@ ggplot(data = mpg) +
   facet_grid(drv ~ trans)
 ```
 
+## 3.6 - Geometric Objects
+
+### Problem 1
+
+What geom would you use to draw a line chart? A boxplot? A histogram? An area 
+chart?
+
+Use `geom_line` to draw a line chart.
+
+```{r 3-6-1a}
+ggplot(economics, aes(date, unemploy)) + 
+  geom_line()
+```
+
+Use `geom_boxplot` to create a boxplot.
+
+```{r 3-6-1b}
+ggplot(mpg, aes(x = class, y = hwy)) +
+  geom_boxplot()
+```
+
+Use `geom_histogram` to create a histogram.
+
+```{r 3-6-1c}
+ggplot(mpg, aes(x = hwy)) +
+  geom_histogram()
+```
+
+And use `geom_area` to create an area chart.
+
+```{r 3-6-1d}
+ggplot(economics, aes(date, unemploy)) + 
+  geom_area()
+```
+
+### Problem 2
+Run this code in your head and predict what the output will look like. Then, 
+run the code in R and check your predictions.
+
+Be sure to think through the initial `ggplot` call and consider what will be 
+passed to `geom_point` and `geom_smooth`.
+
+```{r 3-6-2}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+```
+
+### Problem 3
+
+What does `show.legend = FALSE` do? What happens if you remove it? Why do you 
+think I used it earlier in the chapter?
+
+The `show.legend` argument will can be used to map a layer to a legend. Setting 
+to `FALSE` will remove that layer from the plot. 
+
+```{r 3-6-3a}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point(show.legend = FALSE) +
+  geom_smooth(se = FALSE, show.legend = FALSE)
+```
+
+But note that this only works by geom.
+```{r 3-6-3b}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point(show.legend = FALSE) + 
+  geom_smooth(se = FALSE)
+```
+
+### Problem 4
+
+What does the `se` argument to `geom_smooth()` do?
+
+The `se` argument controls whether a confidence band is displayed around smooth. 
+Note that the argument is set to `TRUE` by default.
+
+```{r 3-6-4a}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point(show.legend = FALSE) + 
+  geom_smooth()
+```
+
+The `level` argument is used to control the confidence interval, and is set to 
+0.95 by default.
+
+```{r 3-6-4b}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point(show.legend = FALSE) + 
+  geom_smooth(level = 0.9999)
+```
+
+### Problem 5
+
+Will these two graphs look different? Why/why not?
+
+The graphs should look the same, as `data` and `aes` are inherited by 
+`geom_point()` and `geom_smooth()` in the first example.
+
+```{r 3-6-5a}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+```
+
+```{r 3-6-5b}
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+```
+
+### Problem 6
+
+Recreate the R code necessary to generate the following graphs.
+
+```{r 3-6-1a}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+```
+
+```{r 3-6-1b}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, grp = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+```
+
+```{r 3-6-1c}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+```
+
+```{r 3-6-1d}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = drv)) + 
+  geom_smooth(se = FALSE)
+```
+
+```{r 3-6-1e}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = drv)) + 
+  geom_smooth(aes(linetype = drv), se = FALSE)
+```
+
+```{r 3-6-1f}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point()
+```
