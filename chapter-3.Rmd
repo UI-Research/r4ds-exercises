@@ -394,37 +394,150 @@ ggplot() +
 
 Recreate the R code necessary to generate the following graphs.
 
-```{r 3-6-1a}
+```{r 3-6-6a}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point() + 
   geom_smooth(se = FALSE)
 ```
 
-```{r 3-6-1b}
+```{r 3-6-6b}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, grp = drv)) + 
   geom_point() + 
   geom_smooth(se = FALSE)
 ```
 
-```{r 3-6-1c}
+```{r 3-6-6c}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
   geom_smooth(se = FALSE)
 ```
 
-```{r 3-6-1d}
+```{r 3-6-6d}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point(aes(color = drv)) + 
   geom_smooth(se = FALSE)
 ```
 
-```{r 3-6-1e}
+```{r 3-6-6e}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point(aes(color = drv)) + 
   geom_smooth(aes(linetype = drv), se = FALSE)
 ```
 
-```{r 3-6-1f}
+```{r 3-6-6f}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point()
+```
+
+## 3.7 - Statistical Transformations
+
+### Problem 1
+
+What is the default geom associated with `stat_summary()`? How could you rewrite
+the previous plot to use that geom function instead of the stat function?
+
+The default geom associated with `stat_summary()` is `pointrange`. We can 
+recreate the last plot using:
+
+```{r 3-7-1}
+ggplot(data = diamonds) + 
+  geom_pointrange(
+    mapping = aes(x = cut, y = depth),
+    stat = 'summary',
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = median
+  )
+```
+
+### Problem 2
+
+What does `geom_col()` do? How is it different to `geom_bar()`?
+
+From the `ggplot2` documentation: `geom_bar()` makes the height of the bar 
+proportional to the number of cases in each group, while `geom_col()` will map
+directly to the data.
+
+We can make a simple bar chart using `geom_bar` which will transform the data 
+under the hood:
+
+```{r 3-7-2a}
+ggplot(mpg, aes(class)) + 
+  geom_bar()
+```
+
+Or do the transformation ourselves and map directly using `geom_col`:
+
+```{r 3-7-2b}
+mpg %>%
+  group_by(class) %>%
+  count() %>%
+  ggplot(aes(class, n)) +
+  geom_col()
+```
+
+### Problem 3
+
+Most geoms and stats come in pairs that are almost always used in concert. 
+Read through the documentation and make a list of all the pairs. 
+What do they have in common?
+
+Some examples from the `ggplot2` documentation includes:
+
+* `geom_bar` --> `stat_count`
+* `geom_bin2d` --> `stat_bin_2d`
+* `geom_boxplot` --> `stat_boxplot`
+* `geom_contour` --> `stat_contour`
+* `geom_count` --> `stat_sum`
+* `geom_density` --> `stat_density`
+* `geom_density_2d` --> `stat_density_2d`
+* `geom_histogram` --> `stat_bin`
+* `geom_hex` --> `stat_bin_hex`
+
+### Problem 4
+
+What variables does `stat_smooth()` compute? What parameters control its behavior?
+
+`stat_smooth` computes the following:
+  * y the predicted value
+  * ymin - lower pointwise confidence interval around the mean
+  * ymax - upper pointwise confidence interval around the mean
+  * se - standard error
+  
+The behaviour of `stat_smooth` can be controled using:
+  * `method` to adjust the smoothing method used
+  * `formula` to adjust the smoothing formula used
+  * `span` to adjust the amount of smoothing
+  * `level` to set the confidence level used
+  
+### Problem 5
+
+In our proportion bar chart, we need to set group = 1. Why? In other words 
+what is the problem with these two graphs?
+
+The first chart displays a proportion = 1 for all groups.
+```{r 3-7-5a}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = ..prop..))
+```
+
+While the second plot does something similar, multiplied by the number of 
+categories in `color`.
+
+```{r 3-7-5b}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..))
+```
+
+`geom_bar()` will compute `prop` - the groupwise proportion. So we must pass in 
+an argument to `group` for `prop` to be calculated properly.
+
+```{r 3-7-5c}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))
+```
+
+```{r 3-7-5d}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = ..prop.., fill = color, group = color))
 ```
