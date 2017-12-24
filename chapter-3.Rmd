@@ -541,3 +541,77 @@ ggplot(data = diamonds) +
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, y = ..prop.., fill = color, group = color))
 ```
+
+## 3.8 - Position Adjustments
+
+### Problem 1
+
+What is the problem with this plot? How could you improve it?
+
+```{r 3-8-1a}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()
+```
+
+Use `geom_jitter()` to correct the overplotting in the original.
+
+```{r 3-8-1b}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_jitter()
+```
+
+### Problem 2
+
+What parameters to geom_jitter() control the amount of jittering?
+
+The `width` and `height` arguments control the amount of jittering and defaults 
+to 40% of the resolution of the data.
+
+So values less than 0.4 will make a graph more compact than the default `geom_jitter()`
+
+```{r 3-8-2a}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_jitter(width = 0.20, height = 0.20)
+```
+
+While values greater than 0.4 will make a smoother graph.
+
+```{r 3-8-2b}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_jitter(width = 0.60, height = 0.60)
+```
+
+### Problem 3
+
+Compare and contrast geom_jitter() with geom_count().
+
+`geom_jitter()` and `geom_count` are both useful when dealing with overplotting. 
+While `geom_jitter` will add a small amount of noise to each point to spread them 
+out, `geom_count` will cont the number of observations at each (x,y) point, and 
+then map the count.
+
+`geom_jitter()` is equivalent to `geom_point(position = 'jitter')`
+`geom_count()` is equivalent to `geom_point(stat = 'sum')`
+
+```{r 3-8-3}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_count() 
+```
+
+### Problem 4
+
+What’s the default position adjustment for `geom_boxplot()`? Create a 
+visualisation of the mpg dataset that demonstrates it.
+
+The default position adjustment for `geom_boxplot()` is `dodge`.
+
+```{r 3-8-4a}
+ggplot(mpg, aes(class, cty, color = drv)) +
+  geom_boxplot()
+```
+
+```{r 3-8-4b}
+ggplot(mpg, aes(x = class, y = cty, color = drv)) +
+  geom_boxplot(position = 'identity')
+```
+
