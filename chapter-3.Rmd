@@ -615,3 +615,79 @@ ggplot(mpg, aes(x = class, y = cty, color = drv)) +
   geom_boxplot(position = 'identity')
 ```
 
+## 3.9 - Coordinate Systems
+
+### Problem 1
+
+Turn a stacked bar chart into a pie chart using `coord_polar()`.
+
+From the documentation for `coord_polar()` we can first make a stacked bar chart:
+
+```{r 3-9-1a}
+ggplot(mtcars, aes(x = factor(1), fill = factor(cyl))) +
+ geom_bar()
+```
+
+And turn it into a pie chart:
+
+```{r 3-9-1b}
+ggplot(mtcars, aes(x = factor(1), fill = factor(cyl))) +
+  geom_bar(width = 1) +
+  coord_polar(theta = 'y')
+```
+
+### Problem 2
+
+What does `labs()` do? Read the documentation.
+
+`labs()` allows you to modify the labels of a plot, axis, or legend.
+
+```{r 3-9-2}
+ggplot(mpg, aes(cty, hwy)) +
+  geom_point() +
+  labs(title = 'Title',
+       subtitle = 'Subtitle',
+       caption = 'Caption')
+```
+
+### Problem 3
+
+What’s the difference between `coord_quickmap()` and `coord_map()`?
+
+`coord_quickmap` preserves straight lines when projecting onto a two dimensional 
+surface and requires less computation.
+
+```{r 3-9-3a}
+library(maps)
+
+ggplot(map_data('state'), aes(long, lat, group = group)) +
+  geom_polygon(fill = 'white', color = 'black') +
+  coord_map()
+```
+
+```{r 3-9-3b}
+ggplot(map_data('state'), aes(long, lat, group = group)) +
+  geom_polygon(fill = 'white', color = 'black') +
+  coord_quickmap()
+```
+
+### Problem 4
+
+What does the plot below tell you about the relationship between city and 
+highway mpg? Why is `coord_fixed()` important? What does `geom_abline()` do?
+
+`coord_fixed()` (with no arguments) ensures that a unit on the x-axis is the 
+same length as a unit on the y-axis. 
+
+`geom_abline()` (with no arguments) adds a reference line with an intercept of 
+0 and a slope of 1. We can quickly see that every observation in the `mpg` 
+dataset has better highway than city fuel efficiency.
+
+```{r 3-9-4}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() +
+  coord_fixed()
+```
+
+
