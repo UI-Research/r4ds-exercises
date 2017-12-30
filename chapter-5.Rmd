@@ -1,0 +1,146 @@
+---
+title: "Chapter 5"
+output: html_document
+---
+
+Load the libraries needed for these exercises.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r library, message=FALSE}
+library(tidyverse)
+library(nycflights13)
+```
+
+
+## 5.2
+
+### Problem 1
+
+Find all flights that:
+
+* Had an arrival delay of two or more hours
+
+```{r 5-2-1a}
+flights %>%
+  filter(arr_delay >= 120) %>%
+  count()
+```
+
+* Flew to Houston (IAH or HOU)
+
+```{r 5-2-1-b}
+flights %>%
+  filter(dest %in% c('IAH', 'HOU')) %>%
+  count()
+```
+
+* Were operated by United, American, or Delta
+
+```{r 5-2-1c}
+flights %>%
+  filter(carrier %in% c('UA', 'AA', 'DL')) %>%
+  count()
+```
+
+* Departed in summer (July, August, and September)
+
+```{r 5-2-1d}
+flights %>%
+  filter(month %in% c(7, 8, 9)) %>%
+  count()
+```
+
+* Arrived more than two hours late, but didn’t leave late
+
+```{r d-2-1e}
+flights %>%
+  filter(arr_delay >= 120, dep_delay <= 0) %>%
+  count()
+```
+
+* Were delayed by at least an hour, but made up over 30 minutes in flight
+
+```{r 5-2-1f}
+flights %>%
+  filter(dep_delay >= 60, arr_delay <= dep_delay - 30) %>%
+  count()
+```
+
+* Departed between midnight and 6am (inclusive)
+
+```{r 5-2-1g}
+flights %>%
+  filter(dep_time >= 0, dep_time <= 600) %>%
+  count()
+```
+
+### Problem 2
+
+Another useful dplyr filtering helper is `between()`. What does it do? Can you 
+use it to simplify the code needed to answer the previous challenges?
+
+`between()` is a shortcut for `x >= left & x <= right`. We can simplify the last 
+answer to Problem 1 as:
+
+```{r 5-2-2}
+flights %>%
+  filter(between(dep_time, 0, 600)) %>%
+  count()
+```
+
+### Problem 3
+
+How many flights have a missing dep_time? What other variables are missing? 
+What might these rows represent?
+
+We use `is.na()` to filter the flights with a missing departure time.
+
+```{r 5-2-3a}
+flights %>%
+  filter(is.na(dep_time)) %>%
+  count()
+```
+
+Using `summary()` to see the breakout of the other variables, there appear to 
+be flights that were cancelled.
+
+```{r 5-2-3b}
+flights %>%
+  filter(is.na(dep_time)) %>%
+  summary()
+```
+
+### Problem 4
+
+Why is NA ^ 0 not missing? Why is NA | TRUE not missing? 
+Why is FALSE & NA not missing? Can you figure out the general rule? 
+(NA * 0 is a tricky counterexample!)
+
+Working through these examples:
+  * Anything to the zero power is 1
+  * Anything OR `TRUE` is `TRUE`
+  * Anything AND `FALSE` is `FALSE`
+
+These results apply no matter what the LHS side, and so will apply to NA as well.
+
+```{r 5-2-4a}
+NA ^ 0
+NA | TRUE
+NA & FALSE
+```
+
+However operations on NA will return NA. NA * 0 is counterintuitive since 
+you would think that anything multiplied by 0 would be 0.
+
+```{r 5-2-4b}
+NA * 0
+NA ^ 2
+NA + 1
+```
+
+
+
+
