@@ -212,3 +212,82 @@ flights %>%
   head()
 ```
 
+## 5.4 Select Columns with `select()`
+
+### Problem 1
+
+Brainstorm as many ways as possible to select `dep_time`, `dep_delay`, 
+`arr_time`, and `arr_delay` from flights.
+
+We can put all the variables directly into our `select()` statement:
+
+```{r 5-4-1a}
+flights %>%
+  select(dep_time, dep_delay, arr_time, arr_delay) %>%
+  head()
+```
+
+Or this would be a good place to try the `starts_with()` function: 
+
+```{r 5-4-1b}
+flights %>%
+  select(starts_with("dep"), starts_with("arr"))
+```
+
+Or we can try a regex using `matches()`
+
+```{r 5-4-1c}
+flights %>%
+  select(matches("^dep"), matches("^arr")) %>%
+  head()
+```
+
+### Problem 2
+
+What happens if you include the name of a variable multiple times in a 
+select() call?
+
+Duplicating a variable within `select()` will still just return that variable 
+one time:
+
+```{r 5-4-2}
+flights %>%
+  select(dep_time, dep_time) %>%
+  head()
+```
+
+### Problem 3
+
+What does the one_of() function do? Why might it be helpful in conjunction 
+with this vector?
+
+`r vars <- c("year", "month", "day", "dep_delay", "arr_delay")`
+
+`one_of()` allows you select variables from within a character vector. We can 
+pass `vars` to select everything from the vector:
+
+```{r 5-4-3}
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+
+flights %>%
+  select(one_of(vars))
+```
+
+### Problem 4
+
+Does the result of running the following code surprise you? How do the select 
+helpers deal with case by default? How can you change that default?
+
+```{r 5-4-4a}
+select(flights, contains("TIME")) %>%
+  head()
+```
+
+`contains()` contains an argument `ignore.case` which defaults to `TRUE`, we can 
+set this to `FALSE` if needed:
+
+```{r 5-4-4b}
+select(flights, contains("TIME", ignore.case = FALSE)) %>%
+  head()
+```
+
