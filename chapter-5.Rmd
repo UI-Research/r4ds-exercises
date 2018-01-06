@@ -132,7 +132,7 @@ NA | TRUE
 NA & FALSE
 ```
 
-However operations on NA will return NA. NA * 0 is counterintuitive since 
+However operations on NA will return NA. NA * 0 is counter intuitive since 
 you would think that anything multiplied by 0 would be 0.
 
 ```{r 5-2-4b}
@@ -194,7 +194,7 @@ flights %>%
 
 ### Problem 4
 
-Which flights travelled the longest? Which travelled the shortest?
+Which flights traveled the longest? Which traveled the shortest?
 
 The longest flights are:
 
@@ -424,5 +424,187 @@ cos(pi * 0.25)
 # cospi(x) is equivalent to cos(pi * x)
 
 cospi(0.25)
+```
+
+##  5.6 Grouped summaries with `summarise()`
+
+### Problem 1
+
+Brainstorm at least 5 different ways to assess the typical delay characteristics 
+of a group of flights. Consider the following scenarios:
+
+* A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the 
+time.
+
+```{r 5-6-1a}
+flights %>%
+  group_by(flight) %>%
+  summarise(fifteen_early = mean(arr_delay <= -15, na.rm = TRUE),
+            fifteen_late = mean(arr_delay >= 15, na.rm = TRUE)) %>%
+  filter(fifteen_early == 0.50,
+         fifteen_late == 0.50)
+```
+
+* A flight is always 10 minutes late.
+
+```{r 5-6-1b}
+flights %>%
+  group_by(flight) %>%
+  summarise(ten_late = mean(arr_delay == 10, na.rm = TRUE)) %>%
+  filter(ten_late == 1.00)
+```
+
+* A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of 
+the time.
+
+```{r 5-6-1c}
+flights %>%
+  group_by(flight) %>%
+  summarise(thirty_early = mean(arr_delay <= -30, na.rm = TRUE),
+            thirty_late = mean(arr_delay >= 30, na.rm = TRUE)) %>%
+  filter(thirty_early == 0.50,
+         thirty_late == 0.50)
+```
+
+* 99% of the time a flight is on time. 1% of the time it’s 2 hours late.
+
+```{r 5-6-1d}
+flights %>%
+  group_by(flight) %>%
+  summarise(on_time = mean(arr_delay <= 0, na.rm = TRUE),
+            late = mean(arr_delay >= 120, na.rm = TRUE)) %>%
+  filter(on_time == 0.99,
+         late == 0.01)
+```
+
+### Problem 2
+
+Come up with another approach that will give you the same output as 
+`not_cancelled %>% count(dest)` and 
+`not_cancelled %>% count(tailnum, wt = distance)` (without using count()).
+
+First setup the `not_cancelled` data set.
+
+```{r 5-6-2a}
+not_cancelled <- flights %>% 
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+```
+
+The first chunk of code gives us the following output:
+
+```{r 5-6-2b}
+not_cancelled %>%
+  count(dest)
+```
+
+We can replicate this without using `count()` by doing a `group_by()` on `dest`:
+
+```{r 5-6-2c}
+not_cancelled %>%
+  group_by(dest) %>%
+  summarise(n = n())
+```
+
+The second chunk of code gives us:
+
+```{r 5-6-2d}
+not_cancelled %>% 
+  count(tailnum, wt = distance)
+```
+
+Again we can avoid using `count` by doing a `group_by()` on `tailnum`. Since 
+`wt = distance` gives the total number of miles flown, we use `sum()` instead:
+
+```{r 5-6-2e}
+not_cancelled %>%
+  group_by(tailnum) %>%
+  summarise(n = sum(distance))
+```
+
+### Problem 3
+
+Our definition of cancelled flights `(is.na(dep_delay) | is.na(arr_delay) )` is 
+slightly suboptimal. Why? Which is the most important column?
+
+`arr_delay` is the more important of the two columns - filtering on `arr_delay`
+alone will give the same subset: 
+
+```{r 5-6-3}
+flights %>%
+  summarise(suboptimal = sum(is.na(dep_delay) | is.na(arr_delay)),
+            optimal = sum(is.na(arr_delay)))
+```
+
+### Problem 4
+
+Look at the number of cancelled flights per day. Is there a pattern? Is the 
+proportion of cancelled flights related to the average delay?
+
+There is a generally positive trend between average delay and the proportion of 
+cancelled flights, with a couple of outliers.
+
+```{r 5-6-4a}
+flights %>%
+  mutate(date = lubridate::make_date(year, month, day)) %>%
+  group_by(date) %>%
+  summarise(cancelled = mean(is.na(arr_delay)),
+            avg_delay = mean(arr_delay, na.rm = TRUE)) %>%
+  ggplot(aes(avg_delay, cancelled)) +
+  geom_point()
+```
+
+A lot of flights were cancelled on February 8th and 9th, although the average 
+delays those days were not that large - a snowstorm hit the region that weekend, 
+with a lot of flights preemptively cancelled.
+
+```{r 5-6-4b}
+flights %>%
+  mutate(date = lubridate::make_date(year, month, day)) %>%
+  group_by(date) %>%
+  summarise(cancelled = mean(is.na(arr_delay)),
+            avg_delay = mean(arr_delay, na.rm = TRUE)) %>%
+  arrange(desc(cancelled)) %>%
+  head()
+```
+
+### Problem 5
+
+Which carrier has the worst delays? Challenge: can you disentangle the effects 
+of bad airports vs. bad carriers? Why/why not? (Hint: think about 
+`flights %>% group_by(carrier, dest) %>% summarise(n()`)
+
+At first glance, Frontier and AirTran seem to have the worst delays.
+
+```{r 5-6-5a}
+flights %>%
+  group_by(carrier) %>%
+  summarise(median_delay = median(arr_delay, na.rm = TRUE)) %>%
+  arrange(desc(median_delay))
+```
+
+We can try to get a better sense of bad airlines vs bad airports by grouping by
+both, but this will be thrown off by `carrier`-`dest` combinations that occur 
+infrequently.
+
+```{r 5-6-5b}
+flights %>%
+  group_by(carrier, dest) %>%
+  summarise(median_delay = median(arr_delay, na.rm = TRUE)) %>%
+  ggplot(aes(carrier, median_delay)) +
+  geom_boxplot()
+```
+
+### Problem 6
+
+What does the `sort` argument to `count()` do. When might you use it?
+
+The `sort` argument will arrange `count()` in descending order. If we quickly 
+wanted to find the most popular destinations, we could do:
+
+```{r 5-6-6}
+flights %>%
+  group_by(dest) %>%
+  count(sort = TRUE) %>%
+  head()
 ```
 
