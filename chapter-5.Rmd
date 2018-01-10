@@ -608,3 +608,154 @@ flights %>%
   head()
 ```
 
+## 5.7 - Grouped Mutates (and Filters)
+
+### Problem 1
+
+Refer back to the lists of useful mutate and filtering functions. Describe how 
+each operation changes when you combine it with grouping.
+
+### Problem 2
+
+Which plane `(tailnum)` has the worst on-time record?
+
+We do a familiar `group_by()`-`summarise()` to calculate the proportion of 
+flights with an `arr_delay` less than or equal to 0, and then apply a `filter` 
+to see the on-time performance of planes with more than twenty flights.
+
+```{r 5-7-2}
+flights %>%
+  group_by(tailnum) %>%
+  summarise(flights = n(),
+            on_time = mean(arr_delay <= 0, na.rm = TRUE)) %>%
+  select(tailnum, flights, on_time) %>%
+  filter(flights > 20) %>%
+  arrange(on_time) %>%
+  head()
+```
+
+### Problem 3
+
+What time of day should you fly if you want to avoid delays as much as possible?
+
+It appears that flights later in day have a greater chance of being delayed 
+than those early in the morning.
+
+```{r 5-7-3}
+flights %>%
+  group_by(hour) %>%
+  filter(!is.na(dep_delay)) %>%
+  summarise(delayed = mean(dep_delay > 0, na.rm = TRUE)) %>%
+  ggplot(aes(x = hour, y = delayed)) +
+  geom_col()
+```
+
+### Problem 4
+
+For each destination, compute the total minutes of delay. For each flight, 
+compute the proportion of the total delay for its destination.
+
+A grouped mutate comes in handy here, as we can first calculate the total 
+minutes of delay for each destination and then use that value to compute the 
+proportion of the total delay attributable to each flight.
+
+```{r 5-7-4}
+flights %>% 
+  group_by(dest) %>%
+  filter(arr_delay > 0) %>%  
+  mutate(total_delay = sum(arr_delay),
+         prop_delay = arr_delay / sum(arr_delay)) %>%
+  select(dest, flight, total_delay, prop_delay) %>%
+  arrange(desc(total_delay)) %>%
+  head()
+```
+
+### Problem 5
+
+Delays are typically temporally correlated: even once the problem that caused 
+the initial delay has been resolved, later flights are delayed to allow earlier 
+flights to leave. Using lag() explore how the delay of a flight is related to 
+the delay of the immediately preceding flight.
+
+First group by `origin` and the perform a `mutate()` with `lag()` to get the 
+delay of the immediately preceding flight. We then use `summarise` to get the 
+correlation between the delay and lagged delay for each airport.
+
+```{r 5-7-5}
+flights %>%
+  group_by(origin) %>%
+  filter(!is.na(dep_delay)) %>%
+  arrange(year, month, day, hour, minute) %>%
+  mutate(lag_delay = lag(dep_delay)) %>%
+  summarise(delay_correlation = cor(dep_delay, lag_delay, use = 'complete.obs'))
+```
+
+### Problem 6
+
+Look at each destination. Can you find flights that are suspiciously fast? 
+(i.e. flights that represent a potential data entry error). Compute the air 
+time a flight relative to the shortest flight to that destination. Which 
+flights were most delayed in the air?
+
+A grouped `mutate` is helpful here, as we can calculate the mean air time by 
+destination and then immediately use that value to calculate a flight's 
+deviation from it. Note that we filtered out flights less than an hour long.
+
+```{r 5-7-6}
+deviation <- flights %>%
+  group_by(dest) %>%
+  filter(!is.na(air_time)) %>%
+  mutate(mean_air_time = mean(air_time),
+         deviation = (air_time - mean_air_time) / mean_air_time) %>%
+  filter(mean_air_time > 60) %>%
+  arrange(deviation) %>%
+  select(air_time, mean_air_time, deviation, origin, dest)
+
+deviation %>% head()
+deviation %>% tail()
+```
+
+### Problem 7
+
+Find all destinations that are flown by at least two carriers. Use that 
+information to rank the carriers.
+
+We first use a `group_by` with `mutate()` and `filter()` to subset the 
+destinations serviced by at least 2 carriers, followed by a second `group_by` 
+to rank the carriers by total destinations served. We also merge data from 
+the `airlines` data set to get the full carrier names.
+
+ExpressJet and Endeavor Air are regional airlines which operate as American 
+Eagle, United Express, and Delta Connection.
+
+```{r 5-6-7}
+flights %>%
+  group_by(dest) %>%
+  mutate(carriers = n_distinct(carrier)) %>%
+  filter(carriers >= 2) %>%
+  group_by(carrier) %>%
+  summarise(destinations = n_distinct(dest)) %>%
+  arrange(desc(destinations)) %>%
+  left_join(airlines) %>%
+  select(carrier, name, destinations) %>%
+  head()
+```
+
+### Problem 8
+
+For each plane, count the number of flights before the first delay of greater 
+than 1 hour.
+
+First `group_by()` `tailnum` and then apply a `filter()` using the `cumall` 
+window function to subset everything before the first delay of more than 1 hour.
+
+```{r 5-7-8}
+flights %>%
+  arrange(year, month, day, hour, minute) %>%
+  group_by(tailnum) %>%
+  filter(cumall(dep_delay <= 60)) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  head()
+```
+
