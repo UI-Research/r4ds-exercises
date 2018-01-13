@@ -1,63 +1,79 @@
----
-title: "Chapter 3"
-output: html_document
----
+# Chapter 3 - Data Visualisation {-}
+
 
 Load the libraries needed for these exercises.
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-```{r library, message=FALSE}
+
+
+```r
 library(tidyverse)
 ```
 
-## 3.2
+## 3.2 - First Steps {-}
 
-### Problem 1
+### Problem 1 {-}
 
 Run `ggplot(data = mpg)`. What do you see?
 
 We have a blank plot, since we have only constructed the initial plot object 
 without any aesthetics.
 
-```{r 3-2-1}
+
+```r
 ggplot(data = mpg)
 ```
 
-### Problem 2
+<img src="03-data-visualization_files/figure-html/3-2-1-1.png" width="672" />
+
+### Problem 2 {-}
 
 How many rows are in `mpg`? How many columns?
 
-There are `r nrow(mpg)` rows and `r ncol(mpg)` columns in the `mpg` data set.
+There are 234 rows and 11 columns in the `mpg` data set.
 
-```{r 3-2-2}
+
+```r
 nrow(mpg)
+```
+
+```
+## [1] 234
+```
+
+```r
 ncol(mpg)
 ```
 
-### Problem 3
+```
+## [1] 11
+```
+
+### Problem 3 {-}
 
 What does the `drv` variable describe? Read the help for `?mpg` to find out.
 
 The variable `drv` describes the drive of the vehicle: f = front-wheel drive, 
 r = rear wheel drive, 4 = 4wd.
 
-```{r 3-2-3}
+
+```r
 ?mpg
 ```
 
-### Problem 4
+### Problem 4 {-}
 
 Make a scatter plot of `hwy` vs `cyl`.
 
-```{r 3-2-4}
+
+```r
 ggplot(mpg, aes(cyl, hwy)) +
   geom_point()
 ```
 
-### Problem 5
+<img src="03-data-visualization_files/figure-html/3-2-4-1.png" width="672" />
+
+### Problem 5 {-}
 
 What happens if you make a scatter plot of `class` vs `drv`? Why is the plot 
 not useful?
@@ -65,31 +81,40 @@ not useful?
 Since `class` and `drv` are categorical variables, we don't see much of a 
 meaningful relationship in the scatter plot.
 
-```{r 3-2-5}
+
+```r
 ggplot(mpg, aes(class, drv)) +
   geom_point()
 ```
 
+<img src="03-data-visualization_files/figure-html/3-2-5-1.png" width="672" />
 
-## 3.3
 
-### Problem 1
+## 3.3 - Aesthetic Mappings {-}
+
+### Problem 1 {-}
 
 What’s gone wrong with this code? Why are the points not blue?
 
-```{r 3-3-1a}
+
+```r
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 ```
 
+<img src="03-data-visualization_files/figure-html/3-3-1a-1.png" width="672" />
+
 To set an aesthetic manually, it must go outside of `aes()`.
 
-```{r 3-3-1b}
+
+```r
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
 ```
 
-### Problem 2
+<img src="03-data-visualization_files/figure-html/3-3-1b-1.png" width="672" />
+
+### Problem 2 {-}
 
 Which variables in mpg are categorical? Which variables are continuous? 
 (Hint: type ?mpg to read the documentation for the data set). How can you see 
@@ -97,19 +122,58 @@ this information when you run mpg?
 
 We can use the `summary` function to see the mode of each variable.
 
-```{r 3-3-2a}
+
+```r
 summary(mpg)
+```
+
+```
+##  manufacturer          model               displ            year     
+##  Length:234         Length:234         Min.   :1.600   Min.   :1999  
+##  Class :character   Class :character   1st Qu.:2.400   1st Qu.:1999  
+##  Mode  :character   Mode  :character   Median :3.300   Median :2004  
+##                                        Mean   :3.472   Mean   :2004  
+##                                        3rd Qu.:4.600   3rd Qu.:2008  
+##                                        Max.   :7.000   Max.   :2008  
+##       cyl           trans               drv                 cty       
+##  Min.   :4.000   Length:234         Length:234         Min.   : 9.00  
+##  1st Qu.:4.000   Class :character   Class :character   1st Qu.:14.00  
+##  Median :6.000   Mode  :character   Mode  :character   Median :17.00  
+##  Mean   :5.889                                         Mean   :16.86  
+##  3rd Qu.:8.000                                         3rd Qu.:19.00  
+##  Max.   :8.000                                         Max.   :35.00  
+##       hwy             fl               class          
+##  Min.   :12.00   Length:234         Length:234        
+##  1st Qu.:18.00   Class :character   Class :character  
+##  Median :24.00   Mode  :character   Mode  :character  
+##  Mean   :23.44                                        
+##  3rd Qu.:27.00                                        
+##  Max.   :44.00
 ```
 
 Or since the data frame is a tibble, just running `mpg` will show you the 
 various variable types.
 
-```{r 3-3-2b}
+
+```r
 head(mpg)
 ```
 
+```
+## # A tibble: 6 x 11
+##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
+##          <chr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
+## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
+## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
+## 3         audi    a4   2.0  2008     4 manual(m6)     f    20    31     p
+## 4         audi    a4   2.0  2008     4   auto(av)     f    21    30     p
+## 5         audi    a4   2.8  1999     6   auto(l5)     f    16    26     p
+## 6         audi    a4   2.8  1999     6 manual(m5)     f    18    26     p
+## # ... with 1 more variables: class <chr>
+```
 
-### Problem 3
+
+### Problem 3 {-}
 
 Map a continuous variable to color, size, and shape. How do these aesthetics 
 behave differently for categorical vs. continuous variables?
@@ -117,34 +181,44 @@ behave differently for categorical vs. continuous variables?
 Continuous variables will use a gradient to scale `color` and `size`, but will 
 throw an error when applied to shape.
 
-```{r 3-3-3a}
+
+```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = displ)) + 
   geom_point()
 ```
 
-```{r 3-3-3b}
+<img src="03-data-visualization_files/figure-html/3-3-3a-1.png" width="672" />
+
+
+```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy, size = displ)) + 
   geom_point()
 ```
 
-```{r 3-3-3c, error=FALSE}
+<img src="03-data-visualization_files/figure-html/3-3-3b-1.png" width="672" />
+
+
+```r
 p <- ggplot(data = mpg, mapping = aes(x = cty, y = hwy, shape = displ)) + 
   geom_point()
 ```
 
 
-### Problem 4
+### Problem 4 {-}
 
 What happens if you map the same variable to multiple aesthetics?
 
 Mapping `displ` to `color` and `size` results in the following graph. Not 
 necessarily helpful, but two ways of displaying the some variation.
-```{r 3-3-4}
+
+```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = displ, size = displ)) + 
   geom_point()
 ```
 
-### Problem 5
+<img src="03-data-visualization_files/figure-html/3-3-4-1.png" width="672" />
+
+### Problem 5 {-}
 
 What does the stroke aesthetic do? What shapes does it work with? 
 (Hint: use ?geom_point)
@@ -152,38 +226,47 @@ What does the stroke aesthetic do? What shapes does it work with?
 The `stroke` aesthetic will modify the width of the border of a shape. From the 
 documentation:
 
-```{r 3-3-5}
+
+```r
 ggplot(mtcars, aes(wt, mpg)) +
   geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 ```
 
-### Problem 6
+<img src="03-data-visualization_files/figure-html/3-3-5-1.png" width="672" />
+
+### Problem 6 {-}
 
 What happens if you map an aesthetic to something other than a variable name, 
 like aes(colour = displ < 5)?
 
 In this case the condition we pass to `color` returns a boolean that will map 
 to `color`.
-```{r 3-3-6}
+
+```r
 ggplot(mtcars, aes(wt, mpg, color = disp < 100)) +
   geom_point()
 ```
 
-## 3.5 Facets
+<img src="03-data-visualization_files/figure-html/3-3-6-1.png" width="672" />
 
-### Problem 1
+## 3.5 Facets {-}
+
+### Problem 1 {-}
 
 What happens if you facet on a continuous variable?
 
 The `facet_wrap` feature will still produce plots for each unique value.
 
-```{r 3-5-1}
+
+```r
 ggplot(mtcars, aes(disp, mpg)) +
   geom_point() +
   facet_wrap(~ wt)
 ```
 
-### Problem 2
+<img src="03-data-visualization_files/figure-html/3-5-1-1.png" width="672" />
+
+### Problem 2 {-}
 
 What do the empty cells in plot with `facet_grid(drv ~ cyl)` mean? How do they 
 relate to this plot?
@@ -192,39 +275,51 @@ Empty cells occur when there are no observations within a specific combination
 of facet variables. We see in the below plot that there are no vehicles with 4wd 
 and 5 cylinders.
 
-```{r 3-5-2}
+
+```r
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = drv, y = cyl))
 ```
 
-### Problem 3
+<img src="03-data-visualization_files/figure-html/3-5-2-1.png" width="672" />
+
+### Problem 3 {-}
 
 What plots does the following code make? What does `.` do?
 
 In the first example, using `.` allows us to plot a `facet_grid` without a 
 column variable.
-```{r 3-5-3a}
+
+```r
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(drv ~ .)
 ```
 
+<img src="03-data-visualization_files/figure-html/3-5-3a-1.png" width="672" />
+
 This is easier than trying to hack together a similar plot using `facet_wrap`.
-```{r 3-5-3b}
+
+```r
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_wrap(~ drv, nrow = n_distinct(mpg$drv))
 ```
 
+<img src="03-data-visualization_files/figure-html/3-5-3b-1.png" width="672" />
+
 We can also use `.` to make a `facet_grid` while omitting a row variable.
 
-```{r 3-5-3c}
+
+```r
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(. ~ cyl)
 ```
 
-### Problem 4
+<img src="03-data-visualization_files/figure-html/3-5-3c-1.png" width="672" />
+
+### Problem 4 {-}
 
 Take the first faceted plot in this section. What are the advantages to using 
 faceting instead of the colour aesthetic? What are the disadvantages? How might 
@@ -235,13 +330,16 @@ aesthetic, but can be unwieldy when the number of distinct values in `class` is
 large. For a larger dataset, faceting may be necessary, as the increased number 
 of points may make it difficult to see a variation by color.
 
-```{r 3-5-4}
+
+```r
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy)) + 
   facet_wrap(~ class, nrow = 2)
 ```
 
-### Problem 5
+<img src="03-data-visualization_files/figure-html/3-5-4-1.png" width="672" />
+
+### Problem 5 {-}
 
 Read ?facet_wrap. What does nrow do? What does ncol do? What other options 
 control the layout of the individual panels? Why doesn’t facet_grid() have nrow 
@@ -260,7 +358,7 @@ columns in the panel. There are a number of other arguments in `facet_wrap`:
 
 The `facet_grid` function has `nrow` and `ncol` predefined by the faceting variables.
 
-### Problem 6
+### Problem 6 {-}
 
 When using facet_grid() you should usually put the variable with more unique 
 levels in the columns. Why?
@@ -268,67 +366,97 @@ levels in the columns. Why?
 This will expand your panel vertically, making it easier to scroll through 
 the grid.
 
-```{r 3-5-6a}
+
+```r
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(trans ~ drv)
 ```
 
-```{r 3-5-6b}
+<img src="03-data-visualization_files/figure-html/3-5-6a-1.png" width="672" />
+
+
+```r
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(drv ~ trans)
 ```
 
-## 3.6 - Geometric Objects
+<img src="03-data-visualization_files/figure-html/3-5-6b-1.png" width="672" />
 
-### Problem 1
+## 3.6 - Geometric Objects {-}
+
+### Problem 1 {-}
 
 What geom would you use to draw a line chart? A boxplot? A histogram? An area 
 chart?
 
 Use `geom_line` to draw a line chart.
 
-```{r 3-6-1a}
+
+```r
 ggplot(economics, aes(date, unemploy)) + 
   geom_line()
 ```
 
+<img src="03-data-visualization_files/figure-html/3-6-1a-1.png" width="672" />
+
 Use `geom_boxplot` to create a boxplot.
 
-```{r 3-6-1b}
+
+```r
 ggplot(mpg, aes(x = class, y = hwy)) +
   geom_boxplot()
 ```
 
+<img src="03-data-visualization_files/figure-html/3-6-1b-1.png" width="672" />
+
 Use `geom_histogram` to create a histogram.
 
-```{r 3-6-1c}
+
+```r
 ggplot(mpg, aes(x = hwy)) +
   geom_histogram()
 ```
 
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-1c-1.png" width="672" />
+
 And use `geom_area` to create an area chart.
 
-```{r 3-6-1d}
+
+```r
 ggplot(economics, aes(date, unemploy)) + 
   geom_area()
 ```
 
-### Problem 2
+<img src="03-data-visualization_files/figure-html/3-6-1d-1.png" width="672" />
+
+### Problem 2 {-}
+
 Run this code in your head and predict what the output will look like. Then, 
 run the code in R and check your predictions.
 
 Be sure to think through the initial `ggplot` call and consider what will be 
 passed to `geom_point` and `geom_smooth`.
 
-```{r 3-6-2}
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
   geom_smooth(se = FALSE)
 ```
 
-### Problem 3
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-2-1.png" width="672" />
+
+### Problem 3 {-}
 
 What does `show.legend = FALSE` do? What happens if you remove it? Why do you 
 think I used it earlier in the chapter?
@@ -336,102 +464,182 @@ think I used it earlier in the chapter?
 The `show.legend` argument will can be used to map a layer to a legend. Setting 
 to `FALSE` will remove that layer from the plot. 
 
-```{r 3-6-3a}
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point(show.legend = FALSE) +
   geom_smooth(se = FALSE, show.legend = FALSE)
 ```
 
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-3a-1.png" width="672" />
+
 But note that this only works by geom.
-```{r 3-6-3b}
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point(show.legend = FALSE) + 
   geom_smooth(se = FALSE)
 ```
 
-### Problem 4
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-3b-1.png" width="672" />
+
+### Problem 4 {-}
 
 What does the `se` argument to `geom_smooth()` do?
 
 The `se` argument controls whether a confidence band is displayed around smooth. 
 Note that the argument is set to `TRUE` by default.
 
-```{r 3-6-4a}
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point(show.legend = FALSE) + 
   geom_smooth()
 ```
 
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-4a-1.png" width="672" />
+
 The `level` argument is used to control the confidence interval, and is set to 
 0.95 by default.
 
-```{r 3-6-4b}
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point(show.legend = FALSE) + 
   geom_smooth(level = 0.9999)
 ```
 
-### Problem 5
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-4b-1.png" width="672" />
+
+### Problem 5 {-}
 
 Will these two graphs look different? Why/why not?
 
 The graphs should look the same, as `data` and `aes` are inherited by 
 `geom_point()` and `geom_smooth()` in the first example.
 
-```{r 3-6-5a}
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point() + 
   geom_smooth()
 ```
 
-```{r 3-6-5b}
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-5a-1.png" width="672" />
+
+
+```r
 ggplot() + 
   geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
 ```
 
-### Problem 6
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-5b-1.png" width="672" />
+
+### Problem 6 {-}
 
 Recreate the R code necessary to generate the following graphs.
 
-```{r 3-6-6a}
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point() + 
   geom_smooth(se = FALSE)
 ```
 
-```{r 3-6-6b}
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-6a-1.png" width="672" />
+
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, grp = drv)) + 
   geom_point() + 
   geom_smooth(se = FALSE)
 ```
 
-```{r 3-6-6c}
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-6b-1.png" width="672" />
+
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
   geom_smooth(se = FALSE)
 ```
 
-```{r 3-6-6d}
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-6c-1.png" width="672" />
+
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point(aes(color = drv)) + 
   geom_smooth(se = FALSE)
 ```
 
-```{r 3-6-6e}
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-6d-1.png" width="672" />
+
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point(aes(color = drv)) + 
   geom_smooth(aes(linetype = drv), se = FALSE)
 ```
 
-```{r 3-6-6f}
+```
+## `geom_smooth()` using method = 'loess'
+```
+
+<img src="03-data-visualization_files/figure-html/3-6-6e-1.png" width="672" />
+
+
+```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point()
 ```
 
-## 3.7 - Statistical Transformations
+<img src="03-data-visualization_files/figure-html/3-6-6f-1.png" width="672" />
 
-### Problem 1
+## 3.7 - Statistical Transformations {-}
+
+### Problem 1 {-}
 
 What is the default geom associated with `stat_summary()`? How could you rewrite
 the previous plot to use that geom function instead of the stat function?
@@ -439,7 +647,8 @@ the previous plot to use that geom function instead of the stat function?
 The default geom associated with `stat_summary()` is `pointrange`. We can 
 recreate the last plot using:
 
-```{r 3-7-1}
+
+```r
 ggplot(data = diamonds) + 
   geom_pointrange(
     mapping = aes(x = cut, y = depth),
@@ -450,7 +659,9 @@ ggplot(data = diamonds) +
   )
 ```
 
-### Problem 2
+<img src="03-data-visualization_files/figure-html/3-7-1-1.png" width="672" />
+
+### Problem 2 {-}
 
 What does `geom_col()` do? How is it different to `geom_bar()`?
 
@@ -461,14 +672,18 @@ directly to the data.
 We can make a simple bar chart using `geom_bar` which will transform the data 
 under the hood:
 
-```{r 3-7-2a}
+
+```r
 ggplot(mpg, aes(class)) + 
   geom_bar()
 ```
 
+<img src="03-data-visualization_files/figure-html/3-7-2a-1.png" width="672" />
+
 Or do the transformation ourselves and map directly using `geom_col`:
 
-```{r 3-7-2b}
+
+```r
 mpg %>%
   group_by(class) %>%
   count() %>%
@@ -476,7 +691,9 @@ mpg %>%
   geom_col()
 ```
 
-### Problem 3
+<img src="03-data-visualization_files/figure-html/3-7-2b-1.png" width="672" />
+
+### Problem 3 {-}
 
 Most geoms and stats come in pairs that are almost always used in concert. 
 Read through the documentation and make a list of all the pairs. 
@@ -494,7 +711,7 @@ Some examples from the `ggplot2` documentation includes:
 * `geom_histogram` --> `stat_bin`
 * `geom_hex` --> `stat_bin_hex`
 
-### Problem 4
+### Problem 4 {-}
 
 What variables does `stat_smooth()` compute? What parameters control its behavior?
 
@@ -510,57 +727,75 @@ The behaviour of `stat_smooth` can be controled using:
   * `span` to adjust the amount of smoothing
   * `level` to set the confidence level used
   
-### Problem 5
+### Problem 5 {-}
 
 In our proportion bar chart, we need to set group = 1. Why? In other words 
 what is the problem with these two graphs?
 
 The first chart displays a proportion = 1 for all groups.
-```{r 3-7-5a}
+
+```r
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, y = ..prop..))
 ```
 
+<img src="03-data-visualization_files/figure-html/3-7-5a-1.png" width="672" />
+
 While the second plot does something similar, multiplied by the number of 
 categories in `color`.
 
-```{r 3-7-5b}
+
+```r
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..))
 ```
 
+<img src="03-data-visualization_files/figure-html/3-7-5b-1.png" width="672" />
+
 `geom_bar()` will compute `prop` - the groupwise proportion. So we must pass in 
 an argument to `group` for `prop` to be calculated properly.
 
-```{r 3-7-5c}
+
+```r
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))
 ```
 
-```{r 3-7-5d}
+<img src="03-data-visualization_files/figure-html/3-7-5c-1.png" width="672" />
+
+
+```r
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, y = ..prop.., fill = color, group = color))
 ```
 
-## 3.8 - Position Adjustments
+<img src="03-data-visualization_files/figure-html/3-7-5d-1.png" width="672" />
 
-### Problem 1
+## 3.8 - Position Adjustments {-}
+
+### Problem 1 {-}
 
 What is the problem with this plot? How could you improve it?
 
-```{r 3-8-1a}
+
+```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_point()
 ```
 
+<img src="03-data-visualization_files/figure-html/3-8-1a-1.png" width="672" />
+
 Use `geom_jitter()` to correct the overplotting in the original.
 
-```{r 3-8-1b}
+
+```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_jitter()
 ```
 
-### Problem 2
+<img src="03-data-visualization_files/figure-html/3-8-1b-1.png" width="672" />
+
+### Problem 2 {-}
 
 What parameters to geom_jitter() control the amount of jittering?
 
@@ -569,19 +804,25 @@ to 40% of the resolution of the data.
 
 So values less than 0.4 will make a graph more compact than the default `geom_jitter()`
 
-```{r 3-8-2a}
+
+```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_jitter(width = 0.20, height = 0.20)
 ```
 
+<img src="03-data-visualization_files/figure-html/3-8-2a-1.png" width="672" />
+
 While values greater than 0.4 will make a smoother graph.
 
-```{r 3-8-2b}
+
+```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_jitter(width = 0.60, height = 0.60)
 ```
 
-### Problem 3
+<img src="03-data-visualization_files/figure-html/3-8-2b-1.png" width="672" />
+
+### Problem 3 {-}
 
 Compare and contrast geom_jitter() with geom_count().
 
@@ -593,56 +834,72 @@ then map the count.
 `geom_jitter()` is equivalent to `geom_point(position = 'jitter')`
 `geom_count()` is equivalent to `geom_point(stat = 'sum')`
 
-```{r 3-8-3}
+
+```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_count() 
 ```
 
-### Problem 4
+<img src="03-data-visualization_files/figure-html/3-8-3-1.png" width="672" />
+
+### Problem 4 {-}
 
 What’s the default position adjustment for `geom_boxplot()`? Create a 
 visualisation of the mpg dataset that demonstrates it.
 
 The default position adjustment for `geom_boxplot()` is `dodge`.
 
-```{r 3-8-4a}
+
+```r
 ggplot(mpg, aes(class, cty, color = drv)) +
   geom_boxplot()
 ```
 
-```{r 3-8-4b}
+<img src="03-data-visualization_files/figure-html/3-8-4a-1.png" width="672" />
+
+
+```r
 ggplot(mpg, aes(x = class, y = cty, color = drv)) +
   geom_boxplot(position = 'identity')
 ```
 
-## 3.9 - Coordinate Systems
+<img src="03-data-visualization_files/figure-html/3-8-4b-1.png" width="672" />
 
-### Problem 1
+## 3.9 - Coordinate Systems {-}
+
+### Problem 1 {-}
 
 Turn a stacked bar chart into a pie chart using `coord_polar()`.
 
 From the documentation for `coord_polar()` we can first make a stacked bar chart:
 
-```{r 3-9-1a}
+
+```r
 ggplot(mtcars, aes(x = factor(1), fill = factor(cyl))) +
  geom_bar()
 ```
 
+<img src="03-data-visualization_files/figure-html/3-9-1a-1.png" width="672" />
+
 And turn it into a pie chart:
 
-```{r 3-9-1b}
+
+```r
 ggplot(mtcars, aes(x = factor(1), fill = factor(cyl))) +
   geom_bar(width = 1) +
   coord_polar(theta = 'y')
 ```
 
-### Problem 2
+<img src="03-data-visualization_files/figure-html/3-9-1b-1.png" width="672" />
+
+### Problem 2 {-}
 
 What does `labs()` do? Read the documentation.
 
 `labs()` allows you to modify the labels of a plot, axis, or legend.
 
-```{r 3-9-2}
+
+```r
 ggplot(mpg, aes(cty, hwy)) +
   geom_point() +
   labs(title = 'Title',
@@ -650,28 +907,49 @@ ggplot(mpg, aes(cty, hwy)) +
        caption = 'Caption')
 ```
 
-### Problem 3
+<img src="03-data-visualization_files/figure-html/3-9-2-1.png" width="672" />
+
+### Problem 3 {-}
 
 What’s the difference between `coord_quickmap()` and `coord_map()`?
 
 `coord_quickmap` preserves straight lines when projecting onto a two dimensional 
 surface and requires less computation.
 
-```{r 3-9-3a}
-library(maps)
 
+```r
+library(maps)
+```
+
+```
+## 
+## Attaching package: 'maps'
+```
+
+```
+## The following object is masked from 'package:purrr':
+## 
+##     map
+```
+
+```r
 ggplot(map_data('state'), aes(long, lat, group = group)) +
   geom_polygon(fill = 'white', color = 'black') +
   coord_map()
 ```
 
-```{r 3-9-3b}
+<img src="03-data-visualization_files/figure-html/3-9-3a-1.png" width="672" />
+
+
+```r
 ggplot(map_data('state'), aes(long, lat, group = group)) +
   geom_polygon(fill = 'white', color = 'black') +
   coord_quickmap()
 ```
 
-### Problem 4
+<img src="03-data-visualization_files/figure-html/3-9-3b-1.png" width="672" />
+
+### Problem 4 {-}
 
 What does the plot below tell you about the relationship between city and 
 highway mpg? Why is `coord_fixed()` important? What does `geom_abline()` do?
@@ -683,11 +961,14 @@ same length as a unit on the y-axis.
 0 and a slope of 1. We can quickly see that every observation in the `mpg` 
 dataset has better highway than city fuel efficiency.
 
-```{r 3-9-4}
+
+```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point() + 
   geom_abline() +
   coord_fixed()
 ```
+
+<img src="03-data-visualization_files/figure-html/3-9-4-1.png" width="672" />
 
 

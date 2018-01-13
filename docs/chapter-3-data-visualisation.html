@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>R for Data Science Solution Set</title>
+  <meta name="description" content="R for Data Science Solution Set">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="R for Data Science Solution Set" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R for Data Science Solution Set" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="index.html">
+<link rel="next" href="chapter-5-data-transformation.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html"><i class="fa fa-check"></i>Chapter 3 - Data Visualisation</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#first-steps"><i class="fa fa-check"></i>3.2 - First Steps</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-5"><i class="fa fa-check"></i>Problem 5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#aesthetic-mappings"><i class="fa fa-check"></i>3.3 - Aesthetic Mappings</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-1"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-1"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-1"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-1"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-5-1"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-6"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#facets"><i class="fa fa-check"></i>3.5 Facets</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-2"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-2"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-2"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-2"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-5-2"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-6-1"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#geometric-objects"><i class="fa fa-check"></i>3.6 - Geometric Objects</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-3"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-3"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-3"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-3"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-5-3"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-6-2"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#statistical-transformations"><i class="fa fa-check"></i>3.7 - Statistical Transformations</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-4"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-4"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-4"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-4"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-5-4"><i class="fa fa-check"></i>Problem 5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#position-adjustments"><i class="fa fa-check"></i>3.8 - Position Adjustments</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-5"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-5"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-5"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-5"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#coordinate-systems"><i class="fa fa-check"></i>3.9 - Coordinate Systems</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-6"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-6"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-6"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-6"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html"><i class="fa fa-check"></i>Chapter 5 - Data Transformation</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#filter-rows-with-filter"><i class="fa fa-check"></i>5.2 - Filter Rows with filter()</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-7"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-7"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-7"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-7"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#arrange-rows-with-arrange"><i class="fa fa-check"></i>5.3 Arrange Rows with arrange()</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-8"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-8"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-8"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-8"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#select-columns-with-select"><i class="fa fa-check"></i>5.4 Select Columns with select()</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-9"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-9"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-9"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-9"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#add-new-variables-with-mutate"><i class="fa fa-check"></i>5.5 - Add New Variables with mutate()</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-10"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-10"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-10"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-10"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-5-5"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-6-3"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#grouped-summaries-with-summarise"><i class="fa fa-check"></i>5.6 Grouped summaries with summarise()</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-11"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-11"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-11"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-11"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-5-6"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-6-4"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#grouped-mutates-and-filters"><i class="fa fa-check"></i>5.7 - Grouped Mutates (and Filters)</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-12"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-12"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-12"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-12"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-5-7"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-6-5"><i class="fa fa-check"></i>Problem 6</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-7"><i class="fa fa-check"></i>Problem 7</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-8"><i class="fa fa-check"></i>Problem 8</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R for Data Science Solution Set</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-3---data-visualisation" class="section level1 unnumbered">
+<h1>Chapter 3 - Data Visualisation</h1>
+<p>Load the libraries needed for these exercises.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<div id="first-steps" class="section level2 unnumbered">
+<h2>3.2 - First Steps</h2>
+<div id="problem-1" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Run <code>ggplot(data = mpg)</code>. What do you see?</p>
+<p>We have a blank plot, since we have only constructed the initial plot object without any aesthetics.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-2-1-1.png" width="672" /></p>
+</div>
+<div id="problem-2" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>How many rows are in <code>mpg</code>? How many columns?</p>
+<p>There are 234 rows and 11 columns in the <code>mpg</code> data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(mpg)</code></pre></div>
+<pre><code>## [1] 234</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncol</span>(mpg)</code></pre></div>
+<pre><code>## [1] 11</code></pre>
+</div>
+<div id="problem-3" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>What does the <code>drv</code> variable describe? Read the help for <code>?mpg</code> to find out.</p>
+<p>The variable <code>drv</code> describes the drive of the vehicle: f = front-wheel drive, r = rear wheel drive, 4 = 4wd.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?mpg</code></pre></div>
+</div>
+<div id="problem-4" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>Make a scatter plot of <code>hwy</code> vs <code>cyl</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(cyl, hwy)) +
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-2-4-1.png" width="672" /></p>
+</div>
+<div id="problem-5" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>What happens if you make a scatter plot of <code>class</code> vs <code>drv</code>? Why is the plot not useful?</p>
+<p>Since <code>class</code> and <code>drv</code> are categorical variables, we don’t see much of a meaningful relationship in the scatter plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(class, drv)) +
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-2-5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="aesthetic-mappings" class="section level2 unnumbered">
+<h2>3.3 - Aesthetic Mappings</h2>
+<div id="problem-1-1" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What’s gone wrong with this code? Why are the points not blue?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>))</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-3-1a-1.png" width="672" /></p>
+<p>To set an aesthetic manually, it must go outside of <code>aes()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-3-1b-1.png" width="672" /></p>
+</div>
+<div id="problem-2-1" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Which variables in mpg are categorical? Which variables are continuous? (Hint: type ?mpg to read the documentation for the data set). How can you see this information when you run mpg?</p>
+<p>We can use the <code>summary</code> function to see the mode of each variable.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mpg)</code></pre></div>
+<pre><code>##  manufacturer          model               displ            year     
+##  Length:234         Length:234         Min.   :1.600   Min.   :1999  
+##  Class :character   Class :character   1st Qu.:2.400   1st Qu.:1999  
+##  Mode  :character   Mode  :character   Median :3.300   Median :2004  
+##                                        Mean   :3.472   Mean   :2004  
+##                                        3rd Qu.:4.600   3rd Qu.:2008  
+##                                        Max.   :7.000   Max.   :2008  
+##       cyl           trans               drv                 cty       
+##  Min.   :4.000   Length:234         Length:234         Min.   : 9.00  
+##  1st Qu.:4.000   Class :character   Class :character   1st Qu.:14.00  
+##  Median :6.000   Mode  :character   Mode  :character   Median :17.00  
+##  Mean   :5.889                                         Mean   :16.86  
+##  3rd Qu.:8.000                                         3rd Qu.:19.00  
+##  Max.   :8.000                                         Max.   :35.00  
+##       hwy             fl               class          
+##  Min.   :12.00   Length:234         Length:234        
+##  1st Qu.:18.00   Class :character   Class :character  
+##  Median :24.00   Mode  :character   Mode  :character  
+##  Mean   :23.44                                        
+##  3rd Qu.:27.00                                        
+##  Max.   :44.00</code></pre>
+<p>Or since the data frame is a tibble, just running <code>mpg</code> will show you the various variable types.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(mpg)</code></pre></div>
+<pre><code>## # A tibble: 6 x 11
+##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
+##          &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;      &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;
+## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
+## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
+## 3         audi    a4   2.0  2008     4 manual(m6)     f    20    31     p
+## 4         audi    a4   2.0  2008     4   auto(av)     f    21    30     p
+## 5         audi    a4   2.8  1999     6   auto(l5)     f    16    26     p
+## 6         audi    a4   2.8  1999     6 manual(m5)     f    18    26     p
+## # ... with 1 more variables: class &lt;chr&gt;</code></pre>
+</div>
+<div id="problem-3-1" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical vs. continuous variables?</p>
+<p>Continuous variables will use a gradient to scale <code>color</code> and <code>size</code>, but will throw an error when applied to shape.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy, <span class="dt">color =</span> displ)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-3-3a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy, <span class="dt">size =</span> displ)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-3-3b-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy, <span class="dt">shape =</span> displ)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+</div>
+<div id="problem-4-1" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>What happens if you map the same variable to multiple aesthetics?</p>
+<p>Mapping <code>displ</code> to <code>color</code> and <code>size</code> results in the following graph. Not necessarily helpful, but two ways of displaying the some variation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy, <span class="dt">color =</span> displ, <span class="dt">size =</span> displ)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-3-4-1.png" width="672" /></p>
+</div>
+<div id="problem-5-1" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>What does the stroke aesthetic do? What shapes does it work with? (Hint: use ?geom_point)</p>
+<p>The <code>stroke</code> aesthetic will modify the width of the border of a shape. From the documentation:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(wt, mpg)) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">shape =</span> <span class="dv">21</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">size =</span> <span class="dv">5</span>, <span class="dt">stroke =</span> <span class="dv">5</span>)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-3-5-1.png" width="672" /></p>
+</div>
+<div id="problem-6" class="section level3 unnumbered">
+<h3>Problem 6</h3>
+<p>What happens if you map an aesthetic to something other than a variable name, like aes(colour = displ &lt; 5)?</p>
+<p>In this case the condition we pass to <code>color</code> returns a boolean that will map to <code>color</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(wt, mpg, <span class="dt">color =</span> disp &lt;<span class="st"> </span><span class="dv">100</span>)) +
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-3-6-1.png" width="672" /></p>
+</div>
+</div>
+<div id="facets" class="section level2 unnumbered">
+<h2>3.5 Facets</h2>
+<div id="problem-1-2" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What happens if you facet on a continuous variable?</p>
+<p>The <code>facet_wrap</code> feature will still produce plots for each unique value.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(disp, mpg)) +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>wt)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-5-1-1.png" width="672" /></p>
+</div>
+<div id="problem-2-2" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>What do the empty cells in plot with <code>facet_grid(drv ~ cyl)</code> mean? How do they relate to this plot?</p>
+<p>Empty cells occur when there are no observations within a specific combination of facet variables. We see in the below plot that there are no vehicles with 4wd and 5 cylinders.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> drv, <span class="dt">y =</span> cyl))</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-5-2-1.png" width="672" /></p>
+</div>
+<div id="problem-3-2" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>What plots does the following code make? What does <code>.</code> do?</p>
+<p>In the first example, using <code>.</code> allows us to plot a <code>facet_grid</code> without a column variable.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +
+<span class="st">  </span><span class="kw">facet_grid</span>(drv ~<span class="st"> </span>.)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-5-3a-1.png" width="672" /></p>
+<p>This is easier than trying to hack together a similar plot using <code>facet_wrap</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>drv, <span class="dt">nrow =</span> <span class="kw">n_distinct</span>(mpg$drv))</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-5-3b-1.png" width="672" /></p>
+<p>We can also use <code>.</code> to make a <code>facet_grid</code> while omitting a row variable.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +
+<span class="st">  </span><span class="kw">facet_grid</span>(. ~<span class="st"> </span>cyl)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-5-3c-1.png" width="672" /></p>
+</div>
+<div id="problem-4-2" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>Take the first faceted plot in this section. What are the advantages to using faceting instead of the colour aesthetic? What are the disadvantages? How might the balance change if you had a larger dataset?</p>
+<p>Faceting can make it easier to see the variation by <code>class</code> than using the color aesthetic, but can be unwieldy when the number of distinct values in <code>class</code> is large. For a larger dataset, faceting may be necessary, as the increased number of points may make it difficult to see a variation by color.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>class, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-5-4-1.png" width="672" /></p>
+</div>
+<div id="problem-5-2" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>Read ?facet_wrap. What does nrow do? What does ncol do? What other options control the layout of the individual panels? Why doesn’t facet_grid() have nrow and ncol arguments?</p>
+<p>The <code>nrow</code> and <code>ncol</code> arguments allow you to control the number of rows or columns in the panel. There are a number of other arguments in <code>facet_wrap</code>: * <code>scales</code>: can fix scales or allow them to vary * <code>shrink</code>: shrink scales to fit output of statistics, not raw data * <code>labeller</code>: takes one data frame of labels and returns a list or data frame of character vectors * <code>as.table</code>: display facets as a table or a plot * <code>switch</code>: flip the labels * <code>drop</code>: drop unused factor lebels * <code>dir</code>: control direction of the panel * <code>strip.position</code>: control where to place the labels</p>
+<p>The <code>facet_grid</code> function has <code>nrow</code> and <code>ncol</code> predefined by the faceting variables.</p>
+</div>
+<div id="problem-6-1" class="section level3 unnumbered">
+<h3>Problem 6</h3>
+<p>When using facet_grid() you should usually put the variable with more unique levels in the columns. Why?</p>
+<p>This will expand your panel vertically, making it easier to scroll through the grid.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +
+<span class="st">  </span><span class="kw">facet_grid</span>(trans ~<span class="st"> </span>drv)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-5-6a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +
+<span class="st">  </span><span class="kw">facet_grid</span>(drv ~<span class="st"> </span>trans)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-5-6b-1.png" width="672" /></p>
+</div>
+</div>
+<div id="geometric-objects" class="section level2 unnumbered">
+<h2>3.6 - Geometric Objects</h2>
+<div id="problem-1-3" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?</p>
+<p>Use <code>geom_line</code> to draw a line chart.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(economics, <span class="kw">aes</span>(date, unemploy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_line</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-6-1a-1.png" width="672" /></p>
+<p>Use <code>geom_boxplot</code> to create a boxplot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> class, <span class="dt">y =</span> hwy)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-6-1b-1.png" width="672" /></p>
+<p>Use <code>geom_histogram</code> to create a histogram.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> hwy)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>()</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-1c-1.png" width="672" /></p>
+<p>And use <code>geom_area</code> to create an area chart.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(economics, <span class="kw">aes</span>(date, unemploy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_area</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-6-1d-1.png" width="672" /></p>
+</div>
+<div id="problem-2-3" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions.</p>
+<p>Be sure to think through the initial <code>ggplot</code> call and consider what will be passed to <code>geom_point</code> and <code>geom_smooth</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-2-1.png" width="672" /></p>
+</div>
+<div id="problem-3-3" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>What does <code>show.legend = FALSE</code> do? What happens if you remove it? Why do you think I used it earlier in the chapter?</p>
+<p>The <code>show.legend</code> argument will can be used to map a layer to a legend. Setting to <code>FALSE</code> will remove that layer from the plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-3a-1.png" width="672" /></p>
+<p>But note that this only works by geom.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-3b-1.png" width="672" /></p>
+</div>
+<div id="problem-4-3" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>What does the <code>se</code> argument to <code>geom_smooth()</code> do?</p>
+<p>The <code>se</code> argument controls whether a confidence band is displayed around smooth. Note that the argument is set to <code>TRUE</code> by default.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>()</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-4a-1.png" width="672" /></p>
+<p>The <code>level</code> argument is used to control the confidence interval, and is set to 0.95 by default.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">level =</span> <span class="fl">0.9999</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-4b-1.png" width="672" /></p>
+</div>
+<div id="problem-5-3" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>Will these two graphs look different? Why/why not?</p>
+<p>The graphs should look the same, as <code>data</code> and <code>aes</code> are inherited by <code>geom_point()</code> and <code>geom_smooth()</code> in the first example.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>()</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-5a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-5b-1.png" width="672" /></p>
+</div>
+<div id="problem-6-2" class="section level3 unnumbered">
+<h3>Problem 6</h3>
+<p>Recreate the R code necessary to generate the following graphs.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-6a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">grp =</span> drv)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-6b-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-6c-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> drv)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-6d-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> drv)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> drv), <span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="03-data-visualization_files/figure-html/3-6-6e-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> drv)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-6-6f-1.png" width="672" /></p>
+</div>
+</div>
+<div id="statistical-transformations" class="section level2 unnumbered">
+<h2>3.7 - Statistical Transformations</h2>
+<div id="problem-1-4" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What is the default geom associated with <code>stat_summary()</code>? How could you rewrite the previous plot to use that geom function instead of the stat function?</p>
+<p>The default geom associated with <code>stat_summary()</code> is <code>pointrange</code>. We can recreate the last plot using:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_pointrange</span>(
+    <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> depth),
+    <span class="dt">stat =</span> <span class="st">&#39;summary&#39;</span>,
+    <span class="dt">fun.ymin =</span> min,
+    <span class="dt">fun.ymax =</span> max,
+    <span class="dt">fun.y =</span> median
+  )</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-7-1-1.png" width="672" /></p>
+</div>
+<div id="problem-2-4" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>What does <code>geom_col()</code> do? How is it different to <code>geom_bar()</code>?</p>
+<p>From the <code>ggplot2</code> documentation: <code>geom_bar()</code> makes the height of the bar proportional to the number of cases in each group, while <code>geom_col()</code> will map directly to the data.</p>
+<p>We can make a simple bar chart using <code>geom_bar</code> which will transform the data under the hood:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(class)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-7-2a-1.png" width="672" /></p>
+<p>Or do the transformation ourselves and map directly using <code>geom_col</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mpg %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(class) %&gt;%
+<span class="st">  </span><span class="kw">count</span>() %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(class, n)) +
+<span class="st">  </span><span class="kw">geom_col</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-7-2b-1.png" width="672" /></p>
+</div>
+<div id="problem-3-4" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Most geoms and stats come in pairs that are almost always used in concert. Read through the documentation and make a list of all the pairs. What do they have in common?</p>
+<p>Some examples from the <code>ggplot2</code> documentation includes:</p>
+<ul>
+<li><code>geom_bar</code> –&gt; <code>stat_count</code></li>
+<li><code>geom_bin2d</code> –&gt; <code>stat_bin_2d</code></li>
+<li><code>geom_boxplot</code> –&gt; <code>stat_boxplot</code></li>
+<li><code>geom_contour</code> –&gt; <code>stat_contour</code></li>
+<li><code>geom_count</code> –&gt; <code>stat_sum</code></li>
+<li><code>geom_density</code> –&gt; <code>stat_density</code></li>
+<li><code>geom_density_2d</code> –&gt; <code>stat_density_2d</code></li>
+<li><code>geom_histogram</code> –&gt; <code>stat_bin</code></li>
+<li><code>geom_hex</code> –&gt; <code>stat_bin_hex</code></li>
+</ul>
+</div>
+<div id="problem-4-4" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>What variables does <code>stat_smooth()</code> compute? What parameters control its behavior?</p>
+<p><code>stat_smooth</code> computes the following: * y the predicted value * ymin - lower pointwise confidence interval around the mean * ymax - upper pointwise confidence interval around the mean * se - standard error</p>
+<p>The behaviour of <code>stat_smooth</code> can be controled using: * <code>method</code> to adjust the smoothing method used * <code>formula</code> to adjust the smoothing formula used * <code>span</code> to adjust the amount of smoothing * <code>level</code> to set the confidence level used</p>
+</div>
+<div id="problem-5-4" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>In our proportion bar chart, we need to set group = 1. Why? In other words what is the problem with these two graphs?</p>
+<p>The first chart displays a proportion = 1 for all groups.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> ..prop..))</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-7-5a-1.png" width="672" /></p>
+<p>While the second plot does something similar, multiplied by the number of categories in <code>color</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">fill =</span> color, <span class="dt">y =</span> ..prop..))</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-7-5b-1.png" width="672" /></p>
+<p><code>geom_bar()</code> will compute <code>prop</code> - the groupwise proportion. So we must pass in an argument to <code>group</code> for <code>prop</code> to be calculated properly.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> ..prop.., <span class="dt">group =</span> <span class="dv">1</span>))</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-7-5c-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cut, <span class="dt">y =</span> ..prop.., <span class="dt">fill =</span> color, <span class="dt">group =</span> color))</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-7-5d-1.png" width="672" /></p>
+</div>
+</div>
+<div id="position-adjustments" class="section level2 unnumbered">
+<h2>3.8 - Position Adjustments</h2>
+<div id="problem-1-5" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What is the problem with this plot? How could you improve it?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-8-1a-1.png" width="672" /></p>
+<p>Use <code>geom_jitter()</code> to correct the overplotting in the original.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_jitter</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-8-1b-1.png" width="672" /></p>
+</div>
+<div id="problem-2-5" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>What parameters to geom_jitter() control the amount of jittering?</p>
+<p>The <code>width</code> and <code>height</code> arguments control the amount of jittering and defaults to 40% of the resolution of the data.</p>
+<p>So values less than 0.4 will make a graph more compact than the default <code>geom_jitter()</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width =</span> <span class="fl">0.20</span>, <span class="dt">height =</span> <span class="fl">0.20</span>)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-8-2a-1.png" width="672" /></p>
+<p>While values greater than 0.4 will make a smoother graph.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">width =</span> <span class="fl">0.60</span>, <span class="dt">height =</span> <span class="fl">0.60</span>)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-8-2b-1.png" width="672" /></p>
+</div>
+<div id="problem-3-5" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Compare and contrast geom_jitter() with geom_count().</p>
+<p><code>geom_jitter()</code> and <code>geom_count</code> are both useful when dealing with overplotting. While <code>geom_jitter</code> will add a small amount of noise to each point to spread them out, <code>geom_count</code> will cont the number of observations at each (x,y) point, and then map the count.</p>
+<p><code>geom_jitter()</code> is equivalent to <code>geom_point(position = 'jitter')</code> <code>geom_count()</code> is equivalent to <code>geom_point(stat = 'sum')</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_count</span>() </code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-8-3-1.png" width="672" /></p>
+</div>
+<div id="problem-4-5" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>What’s the default position adjustment for <code>geom_boxplot()</code>? Create a visualisation of the mpg dataset that demonstrates it.</p>
+<p>The default position adjustment for <code>geom_boxplot()</code> is <code>dodge</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(class, cty, <span class="dt">color =</span> drv)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-8-4a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> class, <span class="dt">y =</span> cty, <span class="dt">color =</span> drv)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">position =</span> <span class="st">&#39;identity&#39;</span>)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-8-4b-1.png" width="672" /></p>
+</div>
+</div>
+<div id="coordinate-systems" class="section level2 unnumbered">
+<h2>3.9 - Coordinate Systems</h2>
+<div id="problem-1-6" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Turn a stacked bar chart into a pie chart using <code>coord_polar()</code>.</p>
+<p>From the documentation for <code>coord_polar()</code> we can first make a stacked bar chart:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(<span class="dv">1</span>), <span class="dt">fill =</span> <span class="kw">factor</span>(cyl))) +
+<span class="st"> </span><span class="kw">geom_bar</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-9-1a-1.png" width="672" /></p>
+<p>And turn it into a pie chart:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(<span class="dv">1</span>), <span class="dt">fill =</span> <span class="kw">factor</span>(cyl))) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">width =</span> <span class="dv">1</span>) +
+<span class="st">  </span><span class="kw">coord_polar</span>(<span class="dt">theta =</span> <span class="st">&#39;y&#39;</span>)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-9-1b-1.png" width="672" /></p>
+</div>
+<div id="problem-2-6" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>What does <code>labs()</code> do? Read the documentation.</p>
+<p><code>labs()</code> allows you to modify the labels of a plot, axis, or legend.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(cty, hwy)) +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Title&#39;</span>,
+       <span class="dt">subtitle =</span> <span class="st">&#39;Subtitle&#39;</span>,
+       <span class="dt">caption =</span> <span class="st">&#39;Caption&#39;</span>)</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-9-2-1.png" width="672" /></p>
+</div>
+<div id="problem-3-6" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>What’s the difference between <code>coord_quickmap()</code> and <code>coord_map()</code>?</p>
+<p><code>coord_quickmap</code> preserves straight lines when projecting onto a two dimensional surface and requires less computation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(maps)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;maps&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">map_data</span>(<span class="st">&#39;state&#39;</span>), <span class="kw">aes</span>(long, lat, <span class="dt">group =</span> group)) +
+<span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">color =</span> <span class="st">&#39;black&#39;</span>) +
+<span class="st">  </span><span class="kw">coord_map</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-9-3a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">map_data</span>(<span class="st">&#39;state&#39;</span>), <span class="kw">aes</span>(long, lat, <span class="dt">group =</span> group)) +
+<span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">fill =</span> <span class="st">&#39;white&#39;</span>, <span class="dt">color =</span> <span class="st">&#39;black&#39;</span>) +
+<span class="st">  </span><span class="kw">coord_quickmap</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-9-3b-1.png" width="672" /></p>
+</div>
+<div id="problem-4-6" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>What does the plot below tell you about the relationship between city and highway mpg? Why is <code>coord_fixed()</code> important? What does <code>geom_abline()</code> do?</p>
+<p><code>coord_fixed()</code> (with no arguments) ensures that a unit on the x-axis is the same length as a unit on the y-axis.</p>
+<p><code>geom_abline()</code> (with no arguments) adds a reference line with an intercept of 0 and a slope of 1. We can quickly see that every observation in the <code>mpg</code> dataset has better highway than city fuel efficiency.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy)) +
+<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_abline</span>() +
+<span class="st">  </span><span class="kw">coord_fixed</span>()</code></pre></div>
+<p><img src="03-data-visualization_files/figure-html/3-9-4-1.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-5-data-transformation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -32,4 +32,7 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Rproj.user
-*.html
+
+# bookdown
+*.rds
+_bookdown_files
