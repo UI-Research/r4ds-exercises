@@ -28,7 +28,7 @@ flights %>%
 
 * Flew to Houston (IAH or HOU)
 
-```{r 5-2-1-b}
+```{r 5-2-1b}
 flights %>%
   filter(dest %in% c('IAH', 'HOU')) %>%
   count()
@@ -138,7 +138,7 @@ NA ^ 2
 NA + 1
 ```
 
-## 5.3 Arrange Rows with arrange() {-}
+## 5.3 - Arrange Rows with arrange() {-}
 
 ### Problem 1 {-}
 
@@ -209,7 +209,7 @@ flights %>%
   head()
 ```
 
-## 5.4 Select Columns with select() {-}
+## 5.4 - Select Columns with select() {-}
 
 ### Problem 1 {-}
 
@@ -424,7 +424,7 @@ cos(pi * 0.25)
 cospi(0.25)
 ```
 
-##  5.6 Grouped summaries with summarise() {-}
+##  5.6 - Grouped summaries with summarise() {-}
 
 ### Problem 1 {-}
 

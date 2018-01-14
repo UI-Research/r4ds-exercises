@@ -167,7 +167,7 @@ ggplot(mtcars, aes(wt, mpg, color = disp < 100)) +
   geom_point()
 ```
 
-## 3.5 Facets {-}
+## 3.5 - Facets {-}
 
 ### Problem 1 {-}
 
