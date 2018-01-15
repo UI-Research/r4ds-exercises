@@ -291,7 +291,7 @@ NA + 1
 ## [1] NA
 ```
 
-## 5.3 Arrange Rows with arrange() {-}
+## 5.3 - Arrange Rows with arrange() {-}
 
 ### Problem 1 {-}
 
@@ -460,7 +460,7 @@ flights %>%
 ## #   time_hour <dttm>
 ```
 
-## 5.4 Select Columns with select() {-}
+## 5.4 - Select Columns with select() {-}
 
 ### Problem 1 {-}
 
@@ -864,7 +864,7 @@ cospi(0.25)
 ## [1] 0.7071068
 ```
 
-##  5.6 Grouped summaries with summarise() {-}
+##  5.6 - Grouped summaries with summarise() {-}
 
 ### Problem 1 {-}
 

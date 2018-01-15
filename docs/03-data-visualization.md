@@ -1,6 +1,5 @@
 # Chapter 3 - Data Visualisation {-}
 
-
 Load the libraries needed for these exercises.
 
 
@@ -8,6 +7,7 @@ Load the libraries needed for these exercises.
 
 ```r
 library(tidyverse)
+library(maps)
 ```
 
 ## 3.2 - First Steps {-}
@@ -16,8 +16,7 @@ library(tidyverse)
 
 Run `ggplot(data = mpg)`. What do you see?
 
-We have a blank plot, since we have only constructed the initial plot object 
-without any aesthetics.
+The initial `ggplot()` call creates a a blank plot without any aesthetics.
 
 
 ```r
@@ -30,7 +29,8 @@ ggplot(data = mpg)
 
 How many rows are in `mpg`? How many columns?
 
-There are 234 rows and 11 columns in the `mpg` data set.
+Use the `nrow()` and `ncol()` functions from `base` to determine that there are 
+234 rows and 11 columns in the `mpg` data set.
 
 
 ```r
@@ -56,18 +56,16 @@ What does the `drv` variable describe? Read the help for `?mpg` to find out.
 The variable `drv` describes the drive of the vehicle: f = front-wheel drive, 
 r = rear wheel drive, 4 = 4wd.
 
-
-```r
-?mpg
-```
-
 ### Problem 4 {-}
 
 Make a scatter plot of `hwy` vs `cyl`.
 
+Set `hwy` and `cyl` as the `x` and `y` variables within `aes()`, and use 
+`geom_point()` to create a scatterplot.
+
 
 ```r
-ggplot(mpg, aes(cyl, hwy)) +
+ggplot(data = mpg, mapping = aes(x = cyl, y = hwy)) +
   geom_point()
 ```
 
@@ -78,12 +76,12 @@ ggplot(mpg, aes(cyl, hwy)) +
 What happens if you make a scatter plot of `class` vs `drv`? Why is the plot 
 not useful?
 
-Since `class` and `drv` are categorical variables, we don't see much of a 
+Since `class` and `drv` are categorical variables, there isn't much of a 
 meaningful relationship in the scatter plot.
 
 
 ```r
-ggplot(mpg, aes(class, drv)) +
+ggplot(data = mpg, mapping = aes(x = class, y = drv)) +
   geom_point()
 ```
 
@@ -116,62 +114,31 @@ ggplot(data = mpg) +
 
 ### Problem 2 {-}
 
-Which variables in mpg are categorical? Which variables are continuous? 
-(Hint: type ?mpg to read the documentation for the data set). How can you see 
+Which variables in `mpg` are categorical? Which variables are continuous? 
+(Hint: type `?mpg` to read the documentation for the data set). How can you see 
 this information when you run mpg?
 
-We can use the `summary` function to see the mode of each variable.
+Use `str()` to see the structure of a dataset.
 
 
 ```r
-summary(mpg)
+str(mpg)
 ```
 
 ```
-##  manufacturer          model               displ            year     
-##  Length:234         Length:234         Min.   :1.600   Min.   :1999  
-##  Class :character   Class :character   1st Qu.:2.400   1st Qu.:1999  
-##  Mode  :character   Mode  :character   Median :3.300   Median :2004  
-##                                        Mean   :3.472   Mean   :2004  
-##                                        3rd Qu.:4.600   3rd Qu.:2008  
-##                                        Max.   :7.000   Max.   :2008  
-##       cyl           trans               drv                 cty       
-##  Min.   :4.000   Length:234         Length:234         Min.   : 9.00  
-##  1st Qu.:4.000   Class :character   Class :character   1st Qu.:14.00  
-##  Median :6.000   Mode  :character   Mode  :character   Median :17.00  
-##  Mean   :5.889                                         Mean   :16.86  
-##  3rd Qu.:8.000                                         3rd Qu.:19.00  
-##  Max.   :8.000                                         Max.   :35.00  
-##       hwy             fl               class          
-##  Min.   :12.00   Length:234         Length:234        
-##  1st Qu.:18.00   Class :character   Class :character  
-##  Median :24.00   Mode  :character   Mode  :character  
-##  Mean   :23.44                                        
-##  3rd Qu.:27.00                                        
-##  Max.   :44.00
+## Classes 'tbl_df', 'tbl' and 'data.frame':	234 obs. of  11 variables:
+##  $ manufacturer: chr  "audi" "audi" "audi" "audi" ...
+##  $ model       : chr  "a4" "a4" "a4" "a4" ...
+##  $ displ       : num  1.8 1.8 2 2 2.8 2.8 3.1 1.8 1.8 2 ...
+##  $ year        : int  1999 1999 2008 2008 1999 1999 2008 1999 1999 2008 ...
+##  $ cyl         : int  4 4 4 4 6 6 6 4 4 4 ...
+##  $ trans       : chr  "auto(l5)" "manual(m5)" "manual(m6)" "auto(av)" ...
+##  $ drv         : chr  "f" "f" "f" "f" ...
+##  $ cty         : int  18 21 20 21 16 18 18 18 16 20 ...
+##  $ hwy         : int  29 29 31 30 26 26 27 26 25 28 ...
+##  $ fl          : chr  "p" "p" "p" "p" ...
+##  $ class       : chr  "compact" "compact" "compact" "compact" ...
 ```
-
-Or since the data frame is a tibble, just running `mpg` will show you the 
-various variable types.
-
-
-```r
-head(mpg)
-```
-
-```
-## # A tibble: 6 x 11
-##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
-##          <chr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
-## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
-## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
-## 3         audi    a4   2.0  2008     4 manual(m6)     f    20    31     p
-## 4         audi    a4   2.0  2008     4   auto(av)     f    21    30     p
-## 5         audi    a4   2.8  1999     6   auto(l5)     f    16    26     p
-## 6         audi    a4   2.8  1999     6 manual(m5)     f    18    26     p
-## # ... with 1 more variables: class <chr>
-```
-
 
 ### Problem 3 {-}
 
@@ -203,13 +170,13 @@ p <- ggplot(data = mpg, mapping = aes(x = cty, y = hwy, shape = displ)) +
   geom_point()
 ```
 
-
 ### Problem 4 {-}
 
 What happens if you map the same variable to multiple aesthetics?
 
 Mapping `displ` to `color` and `size` results in the following graph. Not 
 necessarily helpful, but two ways of displaying the some variation.
+
 
 ```r
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = displ, size = displ)) + 
@@ -223,12 +190,12 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = displ, size = displ))
 What does the stroke aesthetic do? What shapes does it work with? 
 (Hint: use ?geom_point)
 
-The `stroke` aesthetic will modify the width of the border of a shape. From the 
-documentation:
+The `stroke` aesthetic will modify the width of the border of a shape. Taking 
+the example from the `ggplot2` documentation:
 
 
 ```r
-ggplot(mtcars, aes(wt, mpg)) +
+ggplot(data = mtcars, mapping = aes(x = wt, y = mpg)) +
   geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 ```
 
@@ -237,29 +204,31 @@ ggplot(mtcars, aes(wt, mpg)) +
 ### Problem 6 {-}
 
 What happens if you map an aesthetic to something other than a variable name, 
-like aes(colour = displ < 5)?
+like `aes(colour = displ < 5)`?
 
-In this case the condition we pass to `color` returns a boolean that will map 
+In this case the condition passed to `color` returns a boolean that will map 
 to `color`.
 
+
 ```r
-ggplot(mtcars, aes(wt, mpg, color = disp < 100)) +
+ggplot(data = mtcars, mapping = aes(wt, mpg, color = disp < 100)) +
   geom_point()
 ```
 
 <img src="03-data-visualization_files/figure-html/3-3-6-1.png" width="672" />
 
-## 3.5 Facets {-}
+## 3.5 - Facets {-}
 
 ### Problem 1 {-}
 
 What happens if you facet on a continuous variable?
 
-The `facet_wrap` feature will still produce plots for each unique value.
+The `facet_wrap` feature will still produce plots for each unique value, but 
+the result is not necessarily helpful.
 
 
 ```r
-ggplot(mtcars, aes(disp, mpg)) +
+ggplot(data = mtcars, mapping = aes(disp, mpg)) +
   geom_point() +
   facet_wrap(~ wt)
 ```
@@ -272,8 +241,8 @@ What do the empty cells in plot with `facet_grid(drv ~ cyl)` mean? How do they
 relate to this plot?
 
 Empty cells occur when there are no observations within a specific combination 
-of facet variables. We see in the below plot that there are no vehicles with 4wd 
-and 5 cylinders.
+of facet variables. For instance, in the given plot there are no vehicles with 
+4wd and 5 cylinders, which matches the empty cell with `facet_grid(drv ~ cyl)`.
 
 
 ```r
@@ -281,14 +250,15 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = drv, y = cyl))
 ```
 
-<img src="03-data-visualization_files/figure-html/3-5-2-1.png" width="672" />
+<img src="03-data-visualization_files/figure-html/3-5-2a-1.png" width="672" />
 
 ### Problem 3 {-}
 
 What plots does the following code make? What does `.` do?
 
-In the first example, using `.` allows us to plot a `facet_grid` without a 
+In the first example, using `.` creates a `facet_grid()` plot without a 
 column variable.
+
 
 ```r
 ggplot(data = mpg) + 
@@ -298,7 +268,9 @@ ggplot(data = mpg) +
 
 <img src="03-data-visualization_files/figure-html/3-5-3a-1.png" width="672" />
 
-This is easier than trying to hack together a similar plot using `facet_wrap`.
+This can be easier than trying to hack together a similar plot using 
+`facet_wrap()`.
+
 
 ```r
 ggplot(data = mpg) + 
@@ -308,7 +280,7 @@ ggplot(data = mpg) +
 
 <img src="03-data-visualization_files/figure-html/3-5-3b-1.png" width="672" />
 
-We can also use `.` to make a `facet_grid` while omitting a row variable.
+The `.` can also be used to make a `facet_grid()` while omitting a row variable.
 
 
 ```r
@@ -330,6 +302,8 @@ aesthetic, but can be unwieldy when the number of distinct values in `class` is
 large. For a larger dataset, faceting may be necessary, as the increased number 
 of points may make it difficult to see a variation by color.
 
+Compare the following plots:
+
 
 ```r
 ggplot(data = mpg) + 
@@ -337,34 +311,44 @@ ggplot(data = mpg) +
   facet_wrap(~ class, nrow = 2)
 ```
 
-<img src="03-data-visualization_files/figure-html/3-5-4-1.png" width="672" />
+<img src="03-data-visualization_files/figure-html/3-5-4a-1.png" width="672" />
+
+
+```r
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class))
+```
+
+<img src="03-data-visualization_files/figure-html/3-5-4b-1.png" width="672" />
 
 ### Problem 5 {-}
 
-Read ?facet_wrap. What does nrow do? What does ncol do? What other options 
-control the layout of the individual panels? Why doesn’t facet_grid() have nrow 
-and ncol arguments?
+Read `?facet_wrap`. What does `nrow` do? What does `ncol` do? What other options 
+control the layout of the individual panels? Why doesn’t `facet_grid()` have 
+`nrow` and `ncol` arguments?
 
 The `nrow` and `ncol` arguments allow you to control the number of rows or 
-columns in the panel. There are a number of other arguments in `facet_wrap`:
+columns in the panel. There are a number of other arguments in `facet_wrap()`:
   * `scales`: can fix scales or allow them to vary
   * `shrink`: shrink scales to fit output of statistics, not raw data
-  * `labeller`: takes one data frame of labels and returns a list or data frame of character vectors
+  * `labeller`: takes one data frame of labels and returns a list or data frame 
+  of character vectors
   * `as.table`: display facets as a table or a plot
   * `switch`: flip the labels
   * `drop`: drop unused factor lebels
   * `dir`: control direction of the panel
   * `strip.position`: control where to place the labels
 
-The `facet_grid` function has `nrow` and `ncol` predefined by the faceting variables.
+The `facet_grid()` function has `nrow` and `ncol` predefined by the faceting 
+variables.
 
 ### Problem 6 {-}
 
 When using facet_grid() you should usually put the variable with more unique 
 levels in the columns. Why?
 
-This will expand your panel vertically, making it easier to scroll through 
-the grid.
+This will expand the panel vertically, making it easier to scroll through 
+the grid. Compare the following two plots:
 
 
 ```r
@@ -391,31 +375,31 @@ ggplot(data = mpg) +
 What geom would you use to draw a line chart? A boxplot? A histogram? An area 
 chart?
 
-Use `geom_line` to draw a line chart.
+Use `geom_line()` to draw a line chart.
 
 
 ```r
-ggplot(economics, aes(date, unemploy)) + 
+ggplot(data = economics, mapping = aes(x = date, y = unemploy)) + 
   geom_line()
 ```
 
 <img src="03-data-visualization_files/figure-html/3-6-1a-1.png" width="672" />
 
-Use `geom_boxplot` to create a boxplot.
+Use `geom_boxplot()` to create a boxplot.
 
 
 ```r
-ggplot(mpg, aes(x = class, y = hwy)) +
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
   geom_boxplot()
 ```
 
 <img src="03-data-visualization_files/figure-html/3-6-1b-1.png" width="672" />
 
-Use `geom_histogram` to create a histogram.
+Use `geom_histogram()` to create a histogram.
 
 
 ```r
-ggplot(mpg, aes(x = hwy)) +
+ggplot(data = mpg, mapping = aes(x = hwy)) +
   geom_histogram()
 ```
 
@@ -425,11 +409,11 @@ ggplot(mpg, aes(x = hwy)) +
 
 <img src="03-data-visualization_files/figure-html/3-6-1c-1.png" width="672" />
 
-And use `geom_area` to create an area chart.
+And use `geom_area()` to create an area chart.
 
 
 ```r
-ggplot(economics, aes(date, unemploy)) + 
+ggplot(data = economics, mapping = aes(x = date, y = unemploy)) + 
   geom_area()
 ```
 
@@ -441,7 +425,7 @@ Run this code in your head and predict what the output will look like. Then,
 run the code in R and check your predictions.
 
 Be sure to think through the initial `ggplot` call and consider what will be 
-passed to `geom_point` and `geom_smooth`.
+passed to `geom_point()` and `geom_smooth()`.
 
 
 ```r
@@ -461,7 +445,7 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
 What does `show.legend = FALSE` do? What happens if you remove it? Why do you 
 think I used it earlier in the chapter?
 
-The `show.legend` argument will can be used to map a layer to a legend. Setting 
+The `show.legend` argument can be used to map a layer to a legend. Setting 
 to `FALSE` will remove that layer from the plot. 
 
 
@@ -477,7 +461,8 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
 
 <img src="03-data-visualization_files/figure-html/3-6-3a-1.png" width="672" />
 
-But note that this only works by geom.
+But note that this only works by geom:
+
 
 ```r
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
@@ -495,8 +480,8 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
 
 What does the `se` argument to `geom_smooth()` do?
 
-The `se` argument controls whether a confidence band is displayed around smooth. 
-Note that the argument is set to `TRUE` by default.
+The `se` argument controls whether a confidence band is displayed around 
+the smoothed line. Note that the argument is set to `TRUE` by default.
 
 
 ```r
@@ -531,7 +516,7 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
 
 Will these two graphs look different? Why/why not?
 
-The graphs should look the same, as `data` and `aes` are inherited by 
+The graphs should look the same, as `data` and `aes` are inherited by
 `geom_point()` and `geom_smooth()` in the first example.
 
 
@@ -563,6 +548,8 @@ ggplot() +
 ### Problem 6 {-}
 
 Recreate the R code necessary to generate the following graphs.
+
+Be sure to think through how each `aes` is set and inherited.
 
 
 ```r
@@ -644,8 +631,8 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
 What is the default geom associated with `stat_summary()`? How could you rewrite
 the previous plot to use that geom function instead of the stat function?
 
-The default geom associated with `stat_summary()` is `pointrange`. We can 
-recreate the last plot using:
+The default geom associated with `stat_summary()` is `pointrange`. Recreate the 
+last plot using:
 
 
 ```r
@@ -669,7 +656,7 @@ From the `ggplot2` documentation: `geom_bar()` makes the height of the bar
 proportional to the number of cases in each group, while `geom_col()` will map
 directly to the data.
 
-We can make a simple bar chart using `geom_bar` which will transform the data 
+Make a simple bar chart using `geom_bar` which will transform the data 
 under the hood:
 
 
@@ -680,7 +667,7 @@ ggplot(mpg, aes(class)) +
 
 <img src="03-data-visualization_files/figure-html/3-7-2a-1.png" width="672" />
 
-Or do the transformation ourselves and map directly using `geom_col`:
+Or do the transformation manually and map directly using `geom_col`:
 
 
 ```r
@@ -699,7 +686,7 @@ Most geoms and stats come in pairs that are almost always used in concert.
 Read through the documentation and make a list of all the pairs. 
 What do they have in common?
 
-Some examples from the `ggplot2` documentation includes:
+Some examples from the `ggplot2` documentation include:
 
 * `geom_bar` --> `stat_count`
 * `geom_bin2d` --> `stat_bin_2d`
@@ -716,16 +703,18 @@ Some examples from the `ggplot2` documentation includes:
 What variables does `stat_smooth()` compute? What parameters control its behavior?
 
 `stat_smooth` computes the following:
-  * y the predicted value
-  * ymin - lower pointwise confidence interval around the mean
-  * ymax - upper pointwise confidence interval around the mean
-  * se - standard error
+
+* `y` - the predicted value
+* `ymin` - lower pointwise confidence interval around the mean
+* `ymax` - upper pointwise confidence interval around the mean
+* `se` - standard error
   
 The behaviour of `stat_smooth` can be controled using:
-  * `method` to adjust the smoothing method used
-  * `formula` to adjust the smoothing formula used
-  * `span` to adjust the amount of smoothing
-  * `level` to set the confidence level used
+
+* `method` to adjust the smoothing method used
+* `formula` to adjust the smoothing formula used
+* `span` to adjust the amount of smoothing
+* `level` to set the confidence level used
   
 ### Problem 5 {-}
 
@@ -733,6 +722,7 @@ In our proportion bar chart, we need to set group = 1. Why? In other words
 what is the problem with these two graphs?
 
 The first chart displays a proportion = 1 for all groups.
+
 
 ```r
 ggplot(data = diamonds) + 
@@ -752,7 +742,7 @@ ggplot(data = diamonds) +
 
 <img src="03-data-visualization_files/figure-html/3-7-5b-1.png" width="672" />
 
-`geom_bar()` will compute `prop` - the groupwise proportion. So we must pass in 
+`geom_bar()` will compute `prop` - the groupwise proportion. So pass in 
 an argument to `group` for `prop` to be calculated properly.
 
 
@@ -797,12 +787,13 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 
 ### Problem 2 {-}
 
-What parameters to geom_jitter() control the amount of jittering?
+What parameters to `geom_jitter()` control the amount of jittering?
 
 The `width` and `height` arguments control the amount of jittering and defaults 
 to 40% of the resolution of the data.
 
-So values less than 0.4 will make a graph more compact than the default `geom_jitter()`
+So values less than 0.4 will make a graph more compact than the default 
+`geom_jitter()` and values greater than 0.4 will make the graph more spread out.
 
 
 ```r
@@ -824,12 +815,12 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 
 ### Problem 3 {-}
 
-Compare and contrast geom_jitter() with geom_count().
+Compare and contrast `geom_jitter()` with `geom_count()`.
 
-`geom_jitter()` and `geom_count` are both useful when dealing with overplotting. 
-While `geom_jitter` will add a small amount of noise to each point to spread them 
-out, `geom_count` will cont the number of observations at each (x,y) point, and 
-then map the count.
+`geom_jitter()` and `geom_count()` are both useful when dealing with 
+overplotting. While `geom_jitter` will add a small amount of noise to each 
+point to spread them out, `geom_count` will count the number of observations at 
+each (x,y) point, and then map the count.
 
 `geom_jitter()` is equivalent to `geom_point(position = 'jitter')`
 `geom_count()` is equivalent to `geom_point(stat = 'sum')`
@@ -851,7 +842,7 @@ The default position adjustment for `geom_boxplot()` is `dodge`.
 
 
 ```r
-ggplot(mpg, aes(class, cty, color = drv)) +
+ggplot(data = mpg, aes(x = class, y = cty, color = drv)) +
   geom_boxplot()
 ```
 
@@ -859,7 +850,7 @@ ggplot(mpg, aes(class, cty, color = drv)) +
 
 
 ```r
-ggplot(mpg, aes(x = class, y = cty, color = drv)) +
+ggplot(data = mpg, aes(x = class, y = cty, color = drv)) +
   geom_boxplot(position = 'identity')
 ```
 
@@ -871,21 +862,21 @@ ggplot(mpg, aes(x = class, y = cty, color = drv)) +
 
 Turn a stacked bar chart into a pie chart using `coord_polar()`.
 
-From the documentation for `coord_polar()` we can first make a stacked bar chart:
+From the documentation for `coord_polar()` - first make a stacked bar chart:
 
 
 ```r
-ggplot(mtcars, aes(x = factor(1), fill = factor(cyl))) +
+ggplot(data = mtcars, aes(x = factor(1), fill = factor(cyl))) +
  geom_bar()
 ```
 
 <img src="03-data-visualization_files/figure-html/3-9-1a-1.png" width="672" />
 
-And turn it into a pie chart:
+And then turn it into a pie chart:
 
 
 ```r
-ggplot(mtcars, aes(x = factor(1), fill = factor(cyl))) +
+ggplot(data = mtcars, aes(x = factor(1), fill = factor(cyl))) +
   geom_bar(width = 1) +
   coord_polar(theta = 'y')
 ```
@@ -896,7 +887,7 @@ ggplot(mtcars, aes(x = factor(1), fill = factor(cyl))) +
 
 What does `labs()` do? Read the documentation.
 
-`labs()` allows you to modify the labels of a plot, axis, or legend.
+`labs()` controls the labels of a plot, axis, or legend.
 
 
 ```r
@@ -913,24 +904,9 @@ ggplot(mpg, aes(cty, hwy)) +
 
 What’s the difference between `coord_quickmap()` and `coord_map()`?
 
-`coord_quickmap` preserves straight lines when projecting onto a two dimensional 
-surface and requires less computation.
+`coord_quickmap()` preserves straight lines when projecting onto a two 
+dimensional surface and requires less computation.
 
-
-```r
-library(maps)
-```
-
-```
-## 
-## Attaching package: 'maps'
-```
-
-```
-## The following object is masked from 'package:purrr':
-## 
-##     map
-```
 
 ```r
 ggplot(map_data('state'), aes(long, lat, group = group)) +
@@ -958,7 +934,7 @@ highway mpg? Why is `coord_fixed()` important? What does `geom_abline()` do?
 same length as a unit on the y-axis. 
 
 `geom_abline()` (with no arguments) adds a reference line with an intercept of 
-0 and a slope of 1. We can quickly see that every observation in the `mpg` 
+0 and a slope of 1. One can quickly see that every observation in the `mpg` 
 dataset has better highway than city fuel efficiency.
 
 
@@ -970,5 +946,3 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 ```
 
 <img src="03-data-visualization_files/figure-html/3-9-4-1.png" width="672" />
-
-
