@@ -1,2 +1,3 @@
+output: bookdown::gitbook
 output_dir: docs
 new_session: yes
