@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
+<link rel="prev" href="chapter-7-exploratory-data-analysis.html">
 
-<link rel="next" href="chapter-3-data-visualisation.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -235,22 +235,173 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R for Data Science Solution Set</h1>
+<div id="chapter-10---tibbles" class="section level1 unnumbered">
+<h1>Chapter 10 - Tibbles</h1>
+<p>Load the libraries needed for these exercises.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<div id="exercises" class="section level2 unnumbered">
+<h2>10.5 - Exercises</h2>
+<div id="problem-1-15" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>How can you tell if an object is a tibble? (Hint: try printing <code>mtcars</code>, which is a regular data frame).</p>
+<p>Use the <code>is.tibble()</code> function to determine if an object is a tibble. A tibble will also have a heading if printed to the console.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.tibble</span>(mtcars)</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.tibble</span>(diamonds)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">diamonds</code></pre></div>
+<pre><code>## # A tibble: 53,940 x 10
+##    carat       cut color clarity depth table price     x     y     z
+##    &lt;dbl&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;ord&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  0.23     Ideal     E     SI2  61.5    55   326  3.95  3.98  2.43
+##  2  0.21   Premium     E     SI1  59.8    61   326  3.89  3.84  2.31
+##  3  0.23      Good     E     VS1  56.9    65   327  4.05  4.07  2.31
+##  4  0.29   Premium     I     VS2  62.4    58   334  4.20  4.23  2.63
+##  5  0.31      Good     J     SI2  63.3    58   335  4.34  4.35  2.75
+##  6  0.24 Very Good     J    VVS2  62.8    57   336  3.94  3.96  2.48
+##  7  0.24 Very Good     I    VVS1  62.3    57   336  3.95  3.98  2.47
+##  8  0.26 Very Good     H     SI1  61.9    55   337  4.07  4.11  2.53
+##  9  0.22      Fair     E     VS2  65.1    61   337  3.87  3.78  2.49
+## 10  0.23 Very Good     H     VS1  59.4    61   338  4.00  4.05  2.39
+## # ... with 53,930 more rows</code></pre>
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p>This is a solution guide to the exercises in <a href="http://r4ds.had.co.nz/index.html">R for Data Science</a> by Hadley Wickham and Garret Grolemund.</p>
-<p>This guide is a work in progress, and all are welcome to contribute. The complete source for this book is available on <a href="https://github.com/khueyama/r4ds-exercises">github</a>; full instructions on how to contribute are available in the README.</p>
+<div id="problem-2-15" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Compare and contrast the following operations on a <code>data.frame</code> and equivalent tibble. What is different? Why might the default data frame behaviours cause you frustration?</p>
+<p>A data frame will attempt to auto-complete, while a tibble will not:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">abc =</span> <span class="dv">1</span>, <span class="dt">xyz =</span> <span class="st">&quot;a&quot;</span>)
+tib &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">abc =</span> <span class="dv">1</span>, <span class="dt">xyz =</span> <span class="st">&quot;a&quot;</span>)
 
+df$x</code></pre></div>
+<pre><code>## [1] a
+## Levels: a</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tib$x</code></pre></div>
+<pre><code>## Warning: Unknown or uninitialised column: &#39;x&#39;.</code></pre>
+<pre><code>## NULL</code></pre>
+<p>Data frames will sometimes simplify:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.data.frame</span>(df[, <span class="st">&quot;xyz&quot;</span>])</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.tibble</span>(tib[, <span class="st">&quot;xyz&quot;</span>])</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Tibble will display useful information on the data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df[, <span class="kw">c</span>(<span class="st">&quot;abc&quot;</span>, <span class="st">&quot;xyz&quot;</span>)]</code></pre></div>
+<pre><code>##   abc xyz
+## 1   1   a</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tib[, <span class="kw">c</span>(<span class="st">&quot;abc&quot;</span>, <span class="st">&quot;xyz&quot;</span>)]</code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##     abc   xyz
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1     a</code></pre>
+</div>
+<div id="problem-3-14" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>If you have the name of a variable stored in an object, e.g. <code>var &lt;- &quot;mpg&quot;</code>, how can you extract the reference variable from a tibble?</p>
+<p>Use <code>[]</code> to extract the variable and <code>[[]]</code> to extract the vector:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var &lt;-<span class="st"> &#39;mpg&#39;</span>
+<span class="kw">as.tibble</span>(mtcars)[var]</code></pre></div>
+<pre><code>## # A tibble: 32 x 1
+##      mpg
+##    &lt;dbl&gt;
+##  1  21.0
+##  2  21.0
+##  3  22.8
+##  4  21.4
+##  5  18.7
+##  6  18.1
+##  7  14.3
+##  8  24.4
+##  9  22.8
+## 10  19.2
+## # ... with 22 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.tibble</span>(mtcars)[[var]]</code></pre></div>
+<pre><code>##  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2
+## [15] 10.4 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4
+## [29] 15.8 19.7 15.0 21.4</code></pre>
+</div>
+<div id="problem-4-14" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>Practice referring to non-syntactic names in the following data frame by:</p>
+<ol style="list-style-type: decimal">
+<li>Extracting the variable called 1.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">annoying &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="st">`</span><span class="dt">1</span><span class="st">`</span> =<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>,
+  <span class="st">`</span><span class="dt">2</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">1</span><span class="st">`</span> *<span class="st"> </span><span class="dv">2</span> +<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(<span class="st">`</span><span class="dt">1</span><span class="st">`</span>))
+)
+
+annoying %&gt;%
+<span class="st">  </span><span class="kw">select</span>(<span class="st">`</span><span class="dt">1</span><span class="st">`</span>)</code></pre></div>
+<pre><code>## # A tibble: 10 x 1
+##      `1`
+##    &lt;int&gt;
+##  1     1
+##  2     2
+##  3     3
+##  4     4
+##  5     5
+##  6     6
+##  7     7
+##  8     8
+##  9     9
+## 10    10</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Plotting a scatterplot of 1 vs 2.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(annoying, <span class="kw">aes</span>(<span class="st">`</span><span class="dt">1</span><span class="st">`</span>, <span class="st">`</span><span class="dt">2</span><span class="st">`</span>)) +
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="10-tibbles_files/figure-html/10-5-4b-1.png" width="672" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Creating a new column called 3 which is 2 divided by 1.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">annoying &lt;-<span class="st"> </span>annoying %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">3</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">2</span><span class="st">`</span> /<span class="st"> `</span><span class="dt">1</span><span class="st">`</span>)</code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Renaming the columns to one, two and three.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">annoying %&gt;%
+<span class="st">  </span><span class="kw">select</span>(<span class="dt">one =</span> <span class="st">`</span><span class="dt">1</span><span class="st">`</span>,
+         <span class="dt">two =</span> <span class="st">`</span><span class="dt">2</span><span class="st">`</span>,
+         <span class="dt">three =</span> <span class="st">`</span><span class="dt">3</span><span class="st">`</span>)</code></pre></div>
+<pre><code>## # A tibble: 10 x 3
+##      one       two    three
+##    &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1     1  4.246887 4.246887
+##  2     2  3.079091 1.539545
+##  3     3  5.367427 1.789142
+##  4     4  7.703876 1.925969
+##  5     5  9.720850 1.944170
+##  6     6 14.066776 2.344463
+##  7     7 13.740580 1.962940
+##  8     8 17.355254 2.169407
+##  9     9 17.831401 1.981267
+## 10    10 18.328137 1.832814</code></pre>
+</div>
+<div id="problem-5-8" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>What does <code>tibble::enframe()</code> do? When might you use it?</p>
+<p><code>enframe()</code> can be used to convert a vector or list to a tibble:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">enframe</span>(<span class="kw">c</span>(<span class="dt">a =</span> <span class="dv">5</span>,  <span class="dt">b =</span> <span class="dv">10</span>))</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##    name value
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1     a     5
+## 2     b    10</code></pre>
+</div>
+<div id="problem-6-6" class="section level3 unnumbered">
+<h3>Problem 6</h3>
+<p>What option controls how many additional column names are printed at the footer of a tibble?</p>
+<p>The <code>tibble.max_extra_cols</code> option controls this behavior, with a default of 100.</p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="chapter-7-exploratory-data-analysis.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="chapter-3-data-visualisation.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

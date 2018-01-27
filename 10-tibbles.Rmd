@@ -1,0 +1,130 @@
+# Chapter 10 - Tibbles {-}
+
+Load the libraries needed for these exercises.
+
+```{r 10-setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r 10-library, message=FALSE}
+library(tidyverse)
+```
+
+## 10.5 - Exercises {-}
+
+### Problem 1 {-}
+
+How can you tell if an object is a tibble? (Hint: try printing `mtcars`, which 
+is a regular data frame).
+
+Use the `is.tibble()` function to determine if an object is a tibble. A tibble 
+will also have a heading if printed to the console.
+
+```{r 10-5-1}
+is.tibble(mtcars)
+is.tibble(diamonds)
+diamonds
+```
+
+### Problem 2 {-}
+
+Compare and contrast the following operations on a `data.frame` and 
+equivalent tibble. What is different? Why might the default data frame 
+behaviours cause you frustration?
+
+A data frame will attempt to auto-complete, while a tibble will not:
+
+```{r 10-5-2a}
+df <- data.frame(abc = 1, xyz = "a")
+tib <- tibble(abc = 1, xyz = "a")
+
+df$x
+tib$x
+```
+
+Data frames will sometimes simplify:
+
+```{r 10-5-2b}
+is.data.frame(df[, "xyz"])
+is.tibble(tib[, "xyz"])
+```
+
+Tibble will display useful information on the data:
+
+```{r 10-5-2c}
+df[, c("abc", "xyz")]
+tib[, c("abc", "xyz")]
+```
+
+
+### Problem 3 {-}
+
+If you have the name of a variable stored in an object, e.g. `var <- "mpg"`, 
+how can you extract the reference variable from a tibble?
+
+Use `[]` to extract the variable and `[[]]` to extract the vector:
+
+```{r 10-5-3}
+var <- 'mpg'
+as.tibble(mtcars)[var]
+as.tibble(mtcars)[[var]]
+```
+
+### Problem 4 {-}
+
+Practice referring to non-syntactic names in the following data frame by:
+
+1. Extracting the variable called 1.
+
+```{r 10-5-4a}
+annoying <- tibble(
+  `1` = 1:10,
+  `2` = `1` * 2 + rnorm(length(`1`))
+)
+
+annoying %>%
+  select(`1`)
+```
+
+
+2. Plotting a scatterplot of 1 vs 2.
+
+```{r 10-5-4b}
+ggplot(annoying, aes(`1`, `2`)) +
+  geom_point()
+```
+
+3. Creating a new column called 3 which is 2 divided by 1.
+
+```{r 10-5-4c}
+annoying <- annoying %>%
+  mutate(`3` = `2` / `1`)
+```
+
+
+4. Renaming the columns to one, two and three.
+
+```{r 10-5-4d}
+annoying %>%
+  select(one = `1`,
+         two = `2`,
+         three = `3`)
+```
+
+### Problem 5 {-}
+
+What does `tibble::enframe()` do? When might you use it?
+
+`enframe()` can be used to convert a vector or list to a tibble:
+
+```{r 10-5-5}
+enframe(c(a = 5,  b = 10))
+```
+
+### Problem 6 {-}
+
+What option controls how many additional column names are printed at the 
+footer of a tibble?
+
+The `tibble.max_extra_cols` option controls this behavior, with a default of 
+100.
