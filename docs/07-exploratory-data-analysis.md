@@ -141,3 +141,70 @@ ggplot(diamonds) +
 ```
 
 <img src="07-exploratory-data-analysis_files/figure-html/7-3-4c-1.png" width="672" />
+
+## 7.4 - Missing Values {-}
+
+### Problem 1 {-}
+
+What happens to missing values in a histogram? What happens to missing values 
+in a bar chart? Why is there a difference?
+
+Missing values are plotted in a bar chart but not a histogram. Remember that 
+histograms are generally used to display numeric data, while bar charts are 
+used for categorical data. Missing values can be considered another category 
+to plot in a bar chart, but there is not necessarily an intuitive way to place 
+missing values in a histogram.
+
+
+```r
+diamonds %>% 
+  mutate(cut = ifelse(cut == 'Fair', NA, cut)) %>%
+  ggplot(aes(x=cut)) +
+  geom_histogram()
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+```
+## Warning: Removed 1610 rows containing non-finite values (stat_bin).
+```
+
+<img src="07-exploratory-data-analysis_files/figure-html/7-4-1a-1.png" width="672" />
+
+
+```r
+diamonds %>% 
+  mutate(cut = as.character(cut)) %>%
+  mutate(cut = ifelse(cut == 'Fair', NA, cut)) %>%
+  ggplot(aes(x=cut)) +
+  geom_bar()
+```
+
+<img src="07-exploratory-data-analysis_files/figure-html/7-4-1b-1.png" width="672" />
+
+### Problem 2 {-}
+
+What does `na.rm = TRUE` do in `mean()` and `sum()`?
+
+Setting `na.rm = TRUE` will remove missing values before executing the function. 
+
+
+```r
+x <- c(1, 2, 3, NA)
+mean(x)
+```
+
+```
+## [1] NA
+```
+
+```r
+mean(x, na.rm = TRUE)
+```
+
+```
+## [1] 2
+```
+

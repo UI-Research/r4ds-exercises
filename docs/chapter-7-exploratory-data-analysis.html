@@ -203,6 +203,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#problem-3-13"><i class="fa fa-check"></i>Problem 3</a></li>
 <li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#problem-4-13"><i class="fa fa-check"></i>Problem 4</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#missing-values"><i class="fa fa-check"></i>7.4 - Missing Values</a><ul>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#problem-1-14"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#problem-2-14"><i class="fa fa-check"></i>Problem 2</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -286,6 +290,37 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">ylim</span>(<span class="dv">0</span>,<span class="dv">60</span>)</code></pre></div>
 <pre><code>## Warning: Removed 11 rows containing missing values (geom_bar).</code></pre>
 <p><img src="07-exploratory-data-analysis_files/figure-html/7-3-4c-1.png" width="672" /></p>
+</div>
+</div>
+<div id="missing-values" class="section level2 unnumbered">
+<h2>7.4 - Missing Values</h2>
+<div id="problem-1-14" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What happens to missing values in a histogram? What happens to missing values in a bar chart? Why is there a difference?</p>
+<p>Missing values are plotted in a bar chart but not a histogram. Remember that histograms are generally used to display numeric data, while bar charts are used for categorical data. Missing values can be considered another category to plot in a bar chart, but there is not necessarily an intuitive way to place missing values in a histogram.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">diamonds %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cut =</span> <span class="kw">ifelse</span>(cut ==<span class="st"> &#39;Fair&#39;</span>, <span class="ot">NA</span>, cut)) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>cut)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>()</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 1610 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="07-exploratory-data-analysis_files/figure-html/7-4-1a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">diamonds %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cut =</span> <span class="kw">as.character</span>(cut)) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cut =</span> <span class="kw">ifelse</span>(cut ==<span class="st"> &#39;Fair&#39;</span>, <span class="ot">NA</span>, cut)) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>cut)) +
+<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
+<p><img src="07-exploratory-data-analysis_files/figure-html/7-4-1b-1.png" width="672" /></p>
+</div>
+<div id="problem-2-14" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>What does <code>na.rm = TRUE</code> do in <code>mean()</code> and <code>sum()</code>?</p>
+<p>Setting <code>na.rm = TRUE</code> will remove missing values before executing the function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="ot">NA</span>)
+<span class="kw">mean</span>(x)</code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## [1] 2</code></pre>
 
 </div>
 </div>

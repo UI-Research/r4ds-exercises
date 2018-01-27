@@ -101,3 +101,44 @@ ggplot(diamonds) +
   geom_histogram(mapping = aes(x = y), binwidth = 0.5) +
   ylim(0,60)
 ```
+
+## 7.4 - Missing Values {-}
+
+### Problem 1 {-}
+
+What happens to missing values in a histogram? What happens to missing values 
+in a bar chart? Why is there a difference?
+
+Missing values are plotted in a bar chart but not a histogram. Remember that 
+histograms are generally used to display numeric data, while bar charts are 
+used for categorical data. Missing values can be considered another category 
+to plot in a bar chart, but there is not necessarily an intuitive way to place 
+missing values in a histogram.
+
+```{r 7-4-1a}
+diamonds %>% 
+  mutate(cut = ifelse(cut == 'Fair', NA, cut)) %>%
+  ggplot(aes(x=cut)) +
+  geom_histogram()
+```
+
+```{r 7-4-1b}
+diamonds %>% 
+  mutate(cut = as.character(cut)) %>%
+  mutate(cut = ifelse(cut == 'Fair', NA, cut)) %>%
+  ggplot(aes(x=cut)) +
+  geom_bar()
+```
+
+### Problem 2 {-}
+
+What does `na.rm = TRUE` do in `mean()` and `sum()`?
+
+Setting `na.rm = TRUE` will remove missing values before executing the function. 
+
+```{r 7-4-2}
+x <- c(1, 2, 3, NA)
+mean(x)
+mean(x, na.rm = TRUE)
+```
+
