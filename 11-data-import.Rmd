@@ -60,7 +60,7 @@ into a data frame?
 `"x,y\n1,'a,b'"`
 
 Since `read_delim()` must be used instead of `read_csv()`, the delimiter must 
-be set. The `quote` argument can then be set to a single quote instead of a 
+be set. The `quote` argument can be set to a single quote instead of a 
 double quote:
 
 ```{r 11-2-4}
@@ -70,31 +70,31 @@ read_delim(data, delim = ',', quote = '\'')
 
 ### Problem 5 {-}
 
-dentify what is wrong with each of the following inline CSV files. What happens 
+Identify what is wrong with each of the following inline CSV files. What happens 
 when you run the code?
 
-There are more data than columns, which results in a parsing failure. The extra 
-data are dropped from the data frame:
+* There are more data than columns, which results in a parsing failure. 
+The extra data are dropped from the data frame:
 
 ```{r 11-2-5a}
 read_csv("a,b\n1,2,3\n4,5,6")
 ```
 
-There is too little data in row 2 and too much data in row 3 - row 2 is filled 
+* There is too little data in row 2 and too much data in row 3 - row 2 is filled 
 in with a missing value while row 3 drops data:
 
 ```{r 11-2-5b}
 read_csv("a,b,c\n1,2\n1,2,3,4")
 ```
 
-There are two variables but only one data point - `b` is filled in with a 
+* There are two variables but only one data point - `b` is filled in with a 
 missing value:
 
 ```{r 11-2-5c}
 read_csv("a,b\n\"1")
 ```
 
-Appears that the header was entered twice, so the data are parsed as character 
+* Appears that the header was entered twice, so the data are parsed as character 
 instead of a string. Or if the goal here was to enter a missing value `NA`, 
 note that the `n` was processed as a new line `\n`. 
 
@@ -103,10 +103,124 @@ read_csv("a,b\n1,2\na,b")
 read_csv("a,b\n1,2\nna,b")
 ```
 
-`read_csv()` has a delimiter set to `,`, use `read_csv2()` instead:
+* `read_csv()` has a delimiter set to `,`, use `read_csv2()` instead:
 
 ```{r 11-2-5e} 
 read_csv("a;b\n1;3")
 read_csv2("a;b\n1;3")
+```
+
+## 11.3 - Parsing a Vector {-}
+
+### Problem 1 {-}
+
+What are the most important arguments to `locale()`?
+
+The `date_names` argument provides useful defaults for a `locale()` object:
+
+```{r 11-3-1}
+dutch <- locale('nl')
+japanese <- locale('ja')
+
+str(dutch)
+str(japanese)
+```
+
+Be sure to read the full documentation for `locale()`. Common data import issues 
+can probably be solved with `decimal_mark`, `grouping_mark`, and/or `encoding`.
+
+### Problem 2 {-}
+
+What happens if you try and set `decimal_mark` and `grouping_mark` to the same 
+character? What happens to the default value of `grouping_mark` when you set 
+`decimal_mark` to `“,”`? What happens to the default value of `decimal_mark` when 
+you set the grouping_mark to `“.”`?
+
+`locale()` requires that `decimal_mark` and `grouping_mark` be different:
+
+```{r 11-3-2a, error=TRUE}
+x <- locale(decimal_mark = '.', grouping_mark = '.')
+```
+
+Setting `decimal_mark` to `,` will automatically update `grouping_mark` to `.`. 
+Similarly setting `grouping_mark` to `.` will automatically update `decimal_mark` 
+to `,`:
+
+```{r 11-3-2b}
+x <- locale(decimal_mark = ',')
+x$grouping_mark
+
+y <- locale(grouping_mark = '.')
+y$decimal_mark
+```
+
+### Problem 3 {-}
+
+I didn’t discuss the `date_format` and `time_format` options to `locale()`. 
+What do they do? Construct an example that shows when they might be useful.
+
+A specific `date_format` and `time_format` structure can be specified in a 
+`locale()`. This can be useful for formatting data with non-standard formatting:
+
+```{r 11-3-3}
+parse_date('June/7/90', locale = locale(date_format = '%B/%d/%y'))
+parse_time('1:15PM', locale = locale(time_format = '%I:%M%p'))
+```
+
+### Problem 4 {-}
+
+If you live outside the US, create a new locale object that encapsulates the 
+settings for the types of file you read most commonly.
+
+Create a locale with the time zone updated:
+
+```{r 11-3-4} 
+str(locale(tz = 'US/Eastern'))
+```
+
+### Problem 5 {-}
+
+What’s the difference between `read_csv()` and `read_csv2()`?
+
+`read_csv()` has a delimiter set to `,` while `read_csv2` is set to `;`, as 
+some countries use `,` as the `decimal_mark`:
+
+```{r 11-3-5}
+read_csv('a,b\n1,2')
+read_csv2('a;b\n1;2')
+```
+
+### Problem 6 {-}
+
+What are the most common encodings used in Europe? What are the most common 
+encodings used in Asia? Do some googling to find out.
+
+See [this list](https://en.wikipedia.org/wiki/Character_encoding#Common_character_encodings) 
+of common encodings (via Wikipedia). 
+
+### Problem 7 {-}
+
+Generate the correct format string to parse each of the following dates and times:
+
+```{r 11-3-7a}
+d1 <- "January 1, 2010"
+d2 <- "2015-Mar-07"
+d3 <- "06-Jun-2017"
+d4 <- c("August 19 (2015)", "July 1 (2015)")
+d5 <- "12/30/14" # Dec 30, 2014
+t1 <- "1705"
+t2 <- "11:15:10.12 PM"
+```
+
+Build up a datetime format using the pieces described in the chapter:
+
+```{r 11-3-7b}
+parse_date(d1, format = '%B %d, %Y')
+parse_date(d2, format = '%Y-%b-%d')
+parse_date(d3, format = '%d-%b-%Y')
+parse_date(d4, format = '%B %d (%Y)')
+parse_date(d5, format = '%m/%d/%y')
+parse_time(t1, format = '%H%M')
+parse_time(t2, format = '%I:%M:%OS %p')
 ```
 
