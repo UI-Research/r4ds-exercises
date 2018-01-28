@@ -1,0 +1,112 @@
+# Chapter 11 - Data Import {-}
+
+Load the libraries needed for these exercises.
+
+```{r 11-setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r 11-library, message=FALSE}
+library(tidyverse)
+```
+
+## 11.2 - Getting Started {-}
+
+### Problem 1 {-}
+
+What function would you use to read a file where fields were separated with
+“|”?
+
+Use `read_delim()`, using `|` as the delimiter:
+
+```{r 11-2-1}
+data <- 'a|b|c\n1|2|3'
+read_delim(data, delim = '|')
+```
+
+### Problem 2 {-}
+
+Apart from `file`, `skip`, and `comment`, what other arguments do `read_csv()` 
+and `read_tsv()` have in common?
+
+`read_csv()` and `read_tsv()` are essentially just `read_delim` with the 
+delimiter preset to either a comma or a tab. All of their other arguments are 
+the same.
+
+### Problem 3 {-}
+
+What are the most important arguments to `read_fwf()`?
+
+The most important argument to `read_fwf()` is `col_positions`, as this 
+determines how data is read:
+
+```{r 11-2-3}
+fwf_sample <- readr_example("fwf-sample.txt")
+cat(read_lines(fwf_sample))
+read_fwf(fwf_sample, fwf_widths(c(20, 10, 12), c("name", "state", "ssn")))
+read_fwf(fwf_sample, fwf_widths(c(5, 10, 12), c("name", "state", "ssn")))
+
+```
+
+### Problem 4 {-}
+
+Sometimes strings in a CSV file contain commas. To prevent them from causing 
+problems they need to be surrounded by a quoting character, like `"` or `'`. 
+By convention, `read_csv()` assumes that the quoting character will be `"`, 
+and if you want to change it you’ll need to use `read_delim()` instead. 
+What arguments do you need to specify to read the following text 
+into a data frame?
+
+`"x,y\n1,'a,b'"`
+
+Since `read_delim()` must be used instead of `read_csv()`, the delimiter must 
+be set. The `quote` argument can then be set to a single quote instead of a 
+double quote:
+
+```{r 11-2-4}
+data <- "x,y\n1,'a,b'"
+read_delim(data, delim = ',', quote = '\'')
+```
+
+### Problem 5 {-}
+
+dentify what is wrong with each of the following inline CSV files. What happens 
+when you run the code?
+
+There are more data than columns, which results in a parsing failure. The extra 
+data are dropped from the data frame:
+
+```{r 11-2-5a}
+read_csv("a,b\n1,2,3\n4,5,6")
+```
+
+There is too little data in row 2 and too much data in row 3 - row 2 is filled 
+in with a missing value while row 3 drops data:
+
+```{r 11-2-5b}
+read_csv("a,b,c\n1,2\n1,2,3,4")
+```
+
+There are two variables but only one data point - `b` is filled in with a 
+missing value:
+
+```{r 11-2-5c}
+read_csv("a,b\n\"1")
+```
+
+Appears that the header was entered twice, so the data are parsed as character 
+instead of a string. Or if the goal here was to enter a missing value `NA`, 
+note that the `n` was processed as a new line `\n`. 
+
+```{r 11-2-5d}
+read_csv("a,b\n1,2\na,b")
+read_csv("a,b\n1,2\nna,b")
+```
+
+`read_csv()` has a delimiter set to `,`, use `read_csv2()` instead:
+
+```{r 11-2-5e} 
+read_csv("a;b\n1;3")
+read_csv2("a;b\n1;3")
+```
+
