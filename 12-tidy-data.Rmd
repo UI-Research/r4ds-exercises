@@ -1,0 +1,125 @@
+# Chapter 12 - Tidy Data {-}
+
+Load the libraries needed for these exercises.
+
+```{r 12-setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r 12-library, message=FALSE}
+library(tidyverse)
+```
+
+## 12.2 Tidy Data {-}
+
+### Problem 1 {-}
+
+Using prose, describe how the variables and observations are organised in 
+each of the sample tables.
+
+`table1` is the 'tidy' dataset: each variable has its own column, each 
+observation has its own row, and each value has its own cell:
+
+```{r 12-2-1a}
+table1
+```
+
+`table2` combines `cases` and `population` into one column called `type`, this 
+means that each variable does not have its own column, and that each observation 
+spans multiple rows:
+
+```{r 12-2-1b}
+table2
+```
+
+In `table3` the variable `rate` violates a tidy principle, with multiple values 
+contained in a cell, which also means that each variable does not have its own 
+column:
+
+```{r 12-2-1c}
+table3
+```
+
+`table4a` and `table4b` separate cases and population into their own tables 
+across years, with multiple observations in each row:
+
+```{r 12-2-1d}
+table4a
+table4b
+```
+
+### Problem 2 {-}
+
+Compute the rate for `table2`, and `table4a + table4b`. You will need to perform 
+four operations:
+
+- Extract the number of TB cases per country per year.
+- Extract the matching population per country per year.
+- Divide cases by population, and multiply by 10000.
+- Store back in the appropriate place.
+
+Which representation is easiest to work with? Which is hardest? Why?
+
+**NOTE** these exercises demonstrate the difficulties of working with non-tidy 
+data, the methods to come later in this chapter will greatly simplify the below 
+code.
+
+Create a `tidy` version of `table2` by filtering `type` into two tables and 
+using the `dplyr` `full_join()` function to recreate `table1`
+
+```{r 12-2-2a}
+table2a <- table2 %>%
+  filter(type == 'cases') %>%
+  select(country, year, cases = count)
+
+table2b <- table2 %>%
+  filter(type == 'population') %>%
+  select(country, year, population = count)
+
+full_join(table2a, table2b) %>%
+  mutate(rate = cases / population * 10000)
+```
+
+Use similar logic on `table4a` and `table4b` - this ends up being a bit more 
+work as the data are already stored across two tables:
+
+```{r 12-2-2b}
+table4a_1 <- table4a %>%
+  mutate(year = 1999) %>%
+  select(country, year, cases = `1999`)
+
+table4a_2 <- table4a %>%
+  mutate(year = 2000) %>%
+  select(country, year, cases = `2000`)
+
+table4b_1 <- table4b %>%
+  mutate(year = 1999) %>%
+  select(country, year, population = `1999`)
+
+table4b_2 <- table4b %>%
+  mutate(year = 2000) %>%
+  select(country, year, population = `2000`)
+
+bind_rows(table4a_1, table4a_2) %>%
+  full_join(bind_rows(table4b_1, table4b_2)) %>%
+  mutate(rate = cases / population * 10000)
+```
+
+
+
+
+### Problem 3 {-}
+
+Recreate the plot showing change in cases over time using `table2` instead of 
+`table1`. What do you need to do first?
+
+Filter `type` so that only `cases` is plotted:
+
+```{r 12-2-3}
+table2 %>%
+  filter(type == 'cases') %>%
+  ggplot(aes(year, count)) + 
+  geom_line(aes(group = country), colour = "grey50") + 
+  geom_point(aes(colour = country))
+```
+
