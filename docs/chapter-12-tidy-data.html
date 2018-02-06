@@ -242,6 +242,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-2-18"><i class="fa fa-check"></i>Problem 2</a></li>
 <li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-3-17"><i class="fa fa-check"></i>Problem 3</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#spreading-and-gathering"><i class="fa fa-check"></i>12.3 - Spreading and Gathering</a><ul>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-1-19"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-2-19"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-3-18"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-4-17"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -397,6 +403,111 @@ table4b_2 &lt;-<span class="st"> </span>table4b %&gt;%
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> country), <span class="dt">colour =</span> <span class="st">&quot;grey50&quot;</span>) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> country))</code></pre></div>
 <p><img src="12-tidy-data_files/figure-html/12-2-3-1.png" width="672" /></p>
+</div>
+</div>
+<div id="spreading-and-gathering" class="section level2 unnumbered">
+<h2>12.3 - Spreading and Gathering</h2>
+<div id="problem-1-19" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Why are <code>gather()</code> and <code>spread()</code> not perfectly symmetrical? Carefully consider the following example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stocks &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">year   =</span> <span class="kw">c</span>(<span class="dv">2015</span>, <span class="dv">2015</span>, <span class="dv">2016</span>, <span class="dv">2016</span>),
+  <span class="dt">half  =</span> <span class="kw">c</span>(   <span class="dv">1</span>,    <span class="dv">2</span>,     <span class="dv">1</span>,    <span class="dv">2</span>),
+  <span class="dt">return =</span> <span class="kw">c</span>(<span class="fl">1.88</span>, <span class="fl">0.59</span>, <span class="fl">0.92</span>, <span class="fl">0.17</span>)
+)
+
+stocks</code></pre></div>
+<pre><code>## # A tibble: 4 x 3
+##    year  half return
+##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1  2015     1   1.88
+## 2  2015     2   0.59
+## 3  2016     1   0.92
+## 4  2016     2   0.17</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stocks %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">spread</span>(year, return) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;return&quot;</span>, <span class="st">`</span><span class="dt">2015</span><span class="st">`</span>:<span class="st">`</span><span class="dt">2016</span><span class="st">`</span>)</code></pre></div>
+<pre><code>## # A tibble: 4 x 3
+##    half  year return
+##   &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1     1  2015   1.88
+## 2     2  2015   0.59
+## 3     1  2016   0.92
+## 4     2  2016   0.17</code></pre>
+<p>(Hint: look at the variable types and think about column names.) Both <code>spread()</code> and <code>gather()</code> have a <code>convert</code> argument. What does it do?</p>
+<p>In the above example <code>gather()</code> and <code>spread()</code> are not perfectly symmetrical as <code>year</code> is converted from a numeric to a character variable. Use the <code>convert</code> argument to automatically run <code>type.convert()</code> on the <code>key</code> column:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stocks %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">spread</span>(year, return, <span class="dt">convert =</span> <span class="ot">TRUE</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;return&quot;</span>, <span class="st">`</span><span class="dt">2015</span><span class="st">`</span>:<span class="st">`</span><span class="dt">2016</span><span class="st">`</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## # A tibble: 4 x 3
+##    half  year return
+##   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
+## 1     1  2015   1.88
+## 2     2  2015   0.59
+## 3     1  2016   0.92
+## 4     2  2016   0.17</code></pre>
+</div>
+<div id="problem-2-19" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Why does this code fail?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table4a %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(<span class="dv">1999</span>, <span class="dv">2000</span>, <span class="dt">key =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;cases&quot;</span>)</code></pre></div>
+<pre><code>## Error in inds_combine(.vars, ind_list): Position must be between 0 and n</code></pre>
+<p>Be sure to use backticks to include a nonstandard variable name within a <code>tibble</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table4a %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(<span class="st">`</span><span class="dt">1999</span><span class="st">`</span>, <span class="st">`</span><span class="dt">2000</span><span class="st">`</span>, <span class="dt">key =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;cases&quot;</span>)</code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##       country  year  cases
+##         &lt;chr&gt; &lt;chr&gt;  &lt;int&gt;
+## 1 Afghanistan  1999    745
+## 2      Brazil  1999  37737
+## 3       China  1999 212258
+## 4 Afghanistan  2000   2666
+## 5      Brazil  2000  80488
+## 6       China  2000 213766</code></pre>
+</div>
+<div id="problem-3-18" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Why does spreading this <code>tibble</code> fail? How could you add a new column to fix the problem?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">people &lt;-<span class="st"> </span><span class="kw">tribble</span>(
+  ~name,             ~key,    ~value,
+  <span class="co">#-----------------|--------|------</span>
+  <span class="st">&quot;Phillip Woods&quot;</span>,   <span class="st">&quot;age&quot;</span>,       <span class="dv">45</span>,
+  <span class="st">&quot;Phillip Woods&quot;</span>,   <span class="st">&quot;height&quot;</span>,   <span class="dv">186</span>,
+  <span class="st">&quot;Phillip Woods&quot;</span>,   <span class="st">&quot;age&quot;</span>,       <span class="dv">50</span>,
+  <span class="st">&quot;Jessica Cordero&quot;</span>, <span class="st">&quot;age&quot;</span>,       <span class="dv">37</span>,
+  <span class="st">&quot;Jessica Cordero&quot;</span>, <span class="st">&quot;height&quot;</span>,   <span class="dv">156</span>
+)</code></pre></div>
+<p>Spreading the given <code>tibble</code> will fail because rows 1 and 3 are identical observations. Add a <code>count</code> variable to fix the problem:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">people$count &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>)
+
+people %&gt;%
+<span class="st">  </span><span class="kw">spread</span>(key, value)</code></pre></div>
+<pre><code>## # A tibble: 3 x 4
+##              name count   age height
+## *           &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Jessica Cordero     1    37    156
+## 2   Phillip Woods     1    45    186
+## 3   Phillip Woods     2    50     NA</code></pre>
+</div>
+<div id="problem-4-17" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>Tidy the simple <code>tibble</code> below. Do you need to <code>spread</code> or <code>gather</code> it? What are the variables?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">preg &lt;-<span class="st"> </span><span class="kw">tribble</span>(
+  ~pregnant, ~male, ~female,
+  <span class="st">&quot;yes&quot;</span>,     <span class="ot">NA</span>,    <span class="dv">10</span>,
+  <span class="st">&quot;no&quot;</span>,      <span class="dv">20</span>,    <span class="dv">12</span>
+)</code></pre></div>
+<p>The given <code>tibble</code> is not tidy as one variable (<code>sex</code>) is spread across multiple columns. Use <code>gather()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">preg %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(male:female, <span class="dt">key =</span> sex, <span class="dt">value =</span> count)</code></pre></div>
+<pre><code>## # A tibble: 4 x 3
+##   pregnant    sex count
+##      &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;
+## 1      yes   male    NA
+## 2       no   male    20
+## 3      yes female    10
+## 4       no female    12</code></pre>
 
 </div>
 </div>
