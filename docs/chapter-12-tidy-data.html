@@ -237,7 +237,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html"><i class="fa fa-check"></i>Chapter 12 - Tidy Data</a><ul>
-<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#tidy-data"><i class="fa fa-check"></i>12.2 Tidy Data</a><ul>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#tidy-data"><i class="fa fa-check"></i>12.2 - Tidy Data</a><ul>
 <li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-1-18"><i class="fa fa-check"></i>Problem 1</a></li>
 <li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-2-18"><i class="fa fa-check"></i>Problem 2</a></li>
 <li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-3-17"><i class="fa fa-check"></i>Problem 3</a></li>
@@ -247,6 +247,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-2-19"><i class="fa fa-check"></i>Problem 2</a></li>
 <li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-3-18"><i class="fa fa-check"></i>Problem 3</a></li>
 <li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-4-17"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#spreading-and-uniting"><i class="fa fa-check"></i>12.4 - Spreading and Uniting</a><ul>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-1-20"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-2-20"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-3-19"><i class="fa fa-check"></i>Problem 3</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -271,7 +276,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Load the libraries needed for these exercises.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
 <div id="tidy-data" class="section level2 unnumbered">
-<h2>12.2 Tidy Data</h2>
+<h2>12.2 - Tidy Data</h2>
 <div id="problem-1-18" class="section level3 unnumbered">
 <h3>Problem 1</h3>
 <p>Using prose, describe how the variables and observations are organised in each of the sample tables.</p>
@@ -508,6 +513,83 @@ people %&gt;%
 ## 2       no   male    20
 ## 3      yes female    10
 ## 4       no female    12</code></pre>
+</div>
+</div>
+<div id="spreading-and-uniting" class="section level2 unnumbered">
+<h2>12.4 - Spreading and Uniting</h2>
+<div id="problem-1-20" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What do the <code>extra</code> and <code>fill</code> arguments do in <code>separate()</code>? Experiment with the various options for the following two toy datasets.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;a,b,c&quot;</span>, <span class="st">&quot;d,e,f,g&quot;</span>, <span class="st">&quot;h,i,j&quot;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>))</code></pre></div>
+<pre><code>## Warning: Too many values at 1 locations: 2</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##     one   two three
+## * &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     a     b     c
+## 2     d     e     f
+## 3     h     i     j</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;a,b,c&quot;</span>, <span class="st">&quot;d,e&quot;</span>, <span class="st">&quot;f,g,i&quot;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>))</code></pre></div>
+<pre><code>## Warning: Too few values at 1 locations: 2</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##     one   two three
+## * &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     a     b     c
+## 2     d     e  &lt;NA&gt;
+## 3     f     g     i</code></pre>
+<p><code>extra</code> controls what happens when <code>separate()</code> results in too many pieces. In the first example, the second row appears to have an extra observation, which is dropped by default. Using <code>extra = 'merge'</code> will preserve the value:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;a,b,c&quot;</span>, <span class="st">&quot;d,e,f,g&quot;</span>, <span class="st">&quot;h,i,j&quot;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>), <span class="dt">extra =</span> <span class="st">&#39;merge&#39;</span>)</code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##     one   two three
+## * &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     a     b     c
+## 2     d     e   f,g
+## 3     h     i     j</code></pre>
+<p><code>fill</code> controls what happens when <code>separate()</code> results in not enough pieces. In the second example, the second row appears to be missing an observation, which will be filled from the right be default. Using <code>fill = 'left'</code> will fill from left instead.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;a,b,c&quot;</span>, <span class="st">&quot;d,e&quot;</span>, <span class="st">&quot;f,g,i&quot;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>), <span class="dt">fill =</span> <span class="st">&#39;left&#39;</span>)</code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##     one   two three
+## * &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     a     b     c
+## 2  &lt;NA&gt;     d     e
+## 3     f     g     i</code></pre>
+</div>
+<div id="problem-2-20" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Both <code>unite()</code> and <code>separate()</code> have a <code>remove</code> argument. What does it do? Why would you set it to <code>FALSE</code>?</p>
+<p><code>remove</code> will drop the original input column from the data frame. Set it to <code>FALSE</code> in order to keep it in the data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;a,b,c&quot;</span>, <span class="st">&quot;d,e,f&quot;</span>, <span class="st">&quot;g,h,i&quot;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>), <span class="dt">remove =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## # A tibble: 3 x 4
+##       x   one   two three
+## * &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+## 1 a,b,c     a     b     c
+## 2 d,e,f     d     e     f
+## 3 g,h,i     g     h     i</code></pre>
+</div>
+<div id="problem-3-19" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Compare and contrast <code>separate()</code> and <code>extract()</code>. Why are there three variations of separation (by position, by separator, and with groups), but only one unite?</p>
+<p><code>separate()</code> will create columns using either a position or a separator, while <code>extract()</code> will create columns using a regular expression groups. Consider the differences in the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="st">&quot;a-b&quot;</span>, <span class="st">&quot;a-d&quot;</span>, <span class="st">&quot;b-c&quot;</span>, <span class="st">&quot;d-e&quot;</span>))
+df %&gt;%<span class="st"> </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</code></pre></div>
+<pre><code>##      A    B
+## 1 &lt;NA&gt; &lt;NA&gt;
+## 2    a    b
+## 3    a    d
+## 4    b    c
+## 5    d    e</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df %&gt;%<span class="st"> </span><span class="kw">extract</span>(x, <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="st">&quot;([a-d]+)-([a-d]+)&quot;</span>)</code></pre></div>
+<pre><code>##      A    B
+## 1 &lt;NA&gt; &lt;NA&gt;
+## 2    a    b
+## 3    a    d
+## 4    b    c
+## 5 &lt;NA&gt; &lt;NA&gt;</code></pre>
+<p>There is only one variation of <code>unite()</code> since it is a many to one mapping. The arguments passed to <code>unite()</code> will always be concatenated to single result.</p>
 
 </div>
 </div>

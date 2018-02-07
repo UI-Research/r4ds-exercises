@@ -9,7 +9,7 @@ Load the libraries needed for these exercises.
 library(tidyverse)
 ```
 
-## 12.2 Tidy Data {-}
+## 12.2 - Tidy Data {-}
 
 ### Problem 1 {-}
 
@@ -397,4 +397,151 @@ preg %>%
 ## 4       no female    12
 ```
 
+
+## 12.4 - Spreading and Uniting {-}
+
+### Problem 1 {-}
+
+What do the `extra` and `fill` arguments do in `separate()`? Experiment with 
+the various options for the following two toy datasets.
+
+
+```r
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
+  separate(x, c("one", "two", "three"))
+```
+
+```
+## Warning: Too many values at 1 locations: 2
+```
+
+```
+## # A tibble: 3 x 3
+##     one   two three
+## * <chr> <chr> <chr>
+## 1     a     b     c
+## 2     d     e     f
+## 3     h     i     j
+```
+
+```r
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
+  separate(x, c("one", "two", "three"))
+```
+
+```
+## Warning: Too few values at 1 locations: 2
+```
+
+```
+## # A tibble: 3 x 3
+##     one   two three
+## * <chr> <chr> <chr>
+## 1     a     b     c
+## 2     d     e  <NA>
+## 3     f     g     i
+```
+
+`extra` controls what happens when `separate()` results in too many pieces. In 
+the first example, the second row appears to have an extra observation, which 
+is dropped by default. Using `extra = 'merge'` will preserve the value:
+
+
+```r
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
+  separate(x, c("one", "two", "three"), extra = 'merge')
+```
+
+```
+## # A tibble: 3 x 3
+##     one   two three
+## * <chr> <chr> <chr>
+## 1     a     b     c
+## 2     d     e   f,g
+## 3     h     i     j
+```
+
+`fill` controls what happens when `separate()` results in not enough pieces. In 
+the second example, the second row appears to be missing an observation, which 
+will be filled from the right be default. Using `fill = 'left'` will fill from 
+left instead.
+
+
+```r
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
+  separate(x, c("one", "two", "three"), fill = 'left')
+```
+
+```
+## # A tibble: 3 x 3
+##     one   two three
+## * <chr> <chr> <chr>
+## 1     a     b     c
+## 2  <NA>     d     e
+## 3     f     g     i
+```
+
+### Problem 2 {-}
+
+Both `unite()` and `separate()` have a `remove` argument. What does it do? Why 
+would you set it to `FALSE`?
+
+`remove` will drop the original input column from the data frame. Set it to 
+`FALSE` in order to keep it in the data:
+
+
+```r
+tibble(x = c("a,b,c", "d,e,f", "g,h,i")) %>% 
+  separate(x, c("one", "two", "three"), remove = FALSE)
+```
+
+```
+## # A tibble: 3 x 4
+##       x   one   two three
+## * <chr> <chr> <chr> <chr>
+## 1 a,b,c     a     b     c
+## 2 d,e,f     d     e     f
+## 3 g,h,i     g     h     i
+```
+
+### Problem 3 {-}
+
+Compare and contrast `separate()` and `extract()`. Why are there three 
+variations of separation (by position, by separator, and with groups), but only 
+one unite?
+
+`separate()` will create columns using either a position or a separator, while 
+`extract()` will create columns using a regular expression groups. Consider the 
+differences in the following:
+
+
+```r
+df <- data.frame(x = c(NA, "a-b", "a-d", "b-c", "d-e"))
+df %>% separate(x, c("A", "B"))
+```
+
+```
+##      A    B
+## 1 <NA> <NA>
+## 2    a    b
+## 3    a    d
+## 4    b    c
+## 5    d    e
+```
+
+```r
+df %>% extract(x, c("A", "B"), "([a-d]+)-([a-d]+)")
+```
+
+```
+##      A    B
+## 1 <NA> <NA>
+## 2    a    b
+## 3    a    d
+## 4    b    c
+## 5 <NA> <NA>
+```
+
+There is only one variation of `unite()` since it is a many to one mapping. 
+The arguments passed to `unite()` will always be concatenated to single result.
 

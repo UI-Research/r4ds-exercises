@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-## 12.2 Tidy Data {-}
+## 12.2 - Tidy Data {-}
 
 ### Problem 1 {-}
 
@@ -219,4 +219,70 @@ preg %>%
   gather(male:female, key = sex, value = count)
 ```
 
+
+## 12.4 - Spreading and Uniting {-}
+
+### Problem 1 {-}
+
+What do the `extra` and `fill` arguments do in `separate()`? Experiment with 
+the various options for the following two toy datasets.
+
+```{r 12-4-1a}
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
+  separate(x, c("one", "two", "three"))
+
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
+  separate(x, c("one", "two", "three"))
+```
+
+`extra` controls what happens when `separate()` results in too many pieces. In 
+the first example, the second row appears to have an extra observation, which 
+is dropped by default. Using `extra = 'merge'` will preserve the value:
+
+```{r 12-4-1b}
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
+  separate(x, c("one", "two", "three"), extra = 'merge')
+```
+
+`fill` controls what happens when `separate()` results in not enough pieces. In 
+the second example, the second row appears to be missing an observation, which 
+will be filled from the right be default. Using `fill = 'left'` will fill from 
+left instead.
+
+```{r 12-4-1c}
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
+  separate(x, c("one", "two", "three"), fill = 'left')
+```
+
+### Problem 2 {-}
+
+Both `unite()` and `separate()` have a `remove` argument. What does it do? Why 
+would you set it to `FALSE`?
+
+`remove` will drop the original input column from the data frame. Set it to 
+`FALSE` in order to keep it in the data:
+
+```{r 12-4-2}
+tibble(x = c("a,b,c", "d,e,f", "g,h,i")) %>% 
+  separate(x, c("one", "two", "three"), remove = FALSE)
+```
+
+### Problem 3 {-}
+
+Compare and contrast `separate()` and `extract()`. Why are there three 
+variations of separation (by position, by separator, and with groups), but only 
+one unite?
+
+`separate()` will create columns using either a position or a separator, while 
+`extract()` will create columns using a regular expression groups. Consider the 
+differences in the following:
+
+```{r 12-4-3}
+df <- data.frame(x = c(NA, "a-b", "a-d", "b-c", "d-e"))
+df %>% separate(x, c("A", "B"))
+df %>% extract(x, c("A", "B"), "([a-d]+)-([a-d]+)")
+```
+
+There is only one variation of `unite()` since it is a many to one mapping. 
+The arguments passed to `unite()` will always be concatenated to single result.
 
