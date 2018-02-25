@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Data Science Solution Set</title>
   <meta name="description" content="R for Data Science Solution Set">
-  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Data Science Solution Set" />
   <meta property="og:type" content="book" />
@@ -254,6 +254,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-3-19"><i class="fa fa-check"></i>Problem 3</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html"><i class="fa fa-check"></i>Chapter 13 - Relational data</a><ul>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#nycflights13"><i class="fa fa-check"></i>13.2 - nycflights13</a><ul>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-1-21"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-2-21"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-3-20"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-4-18"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#keys"><i class="fa fa-check"></i>13.3 - Keys</a><ul>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-1-22"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-2-22"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-3-21"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-4-19"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#mutating-joins"><i class="fa fa-check"></i>13.4 - Mutating joins</a><ul>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-1-23"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-2-23"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-3-22"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-4-20"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-5-11"><i class="fa fa-check"></i>Problem 5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#filtering-joins"><i class="fa fa-check"></i>13.5 - Filtering joins</a><ul>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-1-24"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-2-24"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-3-23"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-4-21"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-5-12"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-6-8"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -287,18 +316,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <pre><code>## [1] TRUE</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">diamonds</code></pre></div>
 <pre><code>## # A tibble: 53,940 x 10
-##    carat       cut color clarity depth table price     x     y     z
-##    &lt;dbl&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;ord&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1  0.23     Ideal     E     SI2  61.5    55   326  3.95  3.98  2.43
-##  2  0.21   Premium     E     SI1  59.8    61   326  3.89  3.84  2.31
-##  3  0.23      Good     E     VS1  56.9    65   327  4.05  4.07  2.31
-##  4  0.29   Premium     I     VS2  62.4    58   334  4.20  4.23  2.63
-##  5  0.31      Good     J     SI2  63.3    58   335  4.34  4.35  2.75
-##  6  0.24 Very Good     J    VVS2  62.8    57   336  3.94  3.96  2.48
-##  7  0.24 Very Good     I    VVS1  62.3    57   336  3.95  3.98  2.47
-##  8  0.26 Very Good     H     SI1  61.9    55   337  4.07  4.11  2.53
-##  9  0.22      Fair     E     VS2  65.1    61   337  3.87  3.78  2.49
-## 10  0.23 Very Good     H     VS1  59.4    61   338  4.00  4.05  2.39
+##    carat cut       color clarity depth table price     x     y     z
+##    &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 0.230 Ideal     E     SI2      61.5  55.0   326  3.95  3.98  2.43
+##  2 0.210 Premium   E     SI1      59.8  61.0   326  3.89  3.84  2.31
+##  3 0.230 Good      E     VS1      56.9  65.0   327  4.05  4.07  2.31
+##  4 0.290 Premium   I     VS2      62.4  58.0   334  4.20  4.23  2.63
+##  5 0.310 Good      J     SI2      63.3  58.0   335  4.34  4.35  2.75
+##  6 0.240 Very Good J     VVS2     62.8  57.0   336  3.94  3.96  2.48
+##  7 0.240 Very Good I     VVS1     62.3  57.0   336  3.95  3.98  2.47
+##  8 0.260 Very Good H     SI1      61.9  55.0   337  4.07  4.11  2.53
+##  9 0.220 Fair      E     VS2      65.1  61.0   337  3.87  3.78  2.49
+## 10 0.230 Very Good H     VS1      59.4  61.0   338  4.00  4.05  2.39
 ## # ... with 53,930 more rows</code></pre>
 </div>
 <div id="problem-2-15" class="section level3 unnumbered">
@@ -308,10 +337,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">abc =</span> <span class="dv">1</span>, <span class="dt">xyz =</span> <span class="st">&quot;a&quot;</span>)
 tib &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">abc =</span> <span class="dv">1</span>, <span class="dt">xyz =</span> <span class="st">&quot;a&quot;</span>)
 
-df$x</code></pre></div>
+df<span class="op">$</span>x</code></pre></div>
 <pre><code>## [1] a
 ## Levels: a</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tib$x</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tib<span class="op">$</span>x</code></pre></div>
 <pre><code>## Warning: Unknown or uninitialised column: &#39;x&#39;.</code></pre>
 <pre><code>## NULL</code></pre>
 <p>Data frames will sometimes simplify:</p>
@@ -325,9 +354,9 @@ df$x</code></pre></div>
 ## 1   1   a</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tib[, <span class="kw">c</span>(<span class="st">&quot;abc&quot;</span>, <span class="st">&quot;xyz&quot;</span>)]</code></pre></div>
 <pre><code>## # A tibble: 1 x 2
-##     abc   xyz
+##     abc xyz  
 ##   &lt;dbl&gt; &lt;chr&gt;
-## 1     1     a</code></pre>
+## 1  1.00 a</code></pre>
 </div>
 <div id="problem-3-14" class="section level3 unnumbered">
 <h3>Problem 3</h3>
@@ -361,11 +390,11 @@ df$x</code></pre></div>
 <li>Extracting the variable called 1.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">annoying &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="st">`</span><span class="dt">1</span><span class="st">`</span> =<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>,
-  <span class="st">`</span><span class="dt">2</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">1</span><span class="st">`</span> *<span class="st"> </span><span class="dv">2</span> +<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(<span class="st">`</span><span class="dt">1</span><span class="st">`</span>))
+  <span class="st">`</span><span class="dt">1</span><span class="st">`</span> =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,
+  <span class="st">`</span><span class="dt">2</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">1</span><span class="st">`</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(<span class="st">`</span><span class="dt">1</span><span class="st">`</span>))
 )
 
-annoying %&gt;%
+annoying <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(<span class="st">`</span><span class="dt">1</span><span class="st">`</span>)</code></pre></div>
 <pre><code>## # A tibble: 10 x 1
 ##      `1`
@@ -383,34 +412,34 @@ annoying %&gt;%
 <ol start="2" style="list-style-type: decimal">
 <li>Plotting a scatterplot of 1 vs 2.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(annoying, <span class="kw">aes</span>(<span class="st">`</span><span class="dt">1</span><span class="st">`</span>, <span class="st">`</span><span class="dt">2</span><span class="st">`</span>)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(annoying, <span class="kw">aes</span>(<span class="st">`</span><span class="dt">1</span><span class="st">`</span>, <span class="st">`</span><span class="dt">2</span><span class="st">`</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
 <p><img src="10-tibbles_files/figure-html/10-5-4b-1.png" width="672" /></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Creating a new column called 3 which is 2 divided by 1.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">annoying &lt;-<span class="st"> </span>annoying %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">3</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">2</span><span class="st">`</span> /<span class="st"> `</span><span class="dt">1</span><span class="st">`</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">annoying &lt;-<span class="st"> </span>annoying <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">3</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">2</span><span class="st">`</span> <span class="op">/</span><span class="st"> `</span><span class="dt">1</span><span class="st">`</span>)</code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Renaming the columns to one, two and three.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">annoying %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">annoying <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(<span class="dt">one =</span> <span class="st">`</span><span class="dt">1</span><span class="st">`</span>,
          <span class="dt">two =</span> <span class="st">`</span><span class="dt">2</span><span class="st">`</span>,
          <span class="dt">three =</span> <span class="st">`</span><span class="dt">3</span><span class="st">`</span>)</code></pre></div>
 <pre><code>## # A tibble: 10 x 3
-##      one       two     three
-##    &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-##  1     1  1.209474 1.2094740
-##  2     2  1.850677 0.9253387
-##  3     3  6.239956 2.0799852
-##  4     4  6.779307 1.6948266
-##  5     5 10.237411 2.0474822
-##  6     6 12.058768 2.0097947
-##  7     7 13.687579 1.9553684
-##  8     8 14.359073 1.7948842
-##  9     9 19.054776 2.1171974
-## 10    10 19.083460 1.9083460</code></pre>
+##      one   two three
+##    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1     1  2.96  2.96
+##  2     2  2.42  1.21
+##  3     3  7.14  2.38
+##  4     4  8.53  2.13
+##  5     5 10.4   2.08
+##  6     6 12.1   2.01
+##  7     7 13.8   1.97
+##  8     8 14.8   1.85
+##  9     9 17.6   1.96
+## 10    10 20.5   2.05</code></pre>
 </div>
 <div id="problem-5-8" class="section level3 unnumbered">
 <h3>Problem 5</h3>
@@ -418,10 +447,10 @@ annoying %&gt;%
 <p><code>enframe()</code> can be used to convert a vector or list to a tibble:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">enframe</span>(<span class="kw">c</span>(<span class="dt">a =</span> <span class="dv">5</span>,  <span class="dt">b =</span> <span class="dv">10</span>))</code></pre></div>
 <pre><code>## # A tibble: 2 x 2
-##    name value
+##   name  value
 ##   &lt;chr&gt; &lt;dbl&gt;
-## 1     a     5
-## 2     b    10</code></pre>
+## 1 a      5.00
+## 2 b     10.0</code></pre>
 </div>
 <div id="problem-6-6" class="section level3 unnumbered">
 <h3>Problem 6</h3>
@@ -455,10 +484,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

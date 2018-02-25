@@ -26,14 +26,14 @@ table1
 
 ```
 ## # A tibble: 6 x 4
-##       country  year  cases population
-##         <chr> <int>  <int>      <int>
+##   country      year  cases population
+##   <chr>       <int>  <int>      <int>
 ## 1 Afghanistan  1999    745   19987071
 ## 2 Afghanistan  2000   2666   20595360
-## 3      Brazil  1999  37737  172006362
-## 4      Brazil  2000  80488  174504898
-## 5       China  1999 212258 1272915272
-## 6       China  2000 213766 1280428583
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
 ```
 
 `table2` combines `cases` and `population` into one column called `type`, this 
@@ -47,20 +47,20 @@ table2
 
 ```
 ## # A tibble: 12 x 4
-##        country  year       type      count
-##          <chr> <int>      <chr>      <int>
-##  1 Afghanistan  1999      cases        745
+##    country      year type            count
+##    <chr>       <int> <chr>           <int>
+##  1 Afghanistan  1999 cases             745
 ##  2 Afghanistan  1999 population   19987071
-##  3 Afghanistan  2000      cases       2666
+##  3 Afghanistan  2000 cases            2666
 ##  4 Afghanistan  2000 population   20595360
-##  5      Brazil  1999      cases      37737
-##  6      Brazil  1999 population  172006362
-##  7      Brazil  2000      cases      80488
-##  8      Brazil  2000 population  174504898
-##  9       China  1999      cases     212258
-## 10       China  1999 population 1272915272
-## 11       China  2000      cases     213766
-## 12       China  2000 population 1280428583
+##  5 Brazil       1999 cases           37737
+##  6 Brazil       1999 population  172006362
+##  7 Brazil       2000 cases           80488
+##  8 Brazil       2000 population  174504898
+##  9 China        1999 cases          212258
+## 10 China        1999 population 1272915272
+## 11 China        2000 cases          213766
+## 12 China        2000 population 1280428583
 ```
 
 In `table3` the variable `rate` violates a tidy principle, with multiple values 
@@ -74,14 +74,14 @@ table3
 
 ```
 ## # A tibble: 6 x 3
-##       country  year              rate
-## *       <chr> <int>             <chr>
-## 1 Afghanistan  1999      745/19987071
-## 2 Afghanistan  2000     2666/20595360
-## 3      Brazil  1999   37737/172006362
-## 4      Brazil  2000   80488/174504898
-## 5       China  1999 212258/1272915272
-## 6       China  2000 213766/1280428583
+##   country      year rate             
+## * <chr>       <int> <chr>            
+## 1 Afghanistan  1999 745/19987071     
+## 2 Afghanistan  2000 2666/20595360    
+## 3 Brazil       1999 37737/172006362  
+## 4 Brazil       2000 80488/174504898  
+## 5 China        1999 212258/1272915272
+## 6 China        2000 213766/1280428583
 ```
 
 `table4a` and `table4b` separate cases and population into their own tables 
@@ -94,11 +94,11 @@ table4a
 
 ```
 ## # A tibble: 3 x 3
-##       country `1999` `2000`
-## *       <chr>  <int>  <int>
+##   country     `1999` `2000`
+## * <chr>        <int>  <int>
 ## 1 Afghanistan    745   2666
-## 2      Brazil  37737  80488
-## 3       China 212258 213766
+## 2 Brazil       37737  80488
+## 3 China       212258 213766
 ```
 
 ```r
@@ -107,11 +107,11 @@ table4b
 
 ```
 ## # A tibble: 3 x 3
-##       country     `1999`     `2000`
-## *       <chr>      <int>      <int>
+##   country         `1999`     `2000`
+## * <chr>            <int>      <int>
 ## 1 Afghanistan   19987071   20595360
-## 2      Brazil  172006362  174504898
-## 3       China 1272915272 1280428583
+## 2 Brazil       172006362  174504898
+## 3 China       1272915272 1280428583
 ```
 
 ### Problem 2 {-}
@@ -153,14 +153,14 @@ full_join(table2a, table2b) %>%
 
 ```
 ## # A tibble: 6 x 5
-##       country  year  cases population     rate
-##         <chr> <int>  <int>      <int>    <dbl>
-## 1 Afghanistan  1999    745   19987071 0.372741
-## 2 Afghanistan  2000   2666   20595360 1.294466
-## 3      Brazil  1999  37737  172006362 2.193930
-## 4      Brazil  2000  80488  174504898 4.612363
-## 5       China  1999 212258 1272915272 1.667495
-## 6       China  2000 213766 1280428583 1.669488
+##   country      year  cases population  rate
+##   <chr>       <int>  <int>      <int> <dbl>
+## 1 Afghanistan  1999    745   19987071 0.373
+## 2 Afghanistan  2000   2666   20595360 1.29 
+## 3 Brazil       1999  37737  172006362 2.19 
+## 4 Brazil       2000  80488  174504898 4.61 
+## 5 China        1999 212258 1272915272 1.67 
+## 6 China        2000 213766 1280428583 1.67
 ```
 
 Use similar logic on `table4a` and `table4b` - this ends up being a bit more 
@@ -195,14 +195,14 @@ bind_rows(table4a_1, table4a_2) %>%
 
 ```
 ## # A tibble: 6 x 5
-##       country  year  cases population     rate
-##         <chr> <dbl>  <int>      <int>    <dbl>
-## 1 Afghanistan  1999    745   19987071 0.372741
-## 2      Brazil  1999  37737  172006362 2.193930
-## 3       China  1999 212258 1272915272 1.667495
-## 4 Afghanistan  2000   2666   20595360 1.294466
-## 5      Brazil  2000  80488  174504898 4.612363
-## 6       China  2000 213766 1280428583 1.669488
+##   country      year  cases population  rate
+##   <chr>       <dbl>  <int>      <int> <dbl>
+## 1 Afghanistan  1999    745   19987071 0.373
+## 2 Brazil       1999  37737  172006362 2.19 
+## 3 China        1999 212258 1272915272 1.67 
+## 4 Afghanistan  2000   2666   20595360 1.29 
+## 5 Brazil       2000  80488  174504898 4.61 
+## 6 China        2000 213766 1280428583 1.67
 ```
 
 ### Problem 3 {-}
@@ -245,10 +245,10 @@ stocks
 ## # A tibble: 4 x 3
 ##    year  half return
 ##   <dbl> <dbl>  <dbl>
-## 1  2015     1   1.88
-## 2  2015     2   0.59
-## 3  2016     1   0.92
-## 4  2016     2   0.17
+## 1  2015  1.00  1.88 
+## 2  2015  2.00  0.590
+## 3  2016  1.00  0.920
+## 4  2016  2.00  0.170
 ```
 
 ```r
@@ -259,12 +259,12 @@ stocks %>%
 
 ```
 ## # A tibble: 4 x 3
-##    half  year return
+##    half year  return
 ##   <dbl> <chr>  <dbl>
-## 1     1  2015   1.88
-## 2     2  2015   0.59
-## 3     1  2016   0.92
-## 4     2  2016   0.17
+## 1  1.00 2015   1.88 
+## 2  2.00 2015   0.590
+## 3  1.00 2016   0.920
+## 4  2.00 2016   0.170
 ```
 
 (Hint: look at the variable types and think about column names.)
@@ -285,10 +285,10 @@ stocks %>%
 ## # A tibble: 4 x 3
 ##    half  year return
 ##   <dbl> <int>  <dbl>
-## 1     1  2015   1.88
-## 2     2  2015   0.59
-## 3     1  2016   0.92
-## 4     2  2016   0.17
+## 1  1.00  2015  1.88 
+## 2  2.00  2015  0.590
+## 3  1.00  2016  0.920
+## 4  2.00  2016  0.170
 ```
 
 ### Problem 2 {-}
@@ -316,14 +316,14 @@ table4a %>%
 
 ```
 ## # A tibble: 6 x 3
-##       country  year  cases
-##         <chr> <chr>  <int>
-## 1 Afghanistan  1999    745
-## 2      Brazil  1999  37737
-## 3       China  1999 212258
-## 4 Afghanistan  2000   2666
-## 5      Brazil  2000  80488
-## 6       China  2000 213766
+##   country     year   cases
+##   <chr>       <chr>  <int>
+## 1 Afghanistan 1999     745
+## 2 Brazil      1999   37737
+## 3 China       1999  212258
+## 4 Afghanistan 2000    2666
+## 5 Brazil      2000   80488
+## 6 China       2000  213766
 ```
 
 ### Problem 3 {-}
@@ -357,11 +357,11 @@ people %>%
 
 ```
 ## # A tibble: 3 x 4
-##              name count   age height
-## *           <chr> <dbl> <dbl>  <dbl>
-## 1 Jessica Cordero     1    37    156
-## 2   Phillip Woods     1    45    186
-## 3   Phillip Woods     2    50     NA
+##   name            count   age height
+##   <chr>           <dbl> <dbl>  <dbl>
+## 1 Jessica Cordero  1.00  37.0    156
+## 2 Phillip Woods    1.00  45.0    186
+## 3 Phillip Woods    2.00  50.0     NA
 ```
 
 ### Problem 4 {-}
@@ -389,12 +389,12 @@ preg %>%
 
 ```
 ## # A tibble: 4 x 3
-##   pregnant    sex count
-##      <chr>  <chr> <dbl>
-## 1      yes   male    NA
-## 2       no   male    20
-## 3      yes female    10
-## 4       no female    12
+##   pregnant sex    count
+##   <chr>    <chr>  <dbl>
+## 1 yes      male    NA  
+## 2 no       male    20.0
+## 3 yes      female  10.0
+## 4 no       female  12.0
 ```
 
 
@@ -412,16 +412,16 @@ tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>%
 ```
 
 ```
-## Warning: Too many values at 1 locations: 2
+## Warning: Expected 3 pieces. Additional pieces discarded in 1 rows [2].
 ```
 
 ```
 ## # A tibble: 3 x 3
-##     one   two three
-## * <chr> <chr> <chr>
-## 1     a     b     c
-## 2     d     e     f
-## 3     h     i     j
+##   one   two   three
+##   <chr> <chr> <chr>
+## 1 a     b     c    
+## 2 d     e     f    
+## 3 h     i     j
 ```
 
 ```r
@@ -430,16 +430,16 @@ tibble(x = c("a,b,c", "d,e", "f,g,i")) %>%
 ```
 
 ```
-## Warning: Too few values at 1 locations: 2
+## Warning: Expected 3 pieces. Missing pieces filled with `NA` in 1 rows [2].
 ```
 
 ```
 ## # A tibble: 3 x 3
-##     one   two three
-## * <chr> <chr> <chr>
-## 1     a     b     c
-## 2     d     e  <NA>
-## 3     f     g     i
+##   one   two   three
+##   <chr> <chr> <chr>
+## 1 a     b     c    
+## 2 d     e     <NA> 
+## 3 f     g     i
 ```
 
 `extra` controls what happens when `separate()` results in too many pieces. In 
@@ -454,11 +454,11 @@ tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>%
 
 ```
 ## # A tibble: 3 x 3
-##     one   two three
-## * <chr> <chr> <chr>
-## 1     a     b     c
-## 2     d     e   f,g
-## 3     h     i     j
+##   one   two   three
+##   <chr> <chr> <chr>
+## 1 a     b     c    
+## 2 d     e     f,g  
+## 3 h     i     j
 ```
 
 `fill` controls what happens when `separate()` results in not enough pieces. In 
@@ -474,11 +474,11 @@ tibble(x = c("a,b,c", "d,e", "f,g,i")) %>%
 
 ```
 ## # A tibble: 3 x 3
-##     one   two three
-## * <chr> <chr> <chr>
-## 1     a     b     c
-## 2  <NA>     d     e
-## 3     f     g     i
+##   one   two   three
+##   <chr> <chr> <chr>
+## 1 a     b     c    
+## 2 <NA>  d     e    
+## 3 f     g     i
 ```
 
 ### Problem 2 {-}
@@ -497,11 +497,11 @@ tibble(x = c("a,b,c", "d,e,f", "g,h,i")) %>%
 
 ```
 ## # A tibble: 3 x 4
-##       x   one   two three
-## * <chr> <chr> <chr> <chr>
-## 1 a,b,c     a     b     c
-## 2 d,e,f     d     e     f
-## 3 g,h,i     g     h     i
+##   x     one   two   three
+##   <chr> <chr> <chr> <chr>
+## 1 a,b,c a     b     c    
+## 2 d,e,f d     e     f    
+## 3 g,h,i g     h     i
 ```
 
 ### Problem 3 {-}

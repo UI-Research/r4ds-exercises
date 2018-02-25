@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="chapter-10-tibbles.html">
-<link rel="next" href="chapter-12-tidy-data.html">
+<link rel="prev" href="chapter-12-tidy-data.html">
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -300,273 +300,407 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="chapter-11---data-import" class="section level1 unnumbered">
-<h1>Chapter 11 - Data Import</h1>
-<p>Load the libraries needed for these exercises.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
-<div id="getting-started" class="section level2 unnumbered">
-<h2>11.2 - Getting Started</h2>
-<div id="problem-1-16" class="section level3 unnumbered">
+<div id="chapter-13---relational-data" class="section level1 unnumbered">
+<h1>Chapter 13 - Relational data</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nycflights13)
+<span class="kw">library</span>(tidyverse)</code></pre></div>
+<div id="nycflights13" class="section level2 unnumbered">
+<h2>13.2 - nycflights13</h2>
+<div id="problem-1-21" class="section level3 unnumbered">
 <h3>Problem 1</h3>
-<p>What function would you use to read a file where fields were separated with “|”?</p>
-<p>Use <code>read_delim()</code>, using <code>|</code> as the delimiter:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> &#39;a|b|c</span><span class="ch">\n</span><span class="st">1|2|3&#39;</span>
-<span class="kw">read_delim</span>(data, <span class="dt">delim =</span> <span class="st">&#39;|&#39;</span>)</code></pre></div>
-<pre><code>## # A tibble: 1 x 3
-##       a     b     c
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
-## 1     1     2     3</code></pre>
+<p>Imagine you wanted to draw (approximately) the route each plane flies from its origin to its destination. What variables would you need? What tables would you need to combine?</p>
+<p><code>Latitude</code> and <code>longitude</code> from the <code>airports</code> table and <code>origin</code> and <code>destination</code> from the <code>flights</code> table would be needed.</p>
 </div>
-<div id="problem-2-16" class="section level3 unnumbered">
+<div id="problem-2-21" class="section level3 unnumbered">
 <h3>Problem 2</h3>
-<p>Apart from <code>file</code>, <code>skip</code>, and <code>comment</code>, what other arguments do <code>read_csv()</code> and <code>read_tsv()</code> have in common?</p>
-<p><code>read_csv()</code> and <code>read_tsv()</code> are essentially just <code>read_delim</code> with the delimiter preset to either a comma or a tab. All of their other arguments are the same.</p>
+<p>I forgot to draw the relationship between <code>weather</code> and <code>airports</code>. What is the relationship and how should it appear in the diagram?</p>
+<p>The relationship is between <code>origin</code> from <code>weather</code> and <code>faa</code> from <code>airports</code>. It should be drawn as an arrow around the the flights table.</p>
 </div>
-<div id="problem-3-15" class="section level3 unnumbered">
+<div id="problem-3-20" class="section level3 unnumbered">
 <h3>Problem 3</h3>
-<p>What are the most important arguments to <code>read_fwf()</code>?</p>
-<p>The most important argument to <code>read_fwf()</code> is <code>col_positions</code>, as this determines how data is read:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fwf_sample &lt;-<span class="st"> </span><span class="kw">readr_example</span>(<span class="st">&quot;fwf-sample.txt&quot;</span>)
-<span class="kw">cat</span>(<span class="kw">read_lines</span>(fwf_sample))</code></pre></div>
-<pre><code>## John Smith          WA        418-Y11-4111 Mary Hartford       CA        319-Z19-4341 Evan Nolan          IL        219-532-c301</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_fwf</span>(fwf_sample, <span class="kw">fwf_widths</span>(<span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="dv">12</span>), <span class="kw">c</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;ssn&quot;</span>)))</code></pre></div>
-<pre><code>## Parsed with column specification:
-## cols(
-##   name = col_character(),
-##   state = col_character(),
-##   ssn = col_character()
-## )</code></pre>
-<pre><code>## # A tibble: 3 x 3
-##   name          state ssn         
-##   &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;       
-## 1 John Smith    WA    418-Y11-4111
-## 2 Mary Hartford CA    319-Z19-4341
-## 3 Evan Nolan    IL    219-532-c301</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_fwf</span>(fwf_sample, <span class="kw">fwf_widths</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">12</span>), <span class="kw">c</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;ssn&quot;</span>)))</code></pre></div>
-<pre><code>## Parsed with column specification:
-## cols(
-##   name = col_character(),
-##   state = col_character(),
-##   ssn = col_character()
-## )</code></pre>
-<pre><code>## # A tibble: 3 x 3
-##   name  state    ssn  
-##   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;
-## 1 John  Smith    WA   
-## 2 Mary  Hartford CA   
-## 3 Evan  Nolan    IL</code></pre>
+<p>weather only contains information for the origin (NYC) airports. If it contained weather records for all airports in the USA, what additional relation would it define with flights?</p>
+<p>Destination.</p>
 </div>
-<div id="problem-4-15" class="section level3 unnumbered">
+<div id="problem-4-18" class="section level3 unnumbered">
 <h3>Problem 4</h3>
-<p>Sometimes strings in a CSV file contain commas. To prevent them from causing problems they need to be surrounded by a quoting character, like <code>&quot;</code> or <code>'</code>. By convention, <code>read_csv()</code> assumes that the quoting character will be <code>&quot;</code>, and if you want to change it you’ll need to use <code>read_delim()</code> instead. What arguments do you need to specify to read the following text into a data frame?</p>
-<p><code>&quot;x,y\n1,'a,b'&quot;</code></p>
-<p>Since <code>read_delim()</code> must be used instead of <code>read_csv()</code>, the delimiter must be set. The <code>quote</code> argument can be set to a single quote instead of a double quote:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> &quot;x,y</span><span class="ch">\n</span><span class="st">1,&#39;a,b&#39;&quot;</span>
-<span class="kw">read_delim</span>(data, <span class="dt">delim =</span> <span class="st">&#39;,&#39;</span>, <span class="dt">quote =</span> <span class="st">&#39;</span><span class="ch">\&#39;</span><span class="st">&#39;</span>)</code></pre></div>
-<pre><code>## # A tibble: 1 x 2
-##       x y    
-##   &lt;int&gt; &lt;chr&gt;
-## 1     1 a,b</code></pre>
-</div>
-<div id="problem-5-9" class="section level3 unnumbered">
-<h3>Problem 5</h3>
-<p>Identify what is wrong with each of the following inline CSV files. What happens when you run the code?</p>
-<ul>
-<li>There are more data than columns, which results in a parsing failure. The extra data are dropped from the data frame:</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a,b</span><span class="ch">\n</span><span class="st">1,2,3</span><span class="ch">\n</span><span class="st">4,5,6&quot;</span>)</code></pre></div>
-<pre><code>## Warning: 2 parsing failures.
-## row # A tibble: 2 x 5 col     row col   expected  actual    file         expected   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        actual 1     1 &lt;NA&gt;  2 columns 3 columns literal data file 2     2 &lt;NA&gt;  2 columns 3 columns literal data</code></pre>
-<pre><code>## # A tibble: 2 x 2
-##       a     b
-##   &lt;int&gt; &lt;int&gt;
-## 1     1     2
-## 2     4     5</code></pre>
-<ul>
-<li>There is too little data in row 2 and too much data in row 3 - row 2 is filled in with a missing value while row 3 drops data:</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a,b,c</span><span class="ch">\n</span><span class="st">1,2</span><span class="ch">\n</span><span class="st">1,2,3,4&quot;</span>)</code></pre></div>
-<pre><code>## Warning: 2 parsing failures.
-## row # A tibble: 2 x 5 col     row col   expected  actual    file         expected   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        actual 1     1 &lt;NA&gt;  3 columns 2 columns literal data file 2     2 &lt;NA&gt;  3 columns 4 columns literal data</code></pre>
-<pre><code>## # A tibble: 2 x 3
-##       a     b     c
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
-## 1     1     2    NA
-## 2     1     2     3</code></pre>
-<ul>
-<li>There are two variables but only one data point - <code>b</code> is filled in with a missing value:</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a,b</span><span class="ch">\n\&quot;</span><span class="st">1&quot;</span>)</code></pre></div>
-<pre><code>## Warning: 2 parsing failures.
-## row # A tibble: 2 x 5 col     row col   expected                     actual    file         expected   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;                        &lt;chr&gt;     &lt;chr&gt;        actual 1     1 a     closing quote at end of file &quot;&quot;        literal data file 2     1 &lt;NA&gt;  2 columns                    1 columns literal data</code></pre>
-<pre><code>## # A tibble: 1 x 2
-##       a b    
-##   &lt;int&gt; &lt;chr&gt;
-## 1     1 &lt;NA&gt;</code></pre>
-<ul>
-<li>Appears that the header was entered twice, so the data are parsed as character instead of a string. Or if the goal here was to enter a missing value <code>NA</code>, note that the <code>n</code> was processed as a new line <code>\n</code>.</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a,b</span><span class="ch">\n</span><span class="st">1,2</span><span class="ch">\n</span><span class="st">a,b&quot;</span>)</code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   a     b    
-##   &lt;chr&gt; &lt;chr&gt;
-## 1 1     2    
-## 2 a     b</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a,b</span><span class="ch">\n</span><span class="st">1,2</span><span class="ch">\n</span><span class="st">na,b&quot;</span>)</code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   a     b    
-##   &lt;chr&gt; &lt;chr&gt;
-## 1 1     2    
-## 2 na    b</code></pre>
-<ul>
-<li><code>read_csv()</code> has a delimiter set to <code>,</code>, use <code>read_csv2()</code> instead:</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a;b</span><span class="ch">\n</span><span class="st">1;3&quot;</span>)</code></pre></div>
-<pre><code>## # A tibble: 1 x 1
-##   `a;b`
-##   &lt;chr&gt;
-## 1 1;3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv2</span>(<span class="st">&quot;a;b</span><span class="ch">\n</span><span class="st">1;3&quot;</span>)</code></pre></div>
-<pre><code>## Using &#39;,&#39; as decimal and &#39;.&#39; as grouping mark. Use read_delim() for more control.</code></pre>
-<pre><code>## # A tibble: 1 x 2
-##       a     b
-##   &lt;int&gt; &lt;int&gt;
-## 1     1     3</code></pre>
+<p>We know that some days of the year are “special”, and fewer people than usual fly on them. How might you represent that data as a data frame? What would be the primary keys of that table? How would it connect to the existing tables?</p>
+<p>It would create a table of observations for days that are special that could relate to the flights table through <code>day</code>, <code>month</code>, and <code>year</code>.</p>
 </div>
 </div>
-<div id="parsing-a-vector" class="section level2 unnumbered">
-<h2>11.3 - Parsing a Vector</h2>
-<div id="problem-1-17" class="section level3 unnumbered">
+<div id="keys" class="section level2 unnumbered">
+<h2>13.3 - Keys</h2>
+<div id="problem-1-22" class="section level3 unnumbered">
 <h3>Problem 1</h3>
-<p>What are the most important arguments to <code>locale()</code>?</p>
-<p>The <code>date_names</code> argument provides useful defaults for a <code>locale()</code> object:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dutch &lt;-<span class="st"> </span><span class="kw">locale</span>(<span class="st">&#39;nl&#39;</span>)
-japanese &lt;-<span class="st"> </span><span class="kw">locale</span>(<span class="st">&#39;ja&#39;</span>)
+<p>Add a surrogate key to flights.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">surrogate_key =</span> <span class="kw">row_number</span>())</code></pre></div>
+<pre><code>## # A tibble: 336,776 x 20
+##     year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1  2013     1     1      517            515      2.00      830
+##  2  2013     1     1      533            529      4.00      850
+##  3  2013     1     1      542            540      2.00      923
+##  4  2013     1     1      544            545     -1.00     1004
+##  5  2013     1     1      554            600     -6.00      812
+##  6  2013     1     1      554            558     -4.00      740
+##  7  2013     1     1      555            600     -5.00      913
+##  8  2013     1     1      557            600     -3.00      709
+##  9  2013     1     1      557            600     -3.00      838
+## 10  2013     1     1      558            600     -2.00      753
+## # ... with 336,766 more rows, and 13 more variables: sched_arr_time &lt;int&gt;,
+## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
+## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, surrogate_key &lt;int&gt;</code></pre>
+</div>
+<div id="problem-2-22" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Identify the keys in the following datasets</p>
+<p>Lahman::Batting babynames::babynames nasaweather::atmos fueleconomy::vehicles ggplot2::diamonds (You might need to install some packages and read some documentation.)</p>
+<ul>
+<li><code>Lahman::Batting</code> - <code>playerID</code>, <code>yearID</code>, and <code>stint</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Lahman)
+Batting &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(Batting)
 
-<span class="kw">str</span>(dutch)</code></pre></div>
-<pre><code>## List of 7
-##  $ date_names   :List of 5
-##   ..$ mon   : chr [1:12] &quot;januari&quot; &quot;februari&quot; &quot;maart&quot; &quot;april&quot; ...
-##   ..$ mon_ab: chr [1:12] &quot;jan.&quot; &quot;feb.&quot; &quot;mrt.&quot; &quot;apr.&quot; ...
-##   ..$ day   : chr [1:7] &quot;zondag&quot; &quot;maandag&quot; &quot;dinsdag&quot; &quot;woensdag&quot; ...
-##   ..$ day_ab: chr [1:7] &quot;zo&quot; &quot;ma&quot; &quot;di&quot; &quot;wo&quot; ...
-##   ..$ am_pm : chr [1:2] &quot;a.m.&quot; &quot;p.m.&quot;
-##   ..- attr(*, &quot;class&quot;)= chr &quot;date_names&quot;
-##  $ date_format  : chr &quot;%AD&quot;
-##  $ time_format  : chr &quot;%AT&quot;
-##  $ decimal_mark : chr &quot;.&quot;
-##  $ grouping_mark: chr &quot;,&quot;
-##  $ tz           : chr &quot;UTC&quot;
-##  $ encoding     : chr &quot;UTF-8&quot;
-##  - attr(*, &quot;class&quot;)= chr &quot;locale&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(japanese)</code></pre></div>
-<pre><code>## List of 7
-##  $ date_names   :List of 5
-##   ..$ mon   : chr [1:12] &quot;1月&quot; &quot;2月&quot; &quot;3月&quot; &quot;4月&quot; ...
-##   ..$ mon_ab: chr [1:12] &quot;1月&quot; &quot;2月&quot; &quot;3月&quot; &quot;4月&quot; ...
-##   ..$ day   : chr [1:7] &quot;日曜日&quot; &quot;月曜日&quot; &quot;火曜日&quot; &quot;水曜日&quot; ...
-##   ..$ day_ab: chr [1:7] &quot;日&quot; &quot;月&quot; &quot;火&quot; &quot;水&quot; ...
-##   ..$ am_pm : chr [1:2] &quot;午前&quot; &quot;午後&quot;
-##   ..- attr(*, &quot;class&quot;)= chr &quot;date_names&quot;
-##  $ date_format  : chr &quot;%AD&quot;
-##  $ time_format  : chr &quot;%AT&quot;
-##  $ decimal_mark : chr &quot;.&quot;
-##  $ grouping_mark: chr &quot;,&quot;
-##  $ tz           : chr &quot;UTC&quot;
-##  $ encoding     : chr &quot;UTF-8&quot;
-##  - attr(*, &quot;class&quot;)= chr &quot;locale&quot;</code></pre>
-<p>Be sure to read the full documentation for <code>locale()</code>. Common data import issues can probably be solved with <code>decimal_mark</code>, <code>grouping_mark</code>, and/or <code>encoding</code>.</p>
+Batting <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(playerID, yearID, stint) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<pre><code>## # A tibble: 0 x 4
+## # ... with 4 variables: playerID &lt;chr&gt;, yearID &lt;int&gt;, stint &lt;int&gt;, n &lt;int&gt;</code></pre>
+<ul>
+<li><code>babynames::babynames</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(babynames)
+babynames &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(babynames)
+
+babynames <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(year, sex, name) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(nn <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<pre><code>## # A tibble: 0 x 4
+## # ... with 4 variables: year &lt;dbl&gt;, sex &lt;chr&gt;, name &lt;chr&gt;, nn &lt;int&gt;</code></pre>
+<ul>
+<li><code>nasaweather::atmos</code> - <code>lat</code>, <code>long</code>, <code>year</code>, <code>month</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nasaweather)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;nasaweather&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     storms</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">atmos &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(atmos)
+
+atmos <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(lat, long, year, month) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<pre><code>## # A tibble: 0 x 5
+## # ... with 5 variables: lat &lt;dbl&gt;, long &lt;dbl&gt;, year &lt;int&gt;, month &lt;int&gt;,
+## #   n &lt;int&gt;</code></pre>
+<ul>
+<li><code>fueleconomy::vehicles</code> -</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fueleconomy)
+vehicles &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(vehicles)
+
+vehicles <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(id) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<pre><code>## # A tibble: 0 x 2
+## # ... with 2 variables: id &lt;int&gt;, n &lt;int&gt;</code></pre>
+<ul>
+<li><code>ggplot2::diamonds</code> - none!</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">diamonds &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(diamonds)
+
+diamonds <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(carat, cut, color, clarity, depth, table, price, x, y, z) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<pre><code>## # A tibble: 143 x 11
+##    carat cut       color clarity depth table price     x     y     z     n
+##    &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+##  1 0.300 Good      J     VS1      63.4  57.0   394  4.23  4.26  2.69     2
+##  2 0.300 Very Good G     VS2      63.0  55.0   526  4.29  4.31  2.71     2
+##  3 0.300 Very Good J     VS1      63.4  57.0   506  4.26  4.23  2.69     2
+##  4 0.300 Premium   D     SI1      62.2  58.0   709  4.31  4.28  2.67     2
+##  5 0.300 Ideal     G     VS2      63.0  55.0   675  4.31  4.29  2.71     2
+##  6 0.300 Ideal     G     IF       62.1  55.0   863  4.32  4.35  2.69     2
+##  7 0.300 Ideal     H     SI1      62.2  57.0   450  4.26  4.29  2.66     2
+##  8 0.300 Ideal     H     SI1      62.2  57.0   450  4.27  4.28  2.66     2
+##  9 0.310 Good      D     SI1      63.5  56.0   571  4.29  4.31  2.73     2
+## 10 0.310 Very Good D     SI1      63.5  56.0   732  4.31  4.29  2.73     2
+## # ... with 133 more rows</code></pre>
 </div>
-<div id="problem-2-17" class="section level3 unnumbered">
-<h3>Problem 2</h3>
-<p>What happens if you try and set <code>decimal_mark</code> and <code>grouping_mark</code> to the same character? What happens to the default value of <code>grouping_mark</code> when you set <code>decimal_mark</code> to <code>“,”</code>? What happens to the default value of <code>decimal_mark</code> when you set the grouping_mark to <code>“.”</code>?</p>
-<p><code>locale()</code> requires that <code>decimal_mark</code> and <code>grouping_mark</code> be different:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">locale</span>(<span class="dt">decimal_mark =</span> <span class="st">&#39;.&#39;</span>, <span class="dt">grouping_mark =</span> <span class="st">&#39;.&#39;</span>)</code></pre></div>
-<pre><code>## Error: `decimal_mark` and `grouping_mark` must be different</code></pre>
-<p>Setting <code>decimal_mark</code> to <code>,</code> will automatically update <code>grouping_mark</code> to <code>.</code>. Similarly setting <code>grouping_mark</code> to <code>.</code> will automatically update <code>decimal_mark</code> to <code>,</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">locale</span>(<span class="dt">decimal_mark =</span> <span class="st">&#39;,&#39;</span>)
-x<span class="op">$</span>grouping_mark</code></pre></div>
-<pre><code>## [1] &quot;.&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">locale</span>(<span class="dt">grouping_mark =</span> <span class="st">&#39;.&#39;</span>)
-y<span class="op">$</span>decimal_mark</code></pre></div>
-<pre><code>## [1] &quot;,&quot;</code></pre>
-</div>
-<div id="problem-3-16" class="section level3 unnumbered">
+<div id="problem-3-21" class="section level3 unnumbered">
 <h3>Problem 3</h3>
-<p>I didn’t discuss the <code>date_format</code> and <code>time_format</code> options to <code>locale()</code>. What do they do? Construct an example that shows when they might be useful.</p>
-<p>A specific <code>date_format</code> and <code>time_format</code> structure can be specified in a <code>locale()</code>. This can be useful for formatting data with non-standard formatting:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(<span class="st">&#39;June/7/90&#39;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">date_format =</span> <span class="st">&#39;%B/%d/%y&#39;</span>))</code></pre></div>
-<pre><code>## [1] &quot;1990-06-07&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_time</span>(<span class="st">&#39;1:15PM&#39;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">time_format =</span> <span class="st">&#39;%I:%M%p&#39;</span>))</code></pre></div>
-<pre><code>## 13:15:00</code></pre>
+<p>Draw a diagram illustrating the connections between the Batting, Master, and Salaries tables in the Lahman package. Draw another diagram that shows the relationship between Master, Managers, AwardsManagers.</p>
 </div>
-<div id="problem-4-16" class="section level3 unnumbered">
+<div id="problem-4-19" class="section level3 unnumbered">
 <h3>Problem 4</h3>
-<p>If you live outside the US, create a new locale object that encapsulates the settings for the types of file you read most commonly.</p>
-<p>Create a locale with the time zone updated:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(<span class="kw">locale</span>(<span class="dt">tz =</span> <span class="st">&#39;US/Eastern&#39;</span>))</code></pre></div>
-<pre><code>## List of 7
-##  $ date_names   :List of 5
-##   ..$ mon   : chr [1:12] &quot;January&quot; &quot;February&quot; &quot;March&quot; &quot;April&quot; ...
-##   ..$ mon_ab: chr [1:12] &quot;Jan&quot; &quot;Feb&quot; &quot;Mar&quot; &quot;Apr&quot; ...
-##   ..$ day   : chr [1:7] &quot;Sunday&quot; &quot;Monday&quot; &quot;Tuesday&quot; &quot;Wednesday&quot; ...
-##   ..$ day_ab: chr [1:7] &quot;Sun&quot; &quot;Mon&quot; &quot;Tue&quot; &quot;Wed&quot; ...
-##   ..$ am_pm : chr [1:2] &quot;AM&quot; &quot;PM&quot;
-##   ..- attr(*, &quot;class&quot;)= chr &quot;date_names&quot;
-##  $ date_format  : chr &quot;%AD&quot;
-##  $ time_format  : chr &quot;%AT&quot;
-##  $ decimal_mark : chr &quot;.&quot;
-##  $ grouping_mark: chr &quot;,&quot;
-##  $ tz           : chr &quot;US/Eastern&quot;
-##  $ encoding     : chr &quot;UTF-8&quot;
-##  - attr(*, &quot;class&quot;)= chr &quot;locale&quot;</code></pre>
+<p>How would you characterise the relationship between the Batting, Pitching, and Fielding tables?</p>
 </div>
-<div id="problem-5-10" class="section level3 unnumbered">
+</div>
+<div id="mutating-joins" class="section level2 unnumbered">
+<h2>13.4 - Mutating joins</h2>
+<div id="problem-1-23" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Compute the average delay by destination, then join on the airports data frame so you can show the spatial distribution of delays. Here’s an easy way to draw a map of the United States:</p>
+<pre><code>airports %&gt;%
+  semi_join(flights, c(&quot;faa&quot; = &quot;dest&quot;)) %&gt;%
+  ggplot(aes(lon, lat)) +
+    borders(&quot;state&quot;) +
+    geom_point() +
+    coord_quickmap()
+(Don’t worry if you don’t understand what semi_join() does — you’ll learn about it next.)</code></pre>
+<p>You might want to use the size or colour of the points to display the average delay for each airport.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(dest) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">arr_delay =</span> <span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(airports, <span class="kw">c</span>(<span class="st">&quot;dest&quot;</span> =<span class="st"> &quot;faa&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(lon, lat, <span class="dt">size =</span> arr_delay), <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">borders</span>(<span class="st">&quot;state&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">coord_quickmap</span>()</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;maps&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map</code></pre>
+<pre><code>## Warning: Removed 5 rows containing missing values (geom_point).</code></pre>
+<p><img src="13-relational-data-with-dplyr_files/figure-html/13-4-1-1.png" width="672" /></p>
+</div>
+<div id="problem-2-23" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Add the location of the origin and destination (i.e. the lat and lon) to flights.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airports2 &lt;-<span class="st"> </span>airports <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(faa, lat, lon)
+
+flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(airports2, <span class="kw">c</span>(<span class="st">&quot;origin&quot;</span> =<span class="st"> &quot;faa&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">origin_lat =</span> lat, <span class="dt">origin_lon =</span> lon) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(airports2, <span class="kw">c</span>(<span class="st">&quot;dest&quot;</span> =<span class="st"> &quot;faa&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">dest_lat =</span> lat, <span class="dt">dest_lon =</span> lon)</code></pre></div>
+<pre><code>## # A tibble: 336,776 x 23
+##     year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1  2013     1     1      517            515      2.00      830
+##  2  2013     1     1      533            529      4.00      850
+##  3  2013     1     1      542            540      2.00      923
+##  4  2013     1     1      544            545     -1.00     1004
+##  5  2013     1     1      554            600     -6.00      812
+##  6  2013     1     1      554            558     -4.00      740
+##  7  2013     1     1      555            600     -5.00      913
+##  8  2013     1     1      557            600     -3.00      709
+##  9  2013     1     1      557            600     -3.00      838
+## 10  2013     1     1      558            600     -2.00      753
+## # ... with 336,766 more rows, and 16 more variables: sched_arr_time &lt;int&gt;,
+## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
+## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, origin_lat &lt;dbl&gt;, origin_lon &lt;dbl&gt;,
+## #   dest_lat &lt;dbl&gt;, dest_lon &lt;dbl&gt;</code></pre>
+</div>
+<div id="problem-3-22" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Is there a relationship between the age of a plane and its delays?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(planes, <span class="st">&quot;tailnum&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(year.y, dep_delay)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>()</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<pre><code>## Warning: Removed 61980 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 61980 rows containing missing values (geom_point).</code></pre>
+<p><img src="13-relational-data-with-dplyr_files/figure-html/13-4-3-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(planes, <span class="st">&quot;tailnum&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(year.y, arr_delay)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>()</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<pre><code>## Warning: Removed 62923 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 62923 rows containing missing values (geom_point).</code></pre>
+<p><img src="13-relational-data-with-dplyr_files/figure-html/13-4-3-2.png" width="672" /></p>
+</div>
+<div id="problem-4-20" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>What weather conditions make it more likely to see a delay?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flight_weather &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(weather, <span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;hour&quot;</span>, <span class="st">&quot;origin&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(year, month, day, arr_delay, dep_delay, temp<span class="op">:</span>visib, <span class="op">-</span>wind_dir) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">complete.cases</span>(.)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">arr_delay_categorical =</span> <span class="kw">cut_number</span>(arr_delay, <span class="dv">5</span>)) 
+
+flight_weather <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize_all</span>(<span class="kw">funs</span>(<span class="kw">sum</span>(<span class="kw">is.na</span>(.))))</code></pre></div>
+<pre><code>## # A tibble: 1 x 14
+##    year month   day arr_delay dep_delay  temp  dewp humid wind_speed
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;      &lt;int&gt;
+## 1     0     0     0         0         0     0     0     0          0
+## # ... with 5 more variables: wind_gust &lt;int&gt;, precip &lt;int&gt;,
+## #   pressure &lt;int&gt;, visib &lt;int&gt;, arr_delay_categorical &lt;int&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flight_means &lt;-<span class="st"> </span>flight_weather <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(arr_delay_categorical, temp<span class="op">:</span>visib) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(arr_delay_categorical) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize_all</span>(<span class="kw">funs</span>(<span class="kw">mean</span>(.)))
+
+flight_means <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> weather_type, <span class="dt">value =</span> value, <span class="op">-</span>arr_delay_categorical) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(arr_delay_categorical, value)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>weather_type, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>)</code></pre></div>
+<p><img src="13-relational-data-with-dplyr_files/figure-html/r-13-4-4-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(arr_delay <span class="op">~</span><span class="st"> </span>dewp <span class="op">+</span><span class="st"> </span>humid <span class="op">+</span><span class="st"> </span>precip <span class="op">+</span><span class="st"> </span>pressure <span class="op">+</span><span class="st"> </span>temp <span class="op">+</span><span class="st"> </span>visib <span class="op">+</span><span class="st"> </span>wind_gust <span class="op">+</span><span class="st"> </span>wind_speed, <span class="dt">data =</span> flight_weather)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = arr_delay ~ dewp + humid + precip + pressure + temp + 
+##     visib + wind_gust + wind_speed, data = flight_weather)
+## 
+## Coefficients:
+## (Intercept)         dewp        humid       precip     pressure  
+##   538.52374      0.85046     -0.44252     98.37679     -0.47439  
+##        temp        visib    wind_gust   wind_speed  
+##    -0.66531     -2.40736      0.08383           NA</code></pre>
+</div>
+<div id="problem-5-11" class="section level3 unnumbered">
 <h3>Problem 5</h3>
-<p>What’s the difference between <code>read_csv()</code> and <code>read_csv2()</code>?</p>
-<p><code>read_csv()</code> has a delimiter set to <code>,</code> while <code>read_csv2</code> is set to <code>;</code>, as some countries use <code>,</code> as the <code>decimal_mark</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&#39;a,b</span><span class="ch">\n</span><span class="st">1,2&#39;</span>)</code></pre></div>
-<pre><code>## # A tibble: 1 x 2
-##       a     b
-##   &lt;int&gt; &lt;int&gt;
-## 1     1     2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv2</span>(<span class="st">&#39;a;b</span><span class="ch">\n</span><span class="st">1;2&#39;</span>)</code></pre></div>
-<pre><code>## Using &#39;,&#39; as decimal and &#39;.&#39; as grouping mark. Use read_delim() for more control.</code></pre>
-<pre><code>## # A tibble: 1 x 2
-##       a     b
-##   &lt;int&gt; &lt;int&gt;
-## 1     1     2</code></pre>
+<p>What happened on June 13 2013? Display the spatial pattern of delays, and then use Google to cross-reference with the weather.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flight_weather &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(weather, <span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;hour&quot;</span>, <span class="st">&quot;origin&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(year, month, day, arr_delay, dep_delay, temp<span class="op">:</span>visib, <span class="op">-</span>wind_dir) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">complete.cases</span>(.)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dep_delay_categorical =</span> <span class="kw">cut_number</span>(dep_delay, <span class="dv">5</span>)) 
+
+airports2 &lt;-<span class="st"> </span>airports <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(faa, lat, lon)
+
+flight_airports &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(airports2, <span class="kw">c</span>(<span class="st">&quot;origin&quot;</span> =<span class="st"> &quot;faa&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">origin_lat =</span> lat, <span class="dt">origin_lon =</span> lon) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(airports2, <span class="kw">c</span>(<span class="st">&quot;dest&quot;</span> =<span class="st"> &quot;faa&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">dest_lat =</span> lat, <span class="dt">dest_lon =</span> lon) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">left_join</span>(weather, <span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;hour&quot;</span>, <span class="st">&quot;origin&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">complete.cases</span>(.)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(month <span class="op">==</span><span class="st"> </span><span class="dv">6</span> <span class="op">&amp;</span><span class="st"> </span>day <span class="op">==</span><span class="st"> </span><span class="dv">13</span>)
+
+flight_airports <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(dep_delay)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_histogram</span>()</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="13-relational-data-with-dplyr_files/figure-html/June%2013th-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flight_airports <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(arr_delay)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_histogram</span>()</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="13-relational-data-with-dplyr_files/figure-html/June%2013th-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flight_airports <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(dest_lon, dest_lat, <span class="dt">size =</span> dep_delay)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">borders</span>(<span class="st">&quot;state&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">coord_quickmap</span>()</code></pre></div>
+<p><img src="13-relational-data-with-dplyr_files/figure-html/June%2013th-3.png" width="672" /></p>
+<p>Two derechos hit the United States East Coast on June 13, 2013. This caused significant departure delays at several airports.</p>
 </div>
-<div id="problem-6-7" class="section level3 unnumbered">
+</div>
+<div id="filtering-joins" class="section level2 unnumbered">
+<h2>13.5 - Filtering joins</h2>
+<div id="problem-1-24" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What does it mean for a flight to have a missing tailnum? What do the tail numbers that don’t have a matching record in planes have in common? (Hint: one variable explains ~90% of the problems.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">planes &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(planes)
+flights &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(flights)
+
+no_tailnum &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">anti_join</span>(planes, <span class="st">&quot;tailnum&quot;</span>) 
+
+<span class="kw">count</span>(no_tailnum, carrier)</code></pre></div>
+<pre><code>## # A tibble: 10 x 2
+##    carrier     n
+##    &lt;chr&gt;   &lt;int&gt;
+##  1 9E       1044
+##  2 AA      22558
+##  3 B6        830
+##  4 DL        110
+##  5 F9         50
+##  6 FL        187
+##  7 MQ      25397
+##  8 UA       1693
+##  9 US        699
+## 10 WN         38</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">count</span>(no_tailnum, origin)</code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   origin     n
+##   &lt;chr&gt;  &lt;int&gt;
+## 1 EWR     5908
+## 2 JFK    17137
+## 3 LGA    29561</code></pre>
+<p>Departures from LaGuardia (LGA), JFK, and Newark (EWR) account for 100 percent of the planes without tail numbers. American Airlines (AA) and Envoy Airline (MQ) account for 90 percent of the planes without tail numbers.</p>
+</div>
+<div id="problem-2-24" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Filter flights to only show flights with planes that have flown at least 100 flights.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights100 &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(tailnum) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(tailnum) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>)
+
+<span class="kw">semi_join</span>(flights, flights100, <span class="st">&quot;tailnum&quot;</span>)</code></pre></div>
+<pre><code>## # A tibble: 230,902 x 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1  2013     1     1      517            515      2.00      830
+##  2  2013     1     1      533            529      4.00      850
+##  3  2013     1     1      544            545     -1.00     1004
+##  4  2013     1     1      554            558     -4.00      740
+##  5  2013     1     1      555            600     -5.00      913
+##  6  2013     1     1      557            600     -3.00      709
+##  7  2013     1     1      557            600     -3.00      838
+##  8  2013     1     1      558            600     -2.00      849
+##  9  2013     1     1      558            600     -2.00      853
+## 10  2013     1     1      558            600     -2.00      923
+## # ... with 230,892 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
+## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
+## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="problem-3-23" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Combine fueleconomy::vehicles and fueleconomy::common to find only the records for the most common models.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fueleconomy)
+
+<span class="kw">semi_join</span>(vehicles, common)</code></pre></div>
+<pre><code>## Joining, by = c(&quot;make&quot;, &quot;model&quot;)</code></pre>
+<pre><code>## # A tibble: 14,531 x 12
+##       id make  model  year class trans drive   cyl displ fuel    hwy   cty
+##    &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt;
+##  1  1833 Acura Inte…  1986 Subc… Auto… Fron…     4  1.60 Regu…    28    22
+##  2  1834 Acura Inte…  1986 Subc… Manu… Fron…     4  1.60 Regu…    28    23
+##  3  3037 Acura Inte…  1987 Subc… Auto… Fron…     4  1.60 Regu…    28    22
+##  4  3038 Acura Inte…  1987 Subc… Manu… Fron…     4  1.60 Regu…    28    23
+##  5  4183 Acura Inte…  1988 Subc… Auto… Fron…     4  1.60 Regu…    27    22
+##  6  4184 Acura Inte…  1988 Subc… Manu… Fron…     4  1.60 Regu…    28    23
+##  7  5303 Acura Inte…  1989 Subc… Auto… Fron…     4  1.60 Regu…    27    22
+##  8  5304 Acura Inte…  1989 Subc… Manu… Fron…     4  1.60 Regu…    28    23
+##  9  6442 Acura Inte…  1990 Subc… Auto… Fron…     4  1.80 Regu…    24    20
+## 10  6443 Acura Inte…  1990 Subc… Manu… Fron…     4  1.80 Regu…    26    21
+## # ... with 14,521 more rows</code></pre>
+</div>
+<div id="problem-4-21" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>Find the 48 hours (over the course of the whole year) that have the worst delays. Cross-reference it with the weather data. Can you see any patterns?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">daily_delay &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(arr_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(year, month, day) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">arr_delay =</span> <span class="kw">sum</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">yesterday =</span> arr_delay <span class="op">+</span><span class="st"> </span><span class="kw">lag</span>(arr_delay),
+         <span class="dt">tomorrow =</span> arr_delay <span class="op">+</span><span class="st"> </span><span class="kw">lead</span>(arr_delay)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">min_rank</span>(<span class="op">-</span>tomorrow) <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span><span class="kw">min_rank</span>(<span class="op">-</span>yesterday) <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) </code></pre></div>
+</div>
+<div id="problem-5-12" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>What does anti_join(flights, airports, by = c(“dest” = “faa”)) tell you? What does anti_join(airports, flights, by = c(“faa” = “dest”)) tell you?</p>
+</div>
+<div id="problem-6-8" class="section level3 unnumbered">
 <h3>Problem 6</h3>
-<p>What are the most common encodings used in Europe? What are the most common encodings used in Asia? Do some googling to find out.</p>
-<p>See <a href="https://en.wikipedia.org/wiki/Character_encoding#Common_character_encodings">this list</a> of common encodings (via Wikipedia).</p>
-</div>
-<div id="problem-7-1" class="section level3 unnumbered">
-<h3>Problem 7</h3>
-<p>Generate the correct format string to parse each of the following dates and times:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d1 &lt;-<span class="st"> &quot;January 1, 2010&quot;</span>
-d2 &lt;-<span class="st"> &quot;2015-Mar-07&quot;</span>
-d3 &lt;-<span class="st"> &quot;06-Jun-2017&quot;</span>
-d4 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;August 19 (2015)&quot;</span>, <span class="st">&quot;July 1 (2015)&quot;</span>)
-d5 &lt;-<span class="st"> &quot;12/30/14&quot;</span> <span class="co"># Dec 30, 2014</span>
-t1 &lt;-<span class="st"> &quot;1705&quot;</span>
-t2 &lt;-<span class="st"> &quot;11:15:10.12 PM&quot;</span></code></pre></div>
-<p>Build up a datetime format using the pieces described in the chapter:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(d1, <span class="dt">format =</span> <span class="st">&#39;%B %d, %Y&#39;</span>)</code></pre></div>
-<pre><code>## [1] &quot;2010-01-01&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(d2, <span class="dt">format =</span> <span class="st">&#39;%Y-%b-%d&#39;</span>)</code></pre></div>
-<pre><code>## [1] &quot;2015-03-07&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(d3, <span class="dt">format =</span> <span class="st">&#39;%d-%b-%Y&#39;</span>)</code></pre></div>
-<pre><code>## [1] &quot;2017-06-06&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(d4, <span class="dt">format =</span> <span class="st">&#39;%B %d (%Y)&#39;</span>)</code></pre></div>
-<pre><code>## [1] &quot;2015-08-19&quot; &quot;2015-07-01&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(d5, <span class="dt">format =</span> <span class="st">&#39;%m/%d/%y&#39;</span>)</code></pre></div>
-<pre><code>## [1] &quot;2014-12-30&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_time</span>(t1, <span class="dt">format =</span> <span class="st">&#39;%H%M&#39;</span>)</code></pre></div>
-<pre><code>## 17:05:00</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_time</span>(t2, <span class="dt">format =</span> <span class="st">&#39;%I:%M:%OS %p&#39;</span>)</code></pre></div>
-<pre><code>## 23:15:10.12</code></pre>
+<p>You might expect that there’s an implicit relationship between plane and airline, because each plane is flown by a single airline. Confirm or reject this hypothesis using the tools you’ve learned above.</p>
 
 </div>
 </div>
@@ -576,8 +710,8 @@ t2 &lt;-<span class="st"> &quot;11:15:10.12 PM&quot;</span></code></pre></div>
           </div>
         </div>
       </div>
-<a href="chapter-10-tibbles.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="chapter-12-tidy-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chapter-12-tidy-data.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
