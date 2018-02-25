@@ -13,29 +13,55 @@ to missing sections or edits and improvements to existing work.
 
 To make a contribution to this guide, use the following workflow:
 
-* Clone this repository to your local machine.
+Clone this repository to your local machine.
 
-* Checkout your own branch of the repository.
+```
+git clone https://github.com/UI-Research/r4ds-exercises.git
+```
 
-* Add solutions or edits and improvements to exisiting work.
+Checkout your own branch of the repository.
 
-* Commit your changes to your local branch.
+```
+git checkout -b <new-branch-name>
+```
 
-* Push your local branch up to the github repository.
+Add solutions or edits and improvements to exisiting work.
 
-* Issue a pull request from your branch into the master branch.
+```
+git add -u
+```
+
+Add solutions to new work.
+
+```
+git add <new-file-name>
+```
+
+Commit your changes to your local branch.
+
+```
+git commit -m <meaningful-commit-message>
+```
+
+Push your local branch up to the github repository.
+
+```
+git push -u origin <new-branch-name>
+```
+
+Issue a pull request from your branch into the master branch.
 
 If you are new to git and github, or have any questions on any step, don't 
 hesitate to contact Research Programming for assistance.
 
 ### Formatting 
 
-This guide was written in `Rmarkdown` and compiled using the `bookdown` 
+This guide was written in `R Markdown` and compiled using the `bookdown` 
 package. Please use the following formatting to ensure that `bookdown` compiles 
 correctly.
 
 * The exercises for each chapter are in their own `.Rmd` file in the format 
-`{chapter-number}-{chapter-name}`, i.e. `03-data-visualization.Rmd`.
+`{chapter-number}-{chapter-name}`, i.e. `03-data-visualization.Rmd`. The chapters are based on the [online copy](http://r4ds.had.co.nz/) of the book. 
 
     - The first line should include a top-level markdown heading (`#`) with the 
     chapter number and name, i.e. `# Chapter 3 - Data Visualisation {-}`.
