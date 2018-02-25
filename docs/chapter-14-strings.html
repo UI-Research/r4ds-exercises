@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
+<link rel="prev" href="chapter-13-relational-data.html">
 
-<link rel="next" href="chapter-3-data-visualisation.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -366,22 +366,480 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R for Data Science Solution Set</h1>
+<div id="chapter-14---strings" class="section level1 unnumbered">
+<h1>Chapter 14 - Strings</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<div id="string-basics" class="section level2 unnumbered">
+<h2>14.2 String basics</h2>
+<div id="problem-1-25" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>In code that doesn’t use <code>stringr</code>, you’ll often see <code>paste()</code> and <code>paste0()</code>. What’s the difference between the two functions? What <code>stringr</code> function are they equivalent to? How do the functions differ in their handling of NA?</p>
+<p><code>paste()</code> automatically includes a space between each character string it combines. <code>paste0()</code> does not include a space. They are ~equivalent to <code>str_c()</code> from <code>library(stringr)</code>. <code>paste()</code> and <code>paste0()</code> include NA as text. <code>str_c()</code> returns an NA for the entire string if the string contains an NA.</p>
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p>This is a solution guide to the exercises in <a href="http://r4ds.had.co.nz/index.html">R for Data Science</a> by Hadley Wickham and Garret Grolemund.</p>
-<p>This guide is a work in progress, and all are welcome to contribute. The complete source for this book is available on <a href="https://github.com/khueyama/r4ds-exercises">github</a>; full instructions on how to contribute are available in the README.</p>
+<div id="problem-2-25" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>In your own words, describe the difference between the <code>sep</code> and <code>collapse</code> arguments to <code>str_c()</code>.</p>
+<p><code>sep</code> is a character string to insert between input vectors. Its input vector and output vector always have the same length.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">str_c</span>(<span class="st">&quot;Letter&quot;</span>, letters, <span class="dt">sep =</span> <span class="st">&quot;: &quot;</span>))</code></pre></div>
+<pre><code>## [1] 26</code></pre>
+<p><code>collapse</code> is a character string to insert between input vectors and to turn the vector into a single string. <code>collapse</code> always returns a vector with length one.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">str_c</span>(<span class="st">&quot;Letter&quot;</span>, letters, <span class="dt">collapse =</span> <span class="st">&quot;: &quot;</span>))</code></pre></div>
+<pre><code>## [1] 1</code></pre>
+</div>
+<div id="problem-3-24" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Use <code>str_length()</code> and <code>str_sub()</code> to extract the middle character from a string. What will you do if the string has an even number of characters.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">string_middle &lt;-<span class="st"> </span><span class="cf">function</span>(string) {
+  string_length &lt;-<span class="st"> </span><span class="kw">str_length</span>(string)
+  
+  <span class="cf">if</span> (string_length <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) {
+    <span class="kw">str_sub</span>(string, <span class="kw">floor</span>((string_length <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>), <span class="kw">ceiling</span>((string_length) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>))
+  } 
+  <span class="cf">else</span> <span class="cf">if</span> (string_length <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {
+    <span class="ot">NULL</span>
+  } 
+  <span class="cf">else</span> {<span class="st">&quot;Error!&quot;</span>}
+}
 
+<span class="kw">string_middle</span>(<span class="st">&quot;abc&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;b&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">string_middle</span>(<span class="st">&quot;abcd&quot;</span>)</code></pre></div>
+<pre><code>## NULL</code></pre>
+<p>It returned a NULL if <code>string_length()</code> is even.</p>
+</div>
+<div id="problem-4-22" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>What does <code>str_wrap()</code> do? When might you want to use it?</p>
+<p>It implements the Knuth-Plass paragraph wrapping algorithm. It “breaks text paragraphs into lines, of total width - if it is possible - of at most given <code>width</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">graph &lt;-<span class="st"> &quot;It implements the Knuth-Plass paragraph wrapping algorithm. It breaks text paragraphs into lines, of total width - if it is possible - of at most given width.&quot;</span>
+
+<span class="kw">str_wrap</span>(graph, <span class="dt">width =</span> <span class="dv">20</span>)</code></pre></div>
+<pre><code>## [1] &quot;It implements\nthe Knuth-Plass\nparagraph wrapping\nalgorithm. It breaks\ntext paragraphs\ninto lines, of total\nwidth - if it is\npossible - of at\nmost given width.&quot;</code></pre>
+<p>This could be useful for formatting in html and rmarkdown. Especially for graphics and sidebars. Custom width is useful - especially in reproducible documents.</p>
+</div>
+<div id="problem-5-13" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>What does <code>str_trim()</code> do? What’s the opposite of <code>str_trim()</code>?</p>
+<p>It trims whitespace from the left, right, or both sides of a character string. It is the string version of <code>trimws()</code>.</p>
+<p><code>str_pad()</code> is the opposite of <code>str_trim()</code>. It adds whitespace to the left, right, or both sides of a character string.</p>
+</div>
+<div id="problem-6-9" class="section level3 unnumbered">
+<h3>Problem 6</h3>
+<p>Write a function that turns (e.g.) a vector <code>c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)</code> into a string a, b, and c. Think carefully about what it should do if given a vector of length 0, 1, or 2.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">list_maker &lt;-<span class="st"> </span><span class="cf">function</span>(string) {
+  
+  <span class="cf">if</span> (<span class="kw">length</span>(string) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) {
+  stringa &lt;-<span class="st"> </span>string[<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(string)<span class="op">-</span><span class="dv">1</span>]
+  stringb &lt;-<span class="st"> </span>string[<span class="kw">length</span>(string)]
+  
+  stringa &lt;-<span class="st"> </span><span class="kw">str_c</span>(stringa, <span class="dt">collapse =</span> <span class="st">&quot;, &quot;</span>)
+  
+  <span class="kw">str_c</span>(stringa, <span class="st">&quot;, and &quot;</span>, stringb, <span class="dt">collapse =</span> <span class="st">&quot;&quot;</span>)
+  } <span class="cf">else</span> {
+    string
+    }
+  }
+
+string &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="st">&quot;e&quot;</span>)
+
+<span class="kw">list_maker</span>(string)</code></pre></div>
+<pre><code>## [1] &quot;a, b, c, d, and e&quot;</code></pre>
+<p>14.3 - Matching patterns with regular expressions {-}</p>
+</div>
+<div id="problem-1-26" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Explain why each of these strings don’t match a : “&quot;,”\“,”\&quot;.</p>
+<ul>
+<li>“&quot; escapes the quotation mark and isn’t a valid character string in R.</li>
+<li>“\” returns a character string with two backslashes which doesn’t match one backslash.</li>
+<li>“\&quot; escapes the quotation mark and isn’t a valid character string.</li>
+</ul>
+</div>
+<div id="problem-2-26" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>How would you match the sequence “’?</p>
+</div>
+<div id="problem-3-25" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>What patterns will the regular expression ...... match? How would you represent it as a string?</p>
+<p>It will match a string of three periods separated by characters. <code>\\..\\..\\..</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_view</span>(<span class="st">&quot;.a.b.c&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">..</span><span class="ch">\\</span><span class="st">..</span><span class="ch">\\</span><span class="st">..&quot;</span>)</code></pre></div>
+<div id="htmlwidget-578df495ffff219838b5" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-578df495ffff219838b5">{"x":{"html":"<ul>\n  <li><span class='match'>.a.b.c<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="anchors" class="section level2 unnumbered">
+<h2>14.3.2 - Anchors</h2>
+<div id="problem-1-27" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>How would you match the literal string “<span class="math inline">\(^\)</span>”?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> &quot;$^$&quot;</span>
+<span class="kw">str_view</span>(x, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">$</span><span class="ch">\\</span><span class="st">^</span><span class="ch">\\</span><span class="st">$&quot;</span>)</code></pre></div>
+<div id="htmlwidget-32eabbe08ef75e550459" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-32eabbe08ef75e550459">{"x":{"html":"<ul>\n  <li><span class='match'>$^$<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="problem-2-27" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Given the corpus of common words in stringr::words, create regular expressions that will find all words that:</p>
+<ol style="list-style-type: decimal">
+<li>Start with “y”</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_view</span>(words, <span class="st">&quot;^y&quot;</span>, <span class="dt">match =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div id="htmlwidget-f90a5fb0f1c177556765" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f90a5fb0f1c177556765">{"x":{"html":"<ul>\n  <li><span class='match'>y<\/span>ear<\/li>\n  <li><span class='match'>y<\/span>es<\/li>\n  <li><span class='match'>y<\/span>esterday<\/li>\n  <li><span class='match'>y<\/span>et<\/li>\n  <li><span class='match'>y<\/span>ou<\/li>\n  <li><span class='match'>y<\/span>oung<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<ol start="2" style="list-style-type: decimal">
+<li>End with “x”</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(<span class="kw">str_detect</span>(words, <span class="st">&quot;x$&quot;</span>))</code></pre></div>
+<pre><code>## 
+## FALSE  TRUE 
+##   976     4</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Are exactly three letters long. (Don’t cheat by using <code>str_length()</code>!)</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(<span class="kw">str_detect</span>(words, <span class="st">&quot;^...$&quot;</span>))</code></pre></div>
+<pre><code>## 
+## FALSE  TRUE 
+##   870   110</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Have seven letters or more.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(<span class="kw">str_detect</span>(words, <span class="st">&quot;^.......&quot;</span>))</code></pre></div>
+<pre><code>## 
+## FALSE  TRUE 
+##   761   219</code></pre>
+</div>
+</div>
+<div id="character-classes-and-alternatives" class="section level2 unnumbered">
+<h2>14.3.2 - Character classes and alternatives</h2>
+<div id="problem-1-28" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Create regular expressions to find all words that:</p>
+<ol style="list-style-type: decimal">
+<li>Start with a vowel</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_view</span>(words[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="st">&quot;^[aeiou]&quot;</span>, <span class="dt">match =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div id="htmlwidget-ac9ef953af2bead3c498" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ac9ef953af2bead3c498">{"x":{"html":"<ul>\n  <li><span class='match'>a<\/span><\/li>\n  <li><span class='match'>a<\/span>ble<\/li>\n  <li><span class='match'>a<\/span>bout<\/li>\n  <li><span class='match'>a<\/span>bsolute<\/li>\n  <li><span class='match'>a<\/span>ccept<\/li>\n  <li><span class='match'>a<\/span>ccount<\/li>\n  <li><span class='match'>a<\/span>chieve<\/li>\n  <li><span class='match'>a<\/span>cross<\/li>\n  <li><span class='match'>a<\/span>ct<\/li>\n  <li><span class='match'>a<\/span>ctive<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<ol start="2" style="list-style-type: decimal">
+<li>Only contain consonants. (Hint: think about match “not”-vowels.)</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_view</span>(words, <span class="st">&quot;^[^aeiou]+$&quot;</span>, <span class="dt">match =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div id="htmlwidget-2aae6bc4cb057951ef49" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2aae6bc4cb057951ef49">{"x":{"html":"<ul>\n  <li><span class='match'>by<\/span><\/li>\n  <li><span class='match'>dry<\/span><\/li>\n  <li><span class='match'>fly<\/span><\/li>\n  <li><span class='match'>mrs<\/span><\/li>\n  <li><span class='match'>try<\/span><\/li>\n  <li><span class='match'>why<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<p>I’m not sure if this can be done with <code>+</code> which is introduced on page 204 after the exercises.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>End with ed, but not with eed.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_view</span>(words, <span class="st">&quot;[^e]ed$&quot;</span>, <span class="dt">match =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div id="htmlwidget-46da88a7b85c3e4cf650" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-46da88a7b85c3e4cf650">{"x":{"html":"<ul>\n  <li><span class='match'>bed<\/span><\/li>\n  <li>hund<span class='match'>red<\/span><\/li>\n  <li><span class='match'>red<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<ol start="4" style="list-style-type: decimal">
+<li>End with ing or ize.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_view</span>(words, <span class="st">&quot;ing$|ize$&quot;</span>, <span class="dt">match =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div id="htmlwidget-24c60589590c336d357a" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-24c60589590c336d357a">{"x":{"html":"<ul>\n  <li>br<span class='match'>ing<\/span><\/li>\n  <li>dur<span class='match'>ing<\/span><\/li>\n  <li>even<span class='match'>ing<\/span><\/li>\n  <li>k<span class='match'>ing<\/span><\/li>\n  <li>mean<span class='match'>ing<\/span><\/li>\n  <li>morn<span class='match'>ing<\/span><\/li>\n  <li>organ<span class='match'>ize<\/span><\/li>\n  <li>recogn<span class='match'>ize<\/span><\/li>\n  <li>r<span class='match'>ing<\/span><\/li>\n  <li>s<span class='match'>ing<\/span><\/li>\n  <li>s<span class='match'>ize<\/span><\/li>\n  <li>th<span class='match'>ing<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="problem-2-28" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Empirically verify the rule “i before e except after c.”</p>
+<p>Let’s try this with proof by contradiction. We need to look for two conditions:</p>
+<ul>
+<li>ie after c</li>
+<li>ei</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_view</span>(words, <span class="st">&quot;ei|[c]ie&quot;</span>, <span class="dt">match =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div id="htmlwidget-1882b212e7c32956650b" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1882b212e7c32956650b">{"x":{"html":"<ul>\n  <li><span class='match'>ei<\/span>ght<\/li>\n  <li><span class='match'>ei<\/span>ther<\/li>\n  <li>rec<span class='match'>ei<\/span>ve<\/li>\n  <li>s<span class='match'>cie<\/span>nce<\/li>\n  <li>so<span class='match'>cie<\/span>ty<\/li>\n  <li>w<span class='match'>ei<\/span>gh<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<p>Six words violate the rules. “i before e except after c” is and always will be rubbish.</p>
+</div>
+<div id="problem-3-26" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Is “q” always followed by a “u”?</p>
+<p>Proof by contradiction: look for a “q” not followed by a “u”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_view</span>(words, <span class="st">&quot;q^[u]&quot;</span>, <span class="dt">match =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div id="htmlwidget-df433351569ad2107741" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-df433351569ad2107741">{"x":{"html":"<ul>\n  <li><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<p>Yes, “q” is always followed by a “u” in this data set.</p>
+</div>
+<div id="problem-4-23" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>Write a regular expression that matches a word if it’s probably written in British English, not American English.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_view</span>(words, <span class="st">&quot;our|ise|ogue&quot;</span>, <span class="dt">match =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div id="htmlwidget-f7d14ec3a5107ce13d06" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f7d14ec3a5107ce13d06">{"x":{"html":"<ul>\n  <li>advert<span class='match'>ise<\/span><\/li>\n  <li>col<span class='match'>our<\/span><\/li>\n  <li>c<span class='match'>our<\/span>se<\/li>\n  <li>c<span class='match'>our<\/span>t<\/li>\n  <li>enc<span class='match'>our<\/span>age<\/li>\n  <li>exerc<span class='match'>ise<\/span><\/li>\n  <li>fav<span class='match'>our<\/span><\/li>\n  <li>f<span class='match'>our<\/span><\/li>\n  <li>h<span class='match'>our<\/span><\/li>\n  <li>lab<span class='match'>our<\/span><\/li>\n  <li>otherw<span class='match'>ise<\/span><\/li>\n  <li>pract<span class='match'>ise<\/span><\/li>\n  <li>ra<span class='match'>ise<\/span><\/li>\n  <li>real<span class='match'>ise<\/span><\/li>\n  <li>res<span class='match'>our<\/span>ce<\/li>\n  <li>r<span class='match'>ise<\/span><\/li>\n  <li>surpr<span class='match'>ise<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="problem-5-14" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>Create a regular expression that will match telephone numbers as commonly written in your country.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">phone &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;212-555-7891&quot;</span>, <span class="st">&quot;(212)-555-7891&quot;</span>)
+
+<span class="kw">str_view</span>(phone, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d-</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d-</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d|</span><span class="ch">\\</span><span class="st">(</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">)-</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d-</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d&quot;</span>, <span class="dt">match =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div id="htmlwidget-c8f580d9c22ee5cd373b" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c8f580d9c22ee5cd373b">{"x":{"html":"<ul>\n  <li><span class='match'>212-555-7891<\/span><\/li>\n  <li><span class='match'>(212)-555-7891<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="repetition" class="section level2 unnumbered">
+<h2>14.3.4 - Repetition</h2>
+<div id="problem-1-29" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Describe the equivalents of ?, +, and * in {n, m} form.</p>
+<ul>
+<li><code>? == {1}</code></li>
+<li><code>+ == {1,}</code></li>
+<li><code>* == {0,}</code></li>
+</ul>
+</div>
+<div id="problem-2-29" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Describe in words what these regular expressions match (read carefully to if I’m using a regular expression or a string that defines a regular expressions):</p>
+<ol style="list-style-type: decimal">
+<li><code>^.*$</code> matches an entire string. <code>^</code> matches the start of a string. <code>.</code> is any character which is repeated 0 or more times with <code>*</code>. <code>$</code> matches the end of a string.</li>
+<li><code>&quot;\\{.+\\}&quot;</code> 3.<code>\d{4}-\d{2}-\d{2}</code> matches exactly 4 digits followed by a dash followed by exactly two digits followed by a dash followed by exactly two digits. This is the same as the ISO8601 date international standard.</li>
+<li><code>\\\\{4}</code> matches exactly four backslashes.</li>
+</ol>
+</div>
+<div id="problem-3-27" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Create regular expressions to find all words that:</p>
+<ol style="list-style-type: decimal">
+<li>Start with three consonants.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">string &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;scratch&quot;</span>, <span class="st">&quot;apple&quot;</span>)
+<span class="kw">str_view</span>(string, <span class="st">&quot;^[^aeiou]{3}&quot;</span>)</code></pre></div>
+<div id="htmlwidget-cc6ea83c3b6cd818c811" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cc6ea83c3b6cd818c811">{"x":{"html":"<ul>\n  <li><span class='match'>scr<\/span>atch<\/li>\n  <li>apple<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<ol start="2" style="list-style-type: decimal">
+<li>Have three or more vowels in a row.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">string &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;scratch&quot;</span>, <span class="st">&quot;aaapple&quot;</span>)
+<span class="kw">str_view</span>(string, <span class="st">&quot;^[aeiou]{3,}&quot;</span>)</code></pre></div>
+<div id="htmlwidget-377d1b17a3fef9f9cb16" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-377d1b17a3fef9f9cb16">{"x":{"html":"<ul>\n  <li>scratch<\/li>\n  <li><span class='match'>aaa<\/span>pple<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<ol start="3" style="list-style-type: decimal">
+<li>Have two or more vowel consonant pairs in a row.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">string &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;banana&quot;</span>, <span class="st">&quot;coconut&quot;</span>)
+<span class="kw">str_view</span>(string, <span class="st">&quot;([aeiou][^aeiou]){2,}&quot;</span>)</code></pre></div>
+<div id="htmlwidget-d42044e8b4d0fa2cb3a8" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d42044e8b4d0fa2cb3a8">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li>c<span class='match'>oconut<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="problem-4-24" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>Solve the beginner regexp crosswords at <a href="http://regexcrossword.com/challenges/beginner" class="uri">http://regexcrossword.com/challenges/beginner</a></p>
+</div>
+</div>
+<div id="grouping-and-backreferences" class="section level2 unnumbered">
+<h2>14.3.5 - Grouping and backreferences</h2>
+<div id="problem-1-30" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Describe in words what these expressions will match:</p>
+<ol style="list-style-type: decimal">
+<li><code>(.)\1\1</code> will match any string of three repeated letters or symbols.</li>
+<li><code>&quot;(.)(.)\\2\\1&quot;</code> will match a four letter palindrome (spelled the same forwards and backwards).</li>
+<li><code>(..)\1</code> will match a four letter string where the second half is a reptition of the first half.</li>
+<li><code>&quot;(.).\\1.\\1&quot;</code> will match and repetition of the same character three times where each character is spearated by a character (ex. “ababa” and “&amp;&amp;&amp;&amp;&amp;”).</li>
+<li><code>&quot;(.)(.)(.)*\\3\\2\\1&quot;</code> will match a string of characters where the first three characters are repeted in reverse and the middle character can be repeated multiple times (ex. “abccba” and “abcccccba”).</li>
+</ol>
+</div>
+<div id="problem-2-30" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<div id="construct-regular-expressions-to-match-words-that" class="section level5">
+<h5><span class="header-section-number">0.0.0.0.1</span> 2. Construct regular expressions to match words that:</h5>
+<ol style="list-style-type: decimal">
+<li>Start and end with the same character. <code>&quot;^(.).*\\1$&quot;</code></li>
+<li>Contain a repeated pair of letters (e.g. “church” contains “ch” repeated twice) <code>&quot;.*(..).*\\1.*&quot;</code></li>
+<li>Contain one letter repeated in at least three places (e.g., “eleven” contains three “e”s). <code>&quot;.*(.).*\\1.*\\1.*&quot;</code></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="tools" class="section level2 unnumbered">
+<h2>14.4 Tools</h2>
+<div id="problem-1-31" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>For each of the following challenges, try solving it by using both a singular regular expression, and a combination of multiple <code>str_detect()</code> calls: 1. Find all words that start of end with x. <code>str_detect(words, &quot;^x.*x$&quot;)</code> &amp; <code>str_detect(str_detect(words, &quot;^x&quot;), &quot;x$&quot;)</code> 2. Find all words that start with a vowel and end with a consonant. <code>str_detect(words, &quot;^[aeiou].*[^aeiou]$&quot;)</code> &amp; <code>str_detect(str_detect(words, &quot;^[aeiou]&quot;), &quot;[^aeiou]$&quot;)</code> 3. Are there any words that contain at least one of each different vowel? TODO(aaron): hmm? 4. What word has the highest number of vowels? What word has the highest proportion of vowels? (Hint: what is the denominator)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as_tibble</span>(words) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vowels =</span> <span class="kw">str_count</span>(value, <span class="st">&quot;[aeiou]&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(vowels <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(vowels))</code></pre></div>
+<pre><code>## # A tibble: 8 x 2
+##   value       vowels
+##   &lt;chr&gt;        &lt;int&gt;
+## 1 appropriate      5
+## 2 associate        5
+## 3 available        5
+## 4 colleague        5
+## 5 encourage        5
+## 6 experience       5
+## 7 individual       5
+## 8 television       5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as_tibble</span>(words) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">letters =</span> <span class="kw">str_count</span>(value), 
+         <span class="dt">vowels =</span> <span class="kw">str_count</span>(value, <span class="st">&quot;[aeiou]&quot;</span>),
+         <span class="dt">proportion =</span> vowels <span class="op">/</span><span class="st"> </span>letters) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(proportion <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(proportion))</code></pre></div>
+<pre><code>## # A tibble: 1 x 4
+##   value letters vowels proportion
+##   &lt;chr&gt;   &lt;int&gt;  &lt;int&gt;      &lt;dbl&gt;
+## 1 a           1      1       1.00</code></pre>
+</div>
+</div>
+<div id="extract-matches" class="section level2 unnumbered">
+<h2>14.4.3 - Extract Matches</h2>
+<div id="problem-1-32" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>In the previous example, you might have noticed that the regular expression matched “flickered”, which is not a color. Modify the regex to fix the problem.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  colors &lt;-<span class="st"> &quot;</span><span class="ch">\\</span><span class="st">b(red|orange|yellow|green|blue|purple)</span><span class="ch">\\</span><span class="st">b&quot;</span>
+  more &lt;-<span class="st"> </span>sentences[<span class="kw">str_count</span>(sentences, colors) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>]
+  <span class="kw">str_view_all</span>(more, colors)</code></pre></div>
+<div id="htmlwidget-cdb3bb0628bea8d69a09" style="width:960px;height:auto;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cdb3bb0628bea8d69a09">{"x":{"html":"<ul>\n  <li>It is hard to erase <span class='match'>blue<\/span> or <span class='match'>red<\/span> ink.<\/li>\n  <li>The sky in the west is tinged with <span class='match'>orange<\/span> <span class='match'>red<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="problem-2-31" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>From the Harvard sentences data, extract: 1. The first word from each sentence. <code>str_extract(sentences, &quot;[^\\s]*&quot;)</code> 2. All words ending in ing. <code>str_extract_all(sentences, &quot;\\b[^\\s]*ing\\b&quot;)</code> 3. All plurals. TODO(aaron): hmm?</p>
+</div>
+</div>
+<div id="grouped-matches" class="section level2 unnumbered">
+<h2>14.4.4 Grouped matches</h2>
+<div id="problem-1-33" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Find all words that come after a “number” like “one”, “two”, “three”, etc. Pull out the number and the word.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">numbers &lt;-<span class="st"> &quot;([Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]en) ([^ ]+)&quot;</span>
+<span class="kw">tibble</span>(<span class="dt">sentence =</span> sentences) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">extract</span>(
+    sentence, <span class="kw">c</span>(<span class="st">&quot;number&quot;</span>, <span class="st">&quot;word&quot;</span>), numbers,
+    <span class="dt">remove =</span> <span class="ot">FALSE</span>
+  ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(number))</code></pre></div>
+<pre><code>## # A tibble: 46 x 3
+##    sentence                                    number word   
+##    &lt;chr&gt;                                       &lt;chr&gt;  &lt;chr&gt;  
+##  1 Rice is often served in round bowls.        ten    served 
+##  2 Four hours of steady work faced us.         Four   hours  
+##  3 Two blue fish swam in the tank.             Two    blue   
+##  4 Lift the square stone over the fence.       one    over   
+##  5 The rope will bind the seven books at once. seven  books  
+##  6 The two met while playing on the sand.      two    met    
+##  7 There are more than two factors here.       two    factors
+##  8 He lay prone and hardly moved a limb.       one    and    
+##  9 Ten pins were set in order.                 Ten    pins   
+## 10 Type out three lists of orders.             three  lists  
+## # ... with 36 more rows</code></pre>
+</div>
+<div id="problem-2-32" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Find all contractions. Separate out the pieces before and after the apostrophe.</p>
+<p><code>&quot;[^ ]*'[^ ]*&quot;</code> could be used, but it returns possessive nouns. The following string of regular expressions gets around this problem.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">contractions &lt;-<span class="st"> &quot;[^ ]*&#39;m|[^ ]*n&#39;t|[^ ]*&#39;ve|[^ ]*&#39;d|[^ ]*&#39;re|[^ ]*&#39;ll|[Ll]et&#39;s|[Ss]he&#39;s|[Hh]e&#39;s&quot;</span>
+<span class="kw">tibble</span>(<span class="dt">sentence =</span> sentences) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">contraction =</span> <span class="kw">str_extract</span>(sentences, contractions)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(contraction)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">extract</span>(contraction, <span class="kw">c</span>(<span class="st">&quot;before&quot;</span>, <span class="st">&quot;apostrophe&quot;</span>, <span class="st">&quot;after&quot;</span>), <span class="st">&quot;(.*)(&#39;)(.*)&quot;</span>)</code></pre></div>
+<pre><code>## # A tibble: 4 x 4
+##   sentence                                   before apostrophe after
+##   &lt;chr&gt;                                      &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;
+## 1 Open the crate but don&#39;t break the glass.  don    &#39;          t    
+## 2 Let&#39;s all join as we sing the last chorus. Let    &#39;          s    
+## 3 We don&#39;t get much money but we have fun.   don    &#39;          t    
+## 4 We don&#39;t like to admit our small faults.   don    &#39;          t</code></pre>
+</div>
+</div>
+<div id="replacing-matches" class="section level2 unnumbered">
+<h2>14.4.5 - Replacing matches</h2>
+<div id="problem-1-34" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Replace all forward slashes in a string with backslashes. <code>str_replace_all(&quot;a/b/c&quot;, &quot;/&quot;, &quot;\\\\&quot;)</code></p>
+</div>
+<div id="problem-2-33" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Implement a simple version of <code>str_to_lower()</code> using <code>str_replace_all()</code>. <code>str_replace_all(&quot;AbC&quot;, &quot;[A-Z]&quot;, tolower)</code></p>
+</div>
+<div id="problem-3-28" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Switch the first and last letters in words. Which of those strings are still words?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new.words &lt;-<span class="st"> </span><span class="kw">str_replace</span>(words, <span class="st">&quot;(^.)(.*)(.$)&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">3</span><span class="ch">\\</span><span class="st">2</span><span class="ch">\\</span><span class="st">1&quot;</span>)
+words[new.words <span class="op">%in%</span><span class="st"> </span>words]</code></pre></div>
+<pre><code>##  [1] &quot;a&quot;          &quot;america&quot;    &quot;area&quot;       &quot;dad&quot;        &quot;dead&quot;      
+##  [6] &quot;deal&quot;       &quot;dear&quot;       &quot;depend&quot;     &quot;dog&quot;        &quot;educate&quot;   
+## [11] &quot;else&quot;       &quot;encourage&quot;  &quot;engine&quot;     &quot;europe&quot;     &quot;evidence&quot;  
+## [16] &quot;example&quot;    &quot;excuse&quot;     &quot;exercise&quot;   &quot;expense&quot;    &quot;experience&quot;
+## [21] &quot;eye&quot;        &quot;god&quot;        &quot;health&quot;     &quot;high&quot;       &quot;knock&quot;     
+## [26] &quot;lead&quot;       &quot;level&quot;      &quot;local&quot;      &quot;nation&quot;     &quot;no&quot;        
+## [31] &quot;non&quot;        &quot;on&quot;         &quot;rather&quot;     &quot;read&quot;       &quot;refer&quot;     
+## [36] &quot;remember&quot;   &quot;serious&quot;    &quot;stairs&quot;     &quot;test&quot;       &quot;tonight&quot;   
+## [41] &quot;transport&quot;  &quot;treat&quot;      &quot;trust&quot;      &quot;window&quot;     &quot;yesterday&quot;</code></pre>
+</div>
+</div>
+<div id="splitting" class="section level2 unnumbered">
+<h2>14.4.6 - Splitting</h2>
+<div id="problem-1-35" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Split up a string like “apples, pears, and bananas” into individual components.</p>
+<p><code>str_split(&quot;apples, pears, and bananas&quot;, boundary(&quot;word&quot;))</code></p>
+</div>
+<div id="problem-2-34" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Why is it better to split up by boundary(“word”) than &quot; “?</p>
+<p><code>&quot; &quot;</code> captures non-words like the space after the period while <code>boundary(&quot;word&quot;)</code> only captures words.</p>
+</div>
+<div id="problem-3-29" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>What does splitting with an empty string (“”) do? Experiment and read the documentation.</p>
+<p>“An empty pattern,”“, is equivalent to boundary(”character“).”</p>
+</div>
+</div>
+<div id="other-types-of-pattern" class="section level2 unnumbered">
+<h2>14.5 - Other types of pattern</h2>
+<div id="problem-1-36" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>How would you find all strings containing “&quot; with regex() versus fixed. <code>regex(&quot;\\\\&quot;)</code> &amp; <code>fixed(&quot;\&quot;)</code></p>
+</div>
+<div id="problem-2-35" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>What are the five most common words in setences?</p>
+<p>The five most common words are “the”, “a”, “of”, “to”, and “and”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str_split</span>(sentences, <span class="kw">boundary</span>(<span class="st">&quot;word&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">flatten_chr</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">str_to_lower</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(value) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="op">-</span>n) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">top_n</span>(<span class="dv">5</span>)</code></pre></div>
+<pre><code>## Selecting by n</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   value     n
+##   &lt;chr&gt; &lt;int&gt;
+## 1 the     751
+## 2 a       202
+## 3 of      132
+## 4 to      123
+## 5 and     118</code></pre>
+</div>
+</div>
+<div id="other-uses-of-regular-expressions" class="section level2 unnumbered">
+<h2>14.6 - Other uses of regular expressions</h2>
+<div id="problem-1-37" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Find the <strong>stringi</strong> function that: 1. Count the number of words <code>stri_count_words</code> 2. Find duplicated strings. <code>stri_duplicated()</code> 3. Generate random text. <code>stri_rand_strings()</code></p>
+</div>
+<div id="problem-2-36" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>How do you control the language that str_sort() uses for sorting? With the <code>locale =</code> argument in the <code>opts_collator</code> argument.</p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="chapter-13-relational-data.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="chapter-3-data-visualisation.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
