@@ -8,7 +8,6 @@ library(tidyverse)
 library(forcats)
 ```
 
-
 ## 15.3 - General Social Survey {-}
 
 ### Problem 1 {-}

@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
+<link rel="prev" href="chapter-15-factors.html">
 
-<link rel="next" href="chapter-3-data-visualisation.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -405,22 +405,247 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R for Data Science Solution Set</h1>
+<div id="chapter-16---dates-and-times" class="section level1 unnumbered">
+<h1>Chapter 16 - Dates and times</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(lubridate)
+<span class="kw">library</span>(nycflights13)</code></pre></div>
+<div id="creating-datetimes" class="section level2 unnumbered">
+<h2>16.2 - Creating date/times</h2>
+<div id="problem-1-41" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What happens if you parse a string that contains invalid dates?</p>
+<pre><code>ymd(c(&quot;2010-10-10&quot;, &quot;bananas&quot;))</code></pre>
+<p>Warning message: 1 failed to parse.</p>
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p>This is a solution guide to the exercises in <a href="http://r4ds.had.co.nz/index.html">R for Data Science</a> by Hadley Wickham and Garret Grolemund.</p>
-<p>This guide is a work in progress, and all are welcome to contribute. The complete source for this book is available on <a href="https://github.com/khueyama/r4ds-exercises">github</a>; full instructions on how to contribute are available in the README.</p>
+<div id="problem-2-40" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>What does the tzone argument to <code>today()</code> do? Why is it important?</p>
+<p>tzone controls the time zone used when finding the current date. It defaults to the system time zone. It is important because every hour a different time zone moves from today to tomorrow and when analyzing data from another time zone dates can change.</p>
+</div>
+<div id="problem-3-32" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Use the appropriate lubridate function to parse the following dates:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d1 &lt;-<span class="st"> &quot;January 1, 2010&quot;</span>
+d2 &lt;-<span class="st"> &quot;2015-Mar-07&quot;</span>
+d3 &lt;-<span class="st"> &quot;06-Jun-2017&quot;</span>
+d4 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;August 19 (2015)&quot;</span>, <span class="st">&quot;July 1 (2015)&quot;</span>)
+d5 &lt;-<span class="st"> &quot;12/30/14&quot;</span> <span class="co"># Dec 30, 2014</span>
 
+<span class="kw">mdy</span>(d1)</code></pre></div>
+<pre><code>## [1] &quot;2010-01-01&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ymd</span>(d2)</code></pre></div>
+<pre><code>## [1] &quot;2015-03-07&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dmy</span>(d3)</code></pre></div>
+<pre><code>## [1] &quot;2017-06-06&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mdy</span>(d4)</code></pre></div>
+<pre><code>## [1] &quot;2015-08-19&quot; &quot;2015-07-01&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mdy</span>(d5)</code></pre></div>
+<pre><code>## [1] &quot;2014-12-30&quot;</code></pre>
+</div>
+</div>
+<div id="date-time-components" class="section level2 unnumbered">
+<h2>16.3 - Date-time components</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">make_datetime_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="cf">function</span>(year, month, day, time) {
+  <span class="kw">make_datetime</span>(year, month, day, time <span class="op">%/%</span><span class="st"> </span><span class="dv">100</span>, time <span class="op">%%</span><span class="st"> </span><span class="dv">100</span>)
+}
+
+flights_dt &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(dep_time), <span class="op">!</span><span class="kw">is.na</span>(arr_time)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">dep_time =</span> <span class="kw">make_datetime_100</span>(year, month, day, dep_time),
+    <span class="dt">arr_time =</span> <span class="kw">make_datetime_100</span>(year, month, day, arr_time),
+    <span class="dt">sched_dep_time =</span> <span class="kw">make_datetime_100</span>(year, month, day, sched_dep_time),
+    <span class="dt">sched_arr_time =</span> <span class="kw">make_datetime_100</span>(year, month, day, sched_arr_time)
+  ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(origin, dest, <span class="kw">ends_with</span>(<span class="st">&quot;delay&quot;</span>), <span class="kw">ends_with</span>(<span class="st">&quot;time&quot;</span>))</code></pre></div>
+<div id="problem-1-42" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>How does the distribution of flight times within a day change over the course of the year?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dep_hour =</span> <span class="kw">update</span>(dep_time, <span class="dt">yday =</span> <span class="dv">1</span>),
+         <span class="dt">month =</span> <span class="kw">month</span>(dep_time, <span class="dt">label =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(dep_hour, <span class="dt">color =</span> month)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_freqpoly</span>(<span class="dt">binwidth =</span> <span class="dv">900</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Distribution of Flight Times by Month&quot;</span>)</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-1-1.png" width="672" /></p>
+</div>
+<div id="problem-2-41" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Compare <code>dep_time</code>, <code>sched_dep_time</code>, and <code>dep_delay</code>. Are they consistent? Explain your findings.</p>
+<p><code>dep_time</code>, <code>sched_dep_time</code>, and <code>dep_delay</code> are mostly consistent. The only issue is when delays extend past midnight. The value for day doesn’t increase for <code>dep_time</code> when a a flight is delayed beyond its scheduled day.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dep_time2 =</span> sched_dep_time <span class="op">+</span><span class="st"> </span>dep_delay <span class="op">*</span><span class="st"> </span><span class="dv">60</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(dep_time <span class="op">!=</span><span class="st"> </span>dep_time2) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(sched_dep_time, dep_time, dep_time2)</code></pre></div>
+<pre><code>## # A tibble: 1,205 x 3
+##    sched_dep_time      dep_time            dep_time2          
+##    &lt;dttm&gt;              &lt;dttm&gt;              &lt;dttm&gt;             
+##  1 2013-01-01 18:35:00 2013-01-01 08:48:00 2013-01-02 08:48:00
+##  2 2013-01-02 23:59:00 2013-01-02 00:42:00 2013-01-03 00:42:00
+##  3 2013-01-02 22:50:00 2013-01-02 01:26:00 2013-01-03 01:26:00
+##  4 2013-01-03 23:59:00 2013-01-03 00:32:00 2013-01-04 00:32:00
+##  5 2013-01-03 21:45:00 2013-01-03 00:50:00 2013-01-04 00:50:00
+##  6 2013-01-03 23:59:00 2013-01-03 02:35:00 2013-01-04 02:35:00
+##  7 2013-01-04 23:59:00 2013-01-04 00:25:00 2013-01-05 00:25:00
+##  8 2013-01-04 22:45:00 2013-01-04 01:06:00 2013-01-05 01:06:00
+##  9 2013-01-05 23:59:00 2013-01-05 00:14:00 2013-01-06 00:14:00
+## 10 2013-01-05 22:30:00 2013-01-05 00:37:00 2013-01-06 00:37:00
+## # ... with 1,195 more rows</code></pre>
+</div>
+<div id="problem-3-33" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Compare <code>air_time</code> with the duration between the departure and arrival. Explain your findings. (Hint: consider the location of the airport.)</p>
+<p>TODO(aaron):</p>
+<p>There is no way to explain my findings.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">air_time_calc =</span> <span class="kw">as.numeric</span>(arr_time <span class="op">-</span><span class="st"> </span>dep_time),
+         <span class="dt">air_time_diff =</span> air_time <span class="op">-</span><span class="st"> </span>air_time_calc) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(origin, dest, air_time, air_time_calc, air_time_diff)</code></pre></div>
+<pre><code>## # A tibble: 328,063 x 5
+##    origin dest  air_time air_time_calc air_time_diff
+##    &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;
+##  1 EWR    IAH      227           193            34.0
+##  2 LGA    IAH      227           197            30.0
+##  3 JFK    MIA      160           221           -61.0
+##  4 JFK    BQN      183           260           -77.0
+##  5 LGA    ATL      116           138           -22.0
+##  6 EWR    ORD      150           106            44.0
+##  7 EWR    FLL      158           198           -40.0
+##  8 LGA    IAD       53.0          72.0         -19.0
+##  9 JFK    MCO      140           161           -21.0
+## 10 LGA    ORD      138           115            23.0
+## # ... with 328,053 more rows</code></pre>
+</div>
+<div id="problem-4-25" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>How does the average delay time change over the course of a day? Should you use <code>dep_time</code> or <code>sched_dep_time</code>? Why?</p>
+<p>The average delay time increases slightly over the course of a day. This makes sense. Events that delay flights, like weather, mechanical issues, and pilot flight limits, accumulate over the course of the day and increase the probability of a flight being delayed.</p>
+<p><code>sched_dep_time</code> or <code>dep_time</code> could make sense. <code>sched_dep_time</code> is more useful if you’re planning on scheduling a flight and want to avoid delays!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sched_dep_time =</span> <span class="kw">update</span>(sched_dep_time, <span class="dt">yday =</span> <span class="dv">1</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(sched_dep_time, dep_delay)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.05</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>()</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-4-1.png" width="672" /></p>
+</div>
+<div id="problem-5-15" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>On what day of the week should you leave if you want to minimize the chance of a delay?</p>
+<p>Saturday boasts the lowest percentage of flights that have delayed departures and delayed arrivals.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">day_of_week =</span> <span class="kw">wday</span>(dep_time, <span class="dt">label =</span> <span class="ot">TRUE</span>),
+         <span class="dt">delayed =</span> <span class="kw">ifelse</span>(dep_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(day_of_week) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">delay_prob =</span> <span class="kw">mean</span>(delayed)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(day_of_week, delay_prob)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> scales<span class="op">::</span><span class="kw">percent</span>(delay_prob)), <span class="dt">vjust =</span> <span class="op">-</span><span class="fl">0.25</span>, <span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.6</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Percentage of Flight Departures Delayed By Day of the Week&quot;</span>,
+         <span class="dt">subtitle =</span> <span class="st">&quot;Flights are Delayed if They Depart &gt;= 1 Minute Behind Schedule&quot;</span>, 
+         <span class="dt">x =</span> <span class="st">&quot;Day of the Week&quot;</span>,
+         <span class="dt">y =</span> <span class="st">&quot;Percentage of Flights Delayed&quot;</span>)</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-5a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">day_of_week =</span> <span class="kw">wday</span>(arr_time, <span class="dt">label =</span> <span class="ot">TRUE</span>),
+         <span class="dt">delayed =</span> <span class="kw">ifelse</span>(arr_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(day_of_week) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">delay_prob =</span> <span class="kw">mean</span>(delayed, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(day_of_week, delay_prob)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> scales<span class="op">::</span><span class="kw">percent</span>(delay_prob)), <span class="dt">vjust =</span> <span class="op">-</span><span class="fl">0.25</span>, <span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.6</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Percentage of Flight Arrivals Delayed By Day of the Week&quot;</span>,
+         <span class="dt">subtitle =</span> <span class="st">&quot;Flights are Delayed if They Arrive &gt;= 1 Minute Behind Schedule&quot;</span>, 
+         <span class="dt">x =</span> <span class="st">&quot;Day of the Week&quot;</span>,
+         <span class="dt">y =</span> <span class="st">&quot;Percentage of Flights Delayed&quot;</span>)</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-5b-1.png" width="672" /></p>
+</div>
+<div id="problem-6-10" class="section level3 unnumbered">
+<h3>Problem 6</h3>
+<p>What makes the distribution of <code>diamonds$carat</code> and <code>flights_dep_time</code> similar?</p>
+<p>Humans round. In the case of the diamonds, they always round up!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> carat)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">labels =</span> scales<span class="op">::</span>dollar) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Diamond Prices Increase With Size&quot;</span>,
+       <span class="dt">subtitle =</span> <span class="st">&quot;Diamond Prices in Dollars and Sizes in Carats&quot;</span>,
+       <span class="dt">caption =</span> <span class="st">&quot;Urban Institute&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;Carat&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;Price&quot;</span>
+       )</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-6a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dep_time =</span> <span class="kw">update</span>(dep_time, <span class="dt">yday =</span> <span class="dv">1</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(dep_time)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">100</span>)</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-6b-1.png" width="672" /></p>
+</div>
+<div id="problem-7-2" class="section level3 unnumbered">
+<h3>Problem 7</h3>
+<p>Confirm my hypothesis that the early departures of flights in minutes 20-30 and 50-60 are caused by scheduled flights that leave early. Hint: create a binary variable that tells whether or not the flight was delayed.</p>
+<p>Early departures of scheduled flights in minutes 20-30 and minutes 50-60 is definitely a contributing factor to the disuniform distribution of average delay times on page 245.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Minute =</span> <span class="kw">minute</span>(dep_time),
+         <span class="dt">dep_delay_dummy =</span> <span class="kw">ifelse</span>(dep_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),
+         <span class="dt">dep_delay_dummy =</span> <span class="kw">factor</span>(dep_delay_dummy, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;On Time&quot;</span>, <span class="st">&quot;Delayed&quot;</span>))) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Minute, <span class="dt">color =</span> dep_delay_dummy)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_freqpoly</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Distribution of Minutes of Departure Times by Delay Status&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>)</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-7-1.png" width="672" /></p>
+</div>
+</div>
+<div id="time-spans" class="section level2 unnumbered">
+<h2>16.4 - Time spans</h2>
+<div id="problem-1-43" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Why is there <code>months()</code> but no <code>dmonths()</code>?</p>
+<p>Unlike hours, days, and weeks, the number of months in a year never varies.</p>
+</div>
+<div id="problem-2-42" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Explain<code>days(overnight * 1)</code> to someone who has just started learning R. How does it work?</p>
+<p>Overnight is a logical vector where <code>TRUE == 1</code> and <code>FALSE == 0</code>. If it’s an overnight flight, <code>days()</code> add 23, 24, or 25 hours to the value depending on the day of the year. I am unsure why <code>* 1</code> is necessary.</p>
+</div>
+<div id="problem-3-34" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Create a vector of dates giving the first day of every month in 2015. Create a vector of dates giving the first day of every month in the current year.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ymd</span>(<span class="st">&quot;2015-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">months</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">11</span>)</code></pre></div>
+<pre><code>##  [1] &quot;2015-01-01&quot; &quot;2015-02-01&quot; &quot;2015-03-01&quot; &quot;2015-04-01&quot; &quot;2015-05-01&quot;
+##  [6] &quot;2015-06-01&quot; &quot;2015-07-01&quot; &quot;2015-08-01&quot; &quot;2015-09-01&quot; &quot;2015-10-01&quot;
+## [11] &quot;2015-11-01&quot; &quot;2015-12-01&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">floor_date</span>(<span class="kw">today</span>(), <span class="dt">unit =</span> <span class="st">&quot;year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">months</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">11</span>)</code></pre></div>
+<pre><code>##  [1] &quot;2018-01-01&quot; &quot;2018-02-01&quot; &quot;2018-03-01&quot; &quot;2018-04-01&quot; &quot;2018-05-01&quot;
+##  [6] &quot;2018-06-01&quot; &quot;2018-07-01&quot; &quot;2018-08-01&quot; &quot;2018-09-01&quot; &quot;2018-10-01&quot;
+## [11] &quot;2018-11-01&quot; &quot;2018-12-01&quot;</code></pre>
+</div>
+<div id="problem-4-26" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>Write a function that, given your birthday (as a date), returns how old you are in years.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">age &lt;-<span class="st"> </span><span class="cf">function</span>(birthday) {
+  (birthday <span class="op">%--%</span><span class="st"> </span><span class="kw">today</span>()) <span class="op">/</span><span class="st"> </span><span class="kw">dyears</span>(<span class="dv">1</span>)
+}
+
+<span class="kw">age</span>(<span class="kw">ymd</span>(<span class="st">&quot;1992-03-14&quot;</span>))</code></pre></div>
+<pre><code>## [1] 25.96986</code></pre>
+</div>
+<div id="problem-5-16" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>Why can’t <code>(today() %--% (today() + years(1)) / months(1)</code> work?</p>
+<p>There is an uneven number of parentheses.</p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="chapter-15-factors.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="chapter-3-data-visualisation.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
