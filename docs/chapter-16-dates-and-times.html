@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>R for Data Science Solution Set</title>
+  <meta name="description" content="R for Data Science Solution Set">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="R for Data Science Solution Set" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R for Data Science Solution Set" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="chapter-15-factors.html">
+<link rel="next" href="chapter-19-functions.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.0/htmlwidgets.js"></script>
+<link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet" />
+<script src="libs/str_view-binding-1.3.0/str_view.js"></script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html"><i class="fa fa-check"></i>Chapter 3 - Data Visualisation</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#first-steps"><i class="fa fa-check"></i>3.2 - First Steps</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-5"><i class="fa fa-check"></i>Problem 5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#aesthetic-mappings"><i class="fa fa-check"></i>3.3 - Aesthetic Mappings</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-1"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-1"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-1"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-1"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-5-1"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-6"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#facets"><i class="fa fa-check"></i>3.5 - Facets</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-2"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-2"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-2"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-2"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-5-2"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-6-1"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#geometric-objects"><i class="fa fa-check"></i>3.6 - Geometric Objects</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-3"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-3"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-3"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-3"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-5-3"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-6-2"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#statistical-transformations"><i class="fa fa-check"></i>3.7 - Statistical Transformations</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-4"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-4"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-4"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-4"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-5-4"><i class="fa fa-check"></i>Problem 5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#position-adjustments"><i class="fa fa-check"></i>3.8 - Position Adjustments</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-5"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-5"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-5"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-5"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#coordinate-systems"><i class="fa fa-check"></i>3.9 - Coordinate Systems</a><ul>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1-6"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-2-6"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-3-6"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-4-6"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html"><i class="fa fa-check"></i>Chapter 5 - Data Transformation</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#filter-rows-with-filter"><i class="fa fa-check"></i>5.2 - Filter Rows with filter()</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-7"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-7"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-7"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-7"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#arrange-rows-with-arrange"><i class="fa fa-check"></i>5.3 - Arrange Rows with arrange()</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-8"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-8"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-8"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-8"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#select-columns-with-select"><i class="fa fa-check"></i>5.4 - Select Columns with select()</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-9"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-9"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-9"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-9"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#add-new-variables-with-mutate"><i class="fa fa-check"></i>5.5 - Add New Variables with mutate()</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-10"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-10"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-10"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-10"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-5-5"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-6-3"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#grouped-summaries-with-summarise"><i class="fa fa-check"></i>5.6 - Grouped summaries with summarise()</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-11"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-11"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-11"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-11"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-5-6"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-6-4"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#grouped-mutates-and-filters"><i class="fa fa-check"></i>5.7 - Grouped Mutates (and Filters)</a><ul>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-1-12"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-2-12"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-3-12"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-4-12"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-5-7"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-6-5"><i class="fa fa-check"></i>Problem 6</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-7"><i class="fa fa-check"></i>Problem 7</a></li>
+<li class="chapter" data-level="" data-path="chapter-5-data-transformation.html"><a href="chapter-5-data-transformation.html#problem-8"><i class="fa fa-check"></i>Problem 8</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html"><i class="fa fa-check"></i>Chapter 7 - Exploratory Data Analysis</a><ul>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#variation"><i class="fa fa-check"></i>7.3 - Variation</a><ul>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#problem-1-13"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#problem-2-13"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#problem-3-13"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#problem-4-13"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#missing-values"><i class="fa fa-check"></i>7.4 - Missing Values</a><ul>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#problem-1-14"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-7-exploratory-data-analysis.html"><a href="chapter-7-exploratory-data-analysis.html#problem-2-14"><i class="fa fa-check"></i>Problem 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-10-tibbles.html"><a href="chapter-10-tibbles.html"><i class="fa fa-check"></i>Chapter 10 - Tibbles</a><ul>
+<li class="chapter" data-level="" data-path="chapter-10-tibbles.html"><a href="chapter-10-tibbles.html#exercises"><i class="fa fa-check"></i>10.5 - Exercises</a><ul>
+<li class="chapter" data-level="" data-path="chapter-10-tibbles.html"><a href="chapter-10-tibbles.html#problem-1-15"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-10-tibbles.html"><a href="chapter-10-tibbles.html#problem-2-15"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-10-tibbles.html"><a href="chapter-10-tibbles.html#problem-3-14"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-10-tibbles.html"><a href="chapter-10-tibbles.html#problem-4-14"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-10-tibbles.html"><a href="chapter-10-tibbles.html#problem-5-8"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-10-tibbles.html"><a href="chapter-10-tibbles.html#problem-6-6"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html"><i class="fa fa-check"></i>Chapter 11 - Data Import</a><ul>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#getting-started"><i class="fa fa-check"></i>11.2 - Getting Started</a><ul>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-1-16"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-2-16"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-3-15"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-4-15"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-5-9"><i class="fa fa-check"></i>Problem 5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#parsing-a-vector"><i class="fa fa-check"></i>11.3 - Parsing a Vector</a><ul>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-1-17"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-2-17"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-3-16"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-4-16"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-5-10"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-6-7"><i class="fa fa-check"></i>Problem 6</a></li>
+<li class="chapter" data-level="" data-path="chapter-11-data-import.html"><a href="chapter-11-data-import.html#problem-7-1"><i class="fa fa-check"></i>Problem 7</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html"><i class="fa fa-check"></i>Chapter 12 - Tidy Data</a><ul>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#tidy-data"><i class="fa fa-check"></i>12.2 - Tidy Data</a><ul>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-1-18"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-2-18"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-3-17"><i class="fa fa-check"></i>Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#spreading-and-gathering"><i class="fa fa-check"></i>12.3 - Spreading and Gathering</a><ul>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-1-19"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-2-19"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-3-18"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-4-17"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#spreading-and-uniting"><i class="fa fa-check"></i>12.4 - Spreading and Uniting</a><ul>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-1-20"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-2-20"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-12-tidy-data.html"><a href="chapter-12-tidy-data.html#problem-3-19"><i class="fa fa-check"></i>Problem 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html"><i class="fa fa-check"></i>Chapter 13 - Relational data</a><ul>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#nycflights13"><i class="fa fa-check"></i>13.2 - nycflights13</a><ul>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-1-21"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-2-21"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-3-20"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-4-18"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#keys"><i class="fa fa-check"></i>13.3 - Keys</a><ul>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-1-22"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-2-22"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-3-21"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-4-19"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#mutating-joins"><i class="fa fa-check"></i>13.4 - Mutating joins</a><ul>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-1-23"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-2-23"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-3-22"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-4-20"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-5-11"><i class="fa fa-check"></i>Problem 5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#filtering-joins"><i class="fa fa-check"></i>13.5 - Filtering joins</a><ul>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-1-24"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-2-24"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-3-23"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-4-21"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-5-12"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-13-relational-data.html"><a href="chapter-13-relational-data.html#problem-6-8"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html"><i class="fa fa-check"></i>Chapter 14 - Strings</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#string-basics"><i class="fa fa-check"></i>14.2 String basics</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-25"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-25"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-3-24"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-4-22"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-5-13"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-6-9"><i class="fa fa-check"></i>Problem 6</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-26"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-26"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-3-25"><i class="fa fa-check"></i>Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#anchors"><i class="fa fa-check"></i>14.3.2 - Anchors</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-27"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-27"><i class="fa fa-check"></i>Problem 2</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#character-classes-and-alternatives"><i class="fa fa-check"></i>14.3.2 - Character classes and alternatives</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-28"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-28"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-3-26"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-4-23"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-5-14"><i class="fa fa-check"></i>Problem 5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#repetition"><i class="fa fa-check"></i>14.3.4 - Repetition</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-29"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-29"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-3-27"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-4-24"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#grouping-and-backreferences"><i class="fa fa-check"></i>14.3.5 - Grouping and backreferences</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-30"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-30"><i class="fa fa-check"></i>Problem 2</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#tools"><i class="fa fa-check"></i>14.4 Tools</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-31"><i class="fa fa-check"></i>Problem 1</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#extract-matches"><i class="fa fa-check"></i>14.4.3 - Extract Matches</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-32"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-31"><i class="fa fa-check"></i>Problem 2</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#grouped-matches"><i class="fa fa-check"></i>14.4.4 Grouped matches</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-33"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-32"><i class="fa fa-check"></i>Problem 2</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#replacing-matches"><i class="fa fa-check"></i>14.4.5 - Replacing matches</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-34"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-33"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-3-28"><i class="fa fa-check"></i>Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#splitting"><i class="fa fa-check"></i>14.4.6 - Splitting</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-35"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-34"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-3-29"><i class="fa fa-check"></i>Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#other-types-of-pattern"><i class="fa fa-check"></i>14.5 - Other types of pattern</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-36"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-35"><i class="fa fa-check"></i>Problem 2</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#other-uses-of-regular-expressions"><i class="fa fa-check"></i>14.6 - Other uses of regular expressions</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-37"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-36"><i class="fa fa-check"></i>Problem 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html"><i class="fa fa-check"></i>Chapter 15 - Factors</a><ul>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#general-social-survey"><i class="fa fa-check"></i>15.3 - General Social Survey</a><ul>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#problem-1-38"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#problem-2-37"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#problem-3-30"><i class="fa fa-check"></i>Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#modifying-factor-order"><i class="fa fa-check"></i>15.4 - Modifying factor order</a><ul>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#problem-1-39"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#problem-2-38"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#problem-3-31"><i class="fa fa-check"></i>Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#modifying-factor-levels"><i class="fa fa-check"></i>15.5 - Modifying factor levels</a><ul>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#problem-1-40"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-15-factors.html"><a href="chapter-15-factors.html#problem-2-39"><i class="fa fa-check"></i>Problem 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html"><i class="fa fa-check"></i>Chapter 16 - Dates and times</a><ul>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#creating-datetimes"><i class="fa fa-check"></i>16.2 - Creating date/times</a><ul>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-1-41"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-2-40"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-3-32"><i class="fa fa-check"></i>Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#date-time-components"><i class="fa fa-check"></i>16.3 - Date-time components</a><ul>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-1-42"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-2-41"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-3-33"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-4-25"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-5-15"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-6-10"><i class="fa fa-check"></i>Problem 6</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-7-2"><i class="fa fa-check"></i>Problem 7</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#time-spans"><i class="fa fa-check"></i>16.4 - Time spans</a><ul>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-1-43"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-2-42"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-3-34"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-4-26"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-16-dates-and-times.html"><a href="chapter-16-dates-and-times.html#problem-5-16"><i class="fa fa-check"></i>Problem 5</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html"><i class="fa fa-check"></i>Chapter 19 - Functions</a><ul>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#when-should-you-write-a-function"><i class="fa fa-check"></i>19.2 - When should you write a function?</a><ul>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-1-44"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-2-43"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-3-35"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-4-27"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-5-17"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-6-11"><i class="fa fa-check"></i>Problem 6</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-7-3"><i class="fa fa-check"></i>Problem 7</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#functions-are-for-humans-and-computers"><i class="fa fa-check"></i>19.3 - Functions are for humans and computers</a><ul>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-1-45"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-2-44"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-3-36"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-4-28"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#conditional-execution"><i class="fa fa-check"></i>19.4 - Conditional execution</a><ul>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-1-46"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-2-45"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-3-37"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-4-29"><i class="fa fa-check"></i>Problem 4</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-5-18"><i class="fa fa-check"></i>Problem 5</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-6-12"><i class="fa fa-check"></i>Problem 6</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#function-arguments"><i class="fa fa-check"></i>19.5 - Function arguments</a><ul>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-1-47"><i class="fa fa-check"></i>Problem 1</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-2-46"><i class="fa fa-check"></i>Problem 2</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-3-38"><i class="fa fa-check"></i>Problem 3</a></li>
+<li class="chapter" data-level="" data-path="chapter-19-functions.html"><a href="chapter-19-functions.html#problem-4-30"><i class="fa fa-check"></i>Problem 4</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R for Data Science Solution Set</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-16---dates-and-times" class="section level1 unnumbered">
+<h1>Chapter 16 - Dates and times</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(lubridate)
+<span class="kw">library</span>(nycflights13)</code></pre></div>
+<div id="creating-datetimes" class="section level2 unnumbered">
+<h2>16.2 - Creating date/times</h2>
+<div id="problem-1-41" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What happens if you parse a string that contains invalid dates?</p>
+<pre><code>ymd(c(&quot;2010-10-10&quot;, &quot;bananas&quot;))</code></pre>
+<p>Warning message: 1 failed to parse.</p>
+</div>
+<div id="problem-2-40" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>What does the tzone argument to <code>today()</code> do? Why is it important?</p>
+<p>tzone controls the time zone used when finding the current date. It defaults to the system time zone. It is important because every hour a different time zone moves from today to tomorrow and when analyzing data from another time zone dates can change.</p>
+</div>
+<div id="problem-3-32" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Use the appropriate lubridate function to parse the following dates:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d1 &lt;-<span class="st"> &quot;January 1, 2010&quot;</span>
+d2 &lt;-<span class="st"> &quot;2015-Mar-07&quot;</span>
+d3 &lt;-<span class="st"> &quot;06-Jun-2017&quot;</span>
+d4 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;August 19 (2015)&quot;</span>, <span class="st">&quot;July 1 (2015)&quot;</span>)
+d5 &lt;-<span class="st"> &quot;12/30/14&quot;</span> <span class="co"># Dec 30, 2014</span>
+
+<span class="kw">mdy</span>(d1)</code></pre></div>
+<pre><code>## [1] &quot;2010-01-01&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ymd</span>(d2)</code></pre></div>
+<pre><code>## [1] &quot;2015-03-07&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dmy</span>(d3)</code></pre></div>
+<pre><code>## [1] &quot;2017-06-06&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mdy</span>(d4)</code></pre></div>
+<pre><code>## [1] &quot;2015-08-19&quot; &quot;2015-07-01&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mdy</span>(d5)</code></pre></div>
+<pre><code>## [1] &quot;2014-12-30&quot;</code></pre>
+</div>
+</div>
+<div id="date-time-components" class="section level2 unnumbered">
+<h2>16.3 - Date-time components</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">make_datetime_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="cf">function</span>(year, month, day, time) {
+  <span class="kw">make_datetime</span>(year, month, day, time <span class="op">%/%</span><span class="st"> </span><span class="dv">100</span>, time <span class="op">%%</span><span class="st"> </span><span class="dv">100</span>)
+}
+
+flights_dt &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(dep_time), <span class="op">!</span><span class="kw">is.na</span>(arr_time)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">dep_time =</span> <span class="kw">make_datetime_100</span>(year, month, day, dep_time),
+    <span class="dt">arr_time =</span> <span class="kw">make_datetime_100</span>(year, month, day, arr_time),
+    <span class="dt">sched_dep_time =</span> <span class="kw">make_datetime_100</span>(year, month, day, sched_dep_time),
+    <span class="dt">sched_arr_time =</span> <span class="kw">make_datetime_100</span>(year, month, day, sched_arr_time)
+  ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(origin, dest, <span class="kw">ends_with</span>(<span class="st">&quot;delay&quot;</span>), <span class="kw">ends_with</span>(<span class="st">&quot;time&quot;</span>))</code></pre></div>
+<div id="problem-1-42" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>How does the distribution of flight times within a day change over the course of the year?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dep_hour =</span> <span class="kw">update</span>(dep_time, <span class="dt">yday =</span> <span class="dv">1</span>),
+         <span class="dt">month =</span> <span class="kw">month</span>(dep_time, <span class="dt">label =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(dep_hour, <span class="dt">color =</span> month)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_freqpoly</span>(<span class="dt">binwidth =</span> <span class="dv">900</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Distribution of Flight Times by Month&quot;</span>)</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-1-1.png" width="672" /></p>
+</div>
+<div id="problem-2-41" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Compare <code>dep_time</code>, <code>sched_dep_time</code>, and <code>dep_delay</code>. Are they consistent? Explain your findings.</p>
+<p><code>dep_time</code>, <code>sched_dep_time</code>, and <code>dep_delay</code> are mostly consistent. The only issue is when delays extend past midnight. The value for day doesn’t increase for <code>dep_time</code> when a a flight is delayed beyond its scheduled day.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dep_time2 =</span> sched_dep_time <span class="op">+</span><span class="st"> </span>dep_delay <span class="op">*</span><span class="st"> </span><span class="dv">60</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(dep_time <span class="op">!=</span><span class="st"> </span>dep_time2) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(sched_dep_time, dep_time, dep_time2)</code></pre></div>
+<pre><code>## # A tibble: 1,205 x 3
+##    sched_dep_time      dep_time            dep_time2          
+##    &lt;dttm&gt;              &lt;dttm&gt;              &lt;dttm&gt;             
+##  1 2013-01-01 18:35:00 2013-01-01 08:48:00 2013-01-02 08:48:00
+##  2 2013-01-02 23:59:00 2013-01-02 00:42:00 2013-01-03 00:42:00
+##  3 2013-01-02 22:50:00 2013-01-02 01:26:00 2013-01-03 01:26:00
+##  4 2013-01-03 23:59:00 2013-01-03 00:32:00 2013-01-04 00:32:00
+##  5 2013-01-03 21:45:00 2013-01-03 00:50:00 2013-01-04 00:50:00
+##  6 2013-01-03 23:59:00 2013-01-03 02:35:00 2013-01-04 02:35:00
+##  7 2013-01-04 23:59:00 2013-01-04 00:25:00 2013-01-05 00:25:00
+##  8 2013-01-04 22:45:00 2013-01-04 01:06:00 2013-01-05 01:06:00
+##  9 2013-01-05 23:59:00 2013-01-05 00:14:00 2013-01-06 00:14:00
+## 10 2013-01-05 22:30:00 2013-01-05 00:37:00 2013-01-06 00:37:00
+## # ... with 1,195 more rows</code></pre>
+</div>
+<div id="problem-3-33" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Compare <code>air_time</code> with the duration between the departure and arrival. Explain your findings. (Hint: consider the location of the airport.)</p>
+<p>TODO(aaron):</p>
+<p>There is no way to explain my findings.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">air_time_calc =</span> <span class="kw">as.numeric</span>(arr_time <span class="op">-</span><span class="st"> </span>dep_time),
+         <span class="dt">air_time_diff =</span> air_time <span class="op">-</span><span class="st"> </span>air_time_calc) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(origin, dest, air_time, air_time_calc, air_time_diff)</code></pre></div>
+<pre><code>## # A tibble: 328,063 x 5
+##    origin dest  air_time air_time_calc air_time_diff
+##    &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;
+##  1 EWR    IAH      227           193            34.0
+##  2 LGA    IAH      227           197            30.0
+##  3 JFK    MIA      160           221           -61.0
+##  4 JFK    BQN      183           260           -77.0
+##  5 LGA    ATL      116           138           -22.0
+##  6 EWR    ORD      150           106            44.0
+##  7 EWR    FLL      158           198           -40.0
+##  8 LGA    IAD       53.0          72.0         -19.0
+##  9 JFK    MCO      140           161           -21.0
+## 10 LGA    ORD      138           115            23.0
+## # ... with 328,053 more rows</code></pre>
+</div>
+<div id="problem-4-25" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>How does the average delay time change over the course of a day? Should you use <code>dep_time</code> or <code>sched_dep_time</code>? Why?</p>
+<p>The average delay time increases slightly over the course of a day. This makes sense. Events that delay flights, like weather, mechanical issues, and pilot flight limits, accumulate over the course of the day and increase the probability of a flight being delayed.</p>
+<p><code>sched_dep_time</code> or <code>dep_time</code> could make sense. <code>sched_dep_time</code> is more useful if you’re planning on scheduling a flight and want to avoid delays!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sched_dep_time =</span> <span class="kw">update</span>(sched_dep_time, <span class="dt">yday =</span> <span class="dv">1</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(sched_dep_time, dep_delay)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.05</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>()</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-4-1.png" width="672" /></p>
+</div>
+<div id="problem-5-15" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>On what day of the week should you leave if you want to minimize the chance of a delay?</p>
+<p>Saturday boasts the lowest percentage of flights that have delayed departures and delayed arrivals.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">day_of_week =</span> <span class="kw">wday</span>(dep_time, <span class="dt">label =</span> <span class="ot">TRUE</span>),
+         <span class="dt">delayed =</span> <span class="kw">ifelse</span>(dep_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(day_of_week) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">delay_prob =</span> <span class="kw">mean</span>(delayed)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(day_of_week, delay_prob)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> scales<span class="op">::</span><span class="kw">percent</span>(delay_prob)), <span class="dt">vjust =</span> <span class="op">-</span><span class="fl">0.25</span>, <span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.6</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Percentage of Flight Departures Delayed By Day of the Week&quot;</span>,
+         <span class="dt">subtitle =</span> <span class="st">&quot;Flights are Delayed if They Depart &gt;= 1 Minute Behind Schedule&quot;</span>, 
+         <span class="dt">x =</span> <span class="st">&quot;Day of the Week&quot;</span>,
+         <span class="dt">y =</span> <span class="st">&quot;Percentage of Flights Delayed&quot;</span>)</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-5a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">day_of_week =</span> <span class="kw">wday</span>(arr_time, <span class="dt">label =</span> <span class="ot">TRUE</span>),
+         <span class="dt">delayed =</span> <span class="kw">ifelse</span>(arr_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(day_of_week) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">delay_prob =</span> <span class="kw">mean</span>(delayed, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(day_of_week, delay_prob)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> scales<span class="op">::</span><span class="kw">percent</span>(delay_prob)), <span class="dt">vjust =</span> <span class="op">-</span><span class="fl">0.25</span>, <span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.6</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Percentage of Flight Arrivals Delayed By Day of the Week&quot;</span>,
+         <span class="dt">subtitle =</span> <span class="st">&quot;Flights are Delayed if They Arrive &gt;= 1 Minute Behind Schedule&quot;</span>, 
+         <span class="dt">x =</span> <span class="st">&quot;Day of the Week&quot;</span>,
+         <span class="dt">y =</span> <span class="st">&quot;Percentage of Flights Delayed&quot;</span>)</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-5b-1.png" width="672" /></p>
+</div>
+<div id="problem-6-10" class="section level3 unnumbered">
+<h3>Problem 6</h3>
+<p>What makes the distribution of <code>diamonds$carat</code> and <code>flights_dep_time</code> similar?</p>
+<p>Humans round. In the case of the diamonds, they always round up!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> diamonds, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> carat)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">labels =</span> scales<span class="op">::</span>dollar) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Diamond Prices Increase With Size&quot;</span>,
+       <span class="dt">subtitle =</span> <span class="st">&quot;Diamond Prices in Dollars and Sizes in Carats&quot;</span>,
+       <span class="dt">caption =</span> <span class="st">&quot;Urban Institute&quot;</span>,
+       <span class="dt">x =</span> <span class="st">&quot;Carat&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;Price&quot;</span>
+       )</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-6a-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dep_time =</span> <span class="kw">update</span>(dep_time, <span class="dt">yday =</span> <span class="dv">1</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(dep_time)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">100</span>)</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-6b-1.png" width="672" /></p>
+</div>
+<div id="problem-7-2" class="section level3 unnumbered">
+<h3>Problem 7</h3>
+<p>Confirm my hypothesis that the early departures of flights in minutes 20-30 and 50-60 are caused by scheduled flights that leave early. Hint: create a binary variable that tells whether or not the flight was delayed.</p>
+<p>Early departures of scheduled flights in minutes 20-30 and minutes 50-60 is definitely a contributing factor to the disuniform distribution of average delay times on page 245.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_dt <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Minute =</span> <span class="kw">minute</span>(dep_time),
+         <span class="dt">dep_delay_dummy =</span> <span class="kw">ifelse</span>(dep_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),
+         <span class="dt">dep_delay_dummy =</span> <span class="kw">factor</span>(dep_delay_dummy, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;On Time&quot;</span>, <span class="st">&quot;Delayed&quot;</span>))) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Minute, <span class="dt">color =</span> dep_delay_dummy)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_freqpoly</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Distribution of Minutes of Departure Times by Delay Status&quot;</span>,
+       <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>)</code></pre></div>
+<p><img src="16-dates-and-times_files/figure-html/16-3-7-1.png" width="672" /></p>
+</div>
+</div>
+<div id="time-spans" class="section level2 unnumbered">
+<h2>16.4 - Time spans</h2>
+<div id="problem-1-43" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Why is there <code>months()</code> but no <code>dmonths()</code>?</p>
+<p>Unlike hours, days, and weeks, the number of months in a year never varies.</p>
+</div>
+<div id="problem-2-42" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Explain<code>days(overnight * 1)</code> to someone who has just started learning R. How does it work?</p>
+<p>Overnight is a logical vector where <code>TRUE == 1</code> and <code>FALSE == 0</code>. If it’s an overnight flight, <code>days()</code> add 23, 24, or 25 hours to the value depending on the day of the year. I am unsure why <code>* 1</code> is necessary.</p>
+</div>
+<div id="problem-3-34" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Create a vector of dates giving the first day of every month in 2015. Create a vector of dates giving the first day of every month in the current year.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ymd</span>(<span class="st">&quot;2015-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">months</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">11</span>)</code></pre></div>
+<pre><code>##  [1] &quot;2015-01-01&quot; &quot;2015-02-01&quot; &quot;2015-03-01&quot; &quot;2015-04-01&quot; &quot;2015-05-01&quot;
+##  [6] &quot;2015-06-01&quot; &quot;2015-07-01&quot; &quot;2015-08-01&quot; &quot;2015-09-01&quot; &quot;2015-10-01&quot;
+## [11] &quot;2015-11-01&quot; &quot;2015-12-01&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">floor_date</span>(<span class="kw">today</span>(), <span class="dt">unit =</span> <span class="st">&quot;year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">months</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">11</span>)</code></pre></div>
+<pre><code>##  [1] &quot;2018-01-01&quot; &quot;2018-02-01&quot; &quot;2018-03-01&quot; &quot;2018-04-01&quot; &quot;2018-05-01&quot;
+##  [6] &quot;2018-06-01&quot; &quot;2018-07-01&quot; &quot;2018-08-01&quot; &quot;2018-09-01&quot; &quot;2018-10-01&quot;
+## [11] &quot;2018-11-01&quot; &quot;2018-12-01&quot;</code></pre>
+</div>
+<div id="problem-4-26" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>Write a function that, given your birthday (as a date), returns how old you are in years.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">age &lt;-<span class="st"> </span><span class="cf">function</span>(birthday) {
+  (birthday <span class="op">%--%</span><span class="st"> </span><span class="kw">today</span>()) <span class="op">/</span><span class="st"> </span><span class="kw">dyears</span>(<span class="dv">1</span>)
+}
+
+<span class="kw">age</span>(<span class="kw">ymd</span>(<span class="st">&quot;1992-03-14&quot;</span>))</code></pre></div>
+<pre><code>## [1] 25.96986</code></pre>
+</div>
+<div id="problem-5-16" class="section level3 unnumbered">
+<h3>Problem 5</h3>
+<p>Why can’t <code>(today() %--% (today() + years(1)) / months(1)</code> work?</p>
+<p>There is an uneven number of parentheses.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-15-factors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-19-functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

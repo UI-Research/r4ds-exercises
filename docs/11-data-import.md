@@ -72,11 +72,11 @@ read_fwf(fwf_sample, fwf_widths(c(20, 10, 12), c("name", "state", "ssn")))
 
 ```
 ## # A tibble: 3 x 3
-##            name state          ssn
-##           <chr> <chr>        <chr>
-## 1    John Smith    WA 418-Y11-4111
-## 2 Mary Hartford    CA 319-Z19-4341
-## 3    Evan Nolan    IL 219-532-c301
+##   name          state ssn         
+##   <chr>         <chr> <chr>       
+## 1 John Smith    WA    418-Y11-4111
+## 2 Mary Hartford CA    319-Z19-4341
+## 3 Evan Nolan    IL    219-532-c301
 ```
 
 ```r
@@ -94,11 +94,11 @@ read_fwf(fwf_sample, fwf_widths(c(5, 10, 12), c("name", "state", "ssn")))
 
 ```
 ## # A tibble: 3 x 3
-##    name    state   ssn
-##   <chr>    <chr> <chr>
-## 1  John    Smith    WA
-## 2  Mary Hartford    CA
-## 3  Evan    Nolan    IL
+##   name  state    ssn  
+##   <chr> <chr>    <chr>
+## 1 John  Smith    WA   
+## 2 Mary  Hartford CA   
+## 3 Evan  Nolan    IL
 ```
 
 ### Problem 4 {-}
@@ -124,9 +124,9 @@ read_delim(data, delim = ',', quote = '\'')
 
 ```
 ## # A tibble: 1 x 2
-##       x     y
+##       x y    
 ##   <int> <chr>
-## 1     1   a,b
+## 1     1 a,b
 ```
 
 ### Problem 5 {-}
@@ -144,7 +144,7 @@ read_csv("a,b\n1,2,3\n4,5,6")
 
 ```
 ## Warning: 2 parsing failures.
-## row # A tibble: 2 x 5 col     row   col  expected    actual         file expected   <int> <chr>     <chr>     <chr>        <chr> actual 1     1  <NA> 2 columns 3 columns literal data file 2     2  <NA> 2 columns 3 columns literal data
+## row # A tibble: 2 x 5 col     row col   expected  actual    file         expected   <int> <chr> <chr>     <chr>     <chr>        actual 1     1 <NA>  2 columns 3 columns literal data file 2     2 <NA>  2 columns 3 columns literal data
 ```
 
 ```
@@ -165,7 +165,7 @@ read_csv("a,b,c\n1,2\n1,2,3,4")
 
 ```
 ## Warning: 2 parsing failures.
-## row # A tibble: 2 x 5 col     row   col  expected    actual         file expected   <int> <chr>     <chr>     <chr>        <chr> actual 1     1  <NA> 3 columns 2 columns literal data file 2     2  <NA> 3 columns 4 columns literal data
+## row # A tibble: 2 x 5 col     row col   expected  actual    file         expected   <int> <chr> <chr>     <chr>     <chr>        actual 1     1 <NA>  3 columns 2 columns literal data file 2     2 <NA>  3 columns 4 columns literal data
 ```
 
 ```
@@ -186,14 +186,14 @@ read_csv("a,b\n\"1")
 
 ```
 ## Warning: 2 parsing failures.
-## row # A tibble: 2 x 5 col     row   col                     expected    actual         file expected   <int> <chr>                        <chr>     <chr>        <chr> actual 1     1     a closing quote at end of file           literal data file 2     1  <NA>                    2 columns 1 columns literal data
+## row # A tibble: 2 x 5 col     row col   expected                     actual    file         expected   <int> <chr> <chr>                        <chr>     <chr>        actual 1     1 a     closing quote at end of file ""        literal data file 2     1 <NA>  2 columns                    1 columns literal data
 ```
 
 ```
 ## # A tibble: 1 x 2
-##       a     b
+##       a b    
 ##   <int> <chr>
-## 1     1  <NA>
+## 1     1 <NA>
 ```
 
 * Appears that the header was entered twice, so the data are parsed as character 
@@ -207,10 +207,10 @@ read_csv("a,b\n1,2\na,b")
 
 ```
 ## # A tibble: 2 x 2
-##       a     b
+##   a     b    
 ##   <chr> <chr>
-## 1     1     2
-## 2     a     b
+## 1 1     2    
+## 2 a     b
 ```
 
 ```r
@@ -219,10 +219,10 @@ read_csv("a,b\n1,2\nna,b")
 
 ```
 ## # A tibble: 2 x 2
-##       a     b
+##   a     b    
 ##   <chr> <chr>
-## 1     1     2
-## 2    na     b
+## 1 1     2    
+## 2 na    b
 ```
 
 * `read_csv()` has a delimiter set to `,`, use `read_csv2()` instead:
@@ -236,7 +236,7 @@ read_csv("a;b\n1;3")
 ## # A tibble: 1 x 1
 ##   `a;b`
 ##   <chr>
-## 1   1;3
+## 1 1;3
 ```
 
 ```r

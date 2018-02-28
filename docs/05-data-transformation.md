@@ -366,12 +366,12 @@ flights %>%
 ## # A tibble: 6 x 19
 ##    year month   day dep_time sched_dep_time dep_delay arr_time
 ##   <int> <int> <int>    <int>          <int>     <dbl>    <int>
-## 1  2013    12     7     2040           2123       -43       40
-## 2  2013     2     3     2022           2055       -33     2240
-## 3  2013    11    10     1408           1440       -32     1549
-## 4  2013     1    11     1900           1930       -30     2233
-## 5  2013     1    29     1703           1730       -27     1947
-## 6  2013     8     9      729            755       -26     1002
+## 1  2013    12     7     2040           2123     -43.0       40
+## 2  2013     2     3     2022           2055     -33.0     2240
+## 3  2013    11    10     1408           1440     -32.0     1549
+## 4  2013     1    11     1900           1930     -30.0     2233
+## 5  2013     1    29     1703           1730     -27.0     1947
+## 6  2013     8     9      729            755     -26.0     1002
 ## # ... with 12 more variables: sched_arr_time <int>, arr_delay <dbl>,
 ## #   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
 ## #   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
@@ -396,14 +396,14 @@ flights %>%
 
 ```
 ## # A tibble: 6 x 1
-##      speed
-##      <dbl>
-## 1 703.3846
-## 2 650.3226
-## 3 648.0000
-## 4 641.1429
-## 5 591.4286
-## 6 564.0000
+##   speed
+##   <dbl>
+## 1   703
+## 2   650
+## 3   648
+## 4   641
+## 5   591
+## 6   564
 ```
 
 ### Problem 4 {-}
@@ -423,12 +423,12 @@ flights %>%
 ## # A tibble: 6 x 19
 ##    year month   day dep_time sched_dep_time dep_delay arr_time
 ##   <int> <int> <int>    <int>          <int>     <dbl>    <int>
-## 1  2013     1     1      857            900        -3     1516
-## 2  2013     1     2      909            900         9     1525
-## 3  2013     1     3      914            900        14     1504
-## 4  2013     1     4      900            900         0     1516
-## 5  2013     1     5      858            900        -2     1519
-## 6  2013     1     6     1019            900        79     1558
+## 1  2013     1     1      857            900    - 3.00     1516
+## 2  2013     1     2      909            900      9.00     1525
+## 3  2013     1     3      914            900     14.0      1504
+## 4  2013     1     4      900            900      0        1516
+## 5  2013     1     5      858            900    - 2.00     1519
+## 6  2013     1     6     1019            900     79.0      1558
 ## # ... with 12 more variables: sched_arr_time <int>, arr_delay <dbl>,
 ## #   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
 ## #   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
@@ -448,12 +448,12 @@ flights %>%
 ## # A tibble: 6 x 19
 ##    year month   day dep_time sched_dep_time dep_delay arr_time
 ##   <int> <int> <int>    <int>          <int>     <dbl>    <int>
-## 1  2013     7    27       NA            106        NA       NA
-## 2  2013     1     3     2127           2129        -2     2222
-## 3  2013     1     4     1240           1200        40     1333
-## 4  2013     1     4     1829           1615       134     1937
-## 5  2013     1     4     2128           2129        -1     2218
-## 6  2013     1     5     1155           1200        -5     1241
+## 1  2013     7    27       NA            106     NA          NA
+## 2  2013     1     3     2127           2129   -  2.00     2222
+## 3  2013     1     4     1240           1200     40.0      1333
+## 4  2013     1     4     1829           1615    134        1937
+## 5  2013     1     4     2128           2129   -  1.00     2218
+## 6  2013     1     5     1155           1200   -  5.00     1241
 ## # ... with 12 more variables: sched_arr_time <int>, arr_delay <dbl>,
 ## #   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
 ## #   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
@@ -480,12 +480,12 @@ flights %>%
 ## # A tibble: 6 x 4
 ##   dep_time dep_delay arr_time arr_delay
 ##      <int>     <dbl>    <int>     <dbl>
-## 1      517         2      830        11
-## 2      533         4      850        20
-## 3      542         2      923        33
-## 4      544        -1     1004       -18
-## 5      554        -6      812       -25
-## 6      554        -4      740        12
+## 1      517      2.00      830      11.0
+## 2      533      4.00      850      20.0
+## 3      542      2.00      923      33.0
+## 4      544     -1.00     1004     -18.0
+## 5      554     -6.00      812     -25.0
+## 6      554     -4.00      740      12.0
 ```
 
 Or this would be a good place to try the `starts_with()` function: 
@@ -500,16 +500,16 @@ flights %>%
 ## # A tibble: 336,776 x 4
 ##    dep_time dep_delay arr_time arr_delay
 ##       <int>     <dbl>    <int>     <dbl>
-##  1      517         2      830        11
-##  2      533         4      850        20
-##  3      542         2      923        33
-##  4      544        -1     1004       -18
-##  5      554        -6      812       -25
-##  6      554        -4      740        12
-##  7      555        -5      913        19
-##  8      557        -3      709       -14
-##  9      557        -3      838        -8
-## 10      558        -2      753         8
+##  1      517      2.00      830     11.0 
+##  2      533      4.00      850     20.0 
+##  3      542      2.00      923     33.0 
+##  4      544     -1.00     1004    -18.0 
+##  5      554     -6.00      812    -25.0 
+##  6      554     -4.00      740     12.0 
+##  7      555     -5.00      913     19.0 
+##  8      557     -3.00      709    -14.0 
+##  9      557     -3.00      838    - 8.00
+## 10      558     -2.00      753      8.00
 ## # ... with 336,766 more rows
 ```
 
@@ -526,12 +526,12 @@ flights %>%
 ## # A tibble: 6 x 4
 ##   dep_time dep_delay arr_time arr_delay
 ##      <int>     <dbl>    <int>     <dbl>
-## 1      517         2      830        11
-## 2      533         4      850        20
-## 3      542         2      923        33
-## 4      544        -1     1004       -18
-## 5      554        -6      812       -25
-## 6      554        -4      740        12
+## 1      517      2.00      830      11.0
+## 2      533      4.00      850      20.0
+## 3      542      2.00      923      33.0
+## 4      544     -1.00     1004     -18.0
+## 5      554     -6.00      812     -25.0
+## 6      554     -4.00      740      12.0
 ```
 
 ### Problem 2 {-}
@@ -583,16 +583,16 @@ flights %>%
 ## # A tibble: 336,776 x 5
 ##     year month   day dep_delay arr_delay
 ##    <int> <int> <int>     <dbl>     <dbl>
-##  1  2013     1     1         2        11
-##  2  2013     1     1         4        20
-##  3  2013     1     1         2        33
-##  4  2013     1     1        -1       -18
-##  5  2013     1     1        -6       -25
-##  6  2013     1     1        -4        12
-##  7  2013     1     1        -5        19
-##  8  2013     1     1        -3       -14
-##  9  2013     1     1        -3        -8
-## 10  2013     1     1        -2         8
+##  1  2013     1     1      2.00     11.0 
+##  2  2013     1     1      4.00     20.0 
+##  3  2013     1     1      2.00     33.0 
+##  4  2013     1     1     -1.00    -18.0 
+##  5  2013     1     1     -6.00    -25.0 
+##  6  2013     1     1     -4.00     12.0 
+##  7  2013     1     1     -5.00     19.0 
+##  8  2013     1     1     -3.00    -14.0 
+##  9  2013     1     1     -3.00    - 8.00
+## 10  2013     1     1     -2.00      8.00
 ## # ... with 336,766 more rows
 ```
 
@@ -617,7 +617,7 @@ select(flights, contains("TIME")) %>%
 ## 4      544            545     1004           1022      183
 ## 5      554            600      812            837      116
 ## 6      554            558      740            728      150
-## # ... with 1 more variables: time_hour <dttm>
+## # ... with 1 more variable: time_hour <dttm>
 ```
 
 `contains()` contains an argument `ignore.case` which defaults to `TRUE`, we can 
@@ -739,12 +739,12 @@ flights %>%
 ## # A tibble: 6 x 2
 ##   dep_delay dep_delay_derived
 ##       <dbl>             <dbl>
-## 1         2                 2
-## 2         4                 4
-## 3         2                 2
-## 4        -1                -1
-## 5        -6                -6
-## 6        -4                -4
+## 1      2.00              2.00
+## 2      4.00              4.00
+## 3      2.00              2.00
+## 4     -1.00             -1.00
+## 5     -6.00             -6.00
+## 6     -4.00             -4.00
 ```
 
 ### Problem 4 {-}
@@ -888,16 +888,16 @@ flights %>%
 ## # A tibble: 21 x 3
 ##    flight fifteen_early fifteen_late
 ##     <int>         <dbl>        <dbl>
-##  1    107           0.5          0.5
-##  2   2072           0.5          0.5
-##  3   2366           0.5          0.5
-##  4   2500           0.5          0.5
-##  5   2552           0.5          0.5
-##  6   3495           0.5          0.5
-##  7   3505           0.5          0.5
-##  8   3518           0.5          0.5
-##  9   3544           0.5          0.5
-## 10   3651           0.5          0.5
+##  1    107         0.500        0.500
+##  2   2072         0.500        0.500
+##  3   2366         0.500        0.500
+##  4   2500         0.500        0.500
+##  5   2552         0.500        0.500
+##  6   3495         0.500        0.500
+##  7   3505         0.500        0.500
+##  8   3518         0.500        0.500
+##  9   3544         0.500        0.500
+## 10   3651         0.500        0.500
 ## # ... with 11 more rows
 ```
 
@@ -915,11 +915,11 @@ flights %>%
 ## # A tibble: 5 x 2
 ##   flight ten_late
 ##    <int>    <dbl>
-## 1   2254        1
-## 2   3656        1
-## 3   3785        1
-## 4   3880        1
-## 5   5854        1
+## 1   2254     1.00
+## 2   3656     1.00
+## 3   3785     1.00
+## 4   3880     1.00
+## 5   5854     1.00
 ```
 
 * A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of 
@@ -939,9 +939,9 @@ flights %>%
 ## # A tibble: 3 x 3
 ##   flight thirty_early thirty_late
 ##    <int>        <dbl>       <dbl>
-## 1   3651          0.5         0.5
-## 2   3916          0.5         0.5
-## 3   3951          0.5         0.5
+## 1   3651        0.500       0.500
+## 2   3916        0.500       0.500
+## 3   3951        0.500       0.500
 ```
 
 * 99% of the time a flight is on time. 1% of the time it’s 2 hours late.
@@ -985,18 +985,18 @@ not_cancelled %>%
 
 ```
 ## # A tibble: 104 x 2
-##     dest     n
+##    dest      n
 ##    <chr> <int>
-##  1   ABQ   254
-##  2   ACK   264
-##  3   ALB   418
-##  4   ANC     8
-##  5   ATL 16837
-##  6   AUS  2411
-##  7   AVL   261
-##  8   BDL   412
-##  9   BGR   358
-## 10   BHM   269
+##  1 ABQ     254
+##  2 ACK     264
+##  3 ALB     418
+##  4 ANC       8
+##  5 ATL   16837
+##  6 AUS    2411
+##  7 AVL     261
+##  8 BDL     412
+##  9 BGR     358
+## 10 BHM     269
 ## # ... with 94 more rows
 ```
 
@@ -1011,18 +1011,18 @@ not_cancelled %>%
 
 ```
 ## # A tibble: 104 x 2
-##     dest     n
+##    dest      n
 ##    <chr> <int>
-##  1   ABQ   254
-##  2   ACK   264
-##  3   ALB   418
-##  4   ANC     8
-##  5   ATL 16837
-##  6   AUS  2411
-##  7   AVL   261
-##  8   BDL   412
-##  9   BGR   358
-## 10   BHM   269
+##  1 ABQ     254
+##  2 ACK     264
+##  3 ALB     418
+##  4 ANC       8
+##  5 ATL   16837
+##  6 AUS    2411
+##  7 AVL     261
+##  8 BDL     412
+##  9 BGR     358
+## 10 BHM     269
 ## # ... with 94 more rows
 ```
 
@@ -1037,17 +1037,17 @@ not_cancelled %>%
 ```
 ## # A tibble: 4,037 x 2
 ##    tailnum      n
-##      <chr>  <dbl>
-##  1  D942DN   3418
-##  2  N0EGMQ 239143
-##  3  N10156 109664
-##  4  N102UW  25722
-##  5  N103US  24619
-##  6  N104UW  24616
-##  7  N10575 139903
-##  8  N105UW  23618
-##  9  N107US  21677
-## 10  N108UW  32070
+##    <chr>    <dbl>
+##  1 D942DN    3418
+##  2 N0EGMQ  239143
+##  3 N10156  109664
+##  4 N102UW   25722
+##  5 N103US   24619
+##  6 N104UW   24616
+##  7 N10575  139903
+##  8 N105UW   23618
+##  9 N107US   21677
+## 10 N108UW   32070
 ## # ... with 4,027 more rows
 ```
 
@@ -1064,17 +1064,17 @@ not_cancelled %>%
 ```
 ## # A tibble: 4,037 x 2
 ##    tailnum      n
-##      <chr>  <dbl>
-##  1  D942DN   3418
-##  2  N0EGMQ 239143
-##  3  N10156 109664
-##  4  N102UW  25722
-##  5  N103US  24619
-##  6  N104UW  24616
-##  7  N10575 139903
-##  8  N105UW  23618
-##  9  N107US  21677
-## 10  N108UW  32070
+##    <chr>    <dbl>
+##  1 D942DN    3418
+##  2 N0EGMQ  239143
+##  3 N10156  109664
+##  4 N102UW   25722
+##  5 N103US   24619
+##  6 N104UW   24616
+##  7 N10575  139903
+##  8 N105UW   23618
+##  9 N107US   21677
+## 10 N108UW   32070
 ## # ... with 4,027 more rows
 ```
 
@@ -1138,14 +1138,14 @@ flights %>%
 
 ```
 ## # A tibble: 6 x 3
-##         date cancelled avg_delay
-##       <date>     <dbl>     <dbl>
-## 1 2013-02-09 0.5745614  6.639175
-## 2 2013-02-08 0.5107527 24.228571
-## 3 2013-05-23 0.2348178 61.970899
-## 4 2013-09-12 0.2288306 58.912418
-## 5 2013-12-10 0.2163309 44.508796
-## 6 2013-12-14 0.1893064 46.397504
+##   date       cancelled avg_delay
+##   <date>         <dbl>     <dbl>
+## 1 2013-02-09     0.575      6.64
+## 2 2013-02-08     0.511     24.2 
+## 3 2013-05-23     0.235     62.0 
+## 4 2013-09-12     0.229     58.9 
+## 5 2013-12-10     0.216     44.5 
+## 6 2013-12-14     0.189     46.4
 ```
 
 ### Problem 5 {-}
@@ -1167,23 +1167,23 @@ flights %>%
 ```
 ## # A tibble: 16 x 2
 ##    carrier median_delay
-##      <chr>        <dbl>
-##  1      F9            6
-##  2      FL            5
-##  3      EV           -1
-##  4      MQ           -1
-##  5      YV           -2
-##  6      B6           -3
-##  7      WN           -3
-##  8      UA           -6
-##  9      US           -6
-## 10      9E           -7
-## 11      OO           -7
-## 12      DL           -8
-## 13      AA           -9
-## 14      VX           -9
-## 15      HA          -13
-## 16      AS          -17
+##    <chr>          <dbl>
+##  1 F9              6.00
+##  2 FL              5.00
+##  3 EV            - 1.00
+##  4 MQ            - 1.00
+##  5 YV            - 2.00
+##  6 B6            - 3.00
+##  7 WN            - 3.00
+##  8 UA            - 6.00
+##  9 US            - 6.00
+## 10 9E            - 7.00
+## 11 OO            - 7.00
+## 12 DL            - 8.00
+## 13 AA            - 9.00
+## 14 VX            - 9.00
+## 15 HA            -13.0 
+## 16 AS            -17.0
 ```
 
 We can try to get a better sense of bad airlines vs bad airports by grouping by
@@ -1223,14 +1223,14 @@ flights %>%
 ```
 ## # A tibble: 6 x 2
 ## # Groups:   dest [6]
-##    dest     n
+##   dest      n
 ##   <chr> <int>
-## 1   ORD 17283
-## 2   ATL 17215
-## 3   LAX 16174
-## 4   BOS 15508
-## 5   MCO 14082
-## 6   CLT 14064
+## 1 ORD   17283
+## 2 ATL   17215
+## 3 LAX   16174
+## 4 BOS   15508
+## 5 MCO   14082
+## 6 CLT   14064
 ```
 
 ## 5.7 - Grouped Mutates (and Filters) {-}
@@ -1262,14 +1262,14 @@ flights %>%
 
 ```
 ## # A tibble: 6 x 3
-##   tailnum flights   on_time
-##     <chr>   <int>     <dbl>
-## 1  N988AT      37 0.2000000
-## 2  N983AT      32 0.2500000
-## 3  N980AT      47 0.2553191
-## 4  N969AT      34 0.2647059
-## 5  N932AT      30 0.2666667
-## 6  N149AT      22 0.2727273
+##   tailnum flights on_time
+##   <chr>     <int>   <dbl>
+## 1 N988AT       37   0.200
+## 2 N983AT       32   0.250
+## 3 N980AT       47   0.255
+## 4 N969AT       34   0.265
+## 5 N932AT       30   0.267
+## 6 N149AT       22   0.273
 ```
 
 ### Problem 3 {-}
@@ -1315,14 +1315,14 @@ flights %>%
 ```
 ## # A tibble: 6 x 4
 ## # Groups:   dest [1]
-##    dest flight total_delay   prop_delay
-##   <chr>  <int>       <dbl>        <dbl>
-## 1   ATL   4650      300299 3.996017e-05
-## 2   ATL   1547      300299 1.665007e-05
-## 3   ATL    346      300299 5.661025e-05
-## 4   ATL   4654      300299 1.998009e-05
-## 5   ATL    347      300299 6.660029e-06
-## 6   ATL   4876      300299 3.663016e-05
+##   dest  flight total_delay prop_delay
+##   <chr>  <int>       <dbl>      <dbl>
+## 1 ATL     4650      300299 0.0000400 
+## 2 ATL     1547      300299 0.0000167 
+## 3 ATL      346      300299 0.0000566 
+## 4 ATL     4654      300299 0.0000200 
+## 5 ATL      347      300299 0.00000666
+## 6 ATL     4876      300299 0.0000366
 ```
 
 ### Problem 5 {-}
@@ -1349,10 +1349,10 @@ flights %>%
 ```
 ## # A tibble: 3 x 2
 ##   origin delay_correlation
-##    <chr>             <dbl>
-## 1    EWR         0.2648892
-## 2    JFK         0.2422018
-## 3    LGA         0.3021787
+##   <chr>              <dbl>
+## 1 EWR                0.265
+## 2 JFK                0.242
+## 3 LGA                0.302
 ```
 
 ### Problem 6 {-}
@@ -1383,14 +1383,14 @@ deviation %>% head()
 ```
 ## # A tibble: 6 x 5
 ## # Groups:   dest [6]
-##   air_time mean_air_time  deviation origin  dest
-##      <dbl>         <dbl>      <dbl>  <chr> <chr>
-## 1       65     112.93045 -0.4244245    LGA   ATL
-## 2       55      93.39494 -0.4111030    EWR   GSP
-## 3       70     114.38215 -0.3880164    EWR   BNA
-## 4       93     150.57368 -0.3823622    EWR   MSP
-## 5       62      95.96510 -0.3539318    EWR   CVG
-## 6       40      61.45885 -0.3491580    LGA   PIT
+##   air_time mean_air_time deviation origin dest 
+##      <dbl>         <dbl>     <dbl> <chr>  <chr>
+## 1     65.0         113      -0.424 LGA    ATL  
+## 2     55.0          93.4    -0.411 EWR    GSP  
+## 3     70.0         114      -0.388 EWR    BNA  
+## 4     93.0         151      -0.382 EWR    MSP  
+## 5     62.0          96.0    -0.354 EWR    CVG  
+## 6     40.0          61.5    -0.349 LGA    PIT
 ```
 
 ```r
@@ -1400,14 +1400,14 @@ deviation %>% tail()
 ```
 ## # A tibble: 6 x 5
 ## # Groups:   dest [5]
-##   air_time mean_air_time deviation origin  dest
-##      <dbl>         <dbl>     <dbl>  <chr> <chr>
-## 1      147      86.15072 0.7063118    EWR   CLT
-## 2      198     115.58813 0.7129786    EWR   ORD
-## 3      185     106.26630 0.7409093    EWR   SDF
-## 4      138      70.88533 0.9468063    JFK   RDU
-## 5      170      84.83202 1.0039602    LGA   DTW
-## 6      170      84.83202 1.0039602    JFK   DTW
+##   air_time mean_air_time deviation origin dest 
+##      <dbl>         <dbl>     <dbl> <chr>  <chr>
+## 1      147          86.2     0.706 EWR    CLT  
+## 2      198         116       0.713 EWR    ORD  
+## 3      185         106       0.741 EWR    SDF  
+## 4      138          70.9     0.947 JFK    RDU  
+## 5      170          84.8     1.00  LGA    DTW  
+## 6      170          84.8     1.00  JFK    DTW
 ```
 
 ### Problem 7 {-}
@@ -1443,14 +1443,14 @@ flights %>%
 
 ```
 ## # A tibble: 6 x 3
-##   carrier                     name destinations
-##     <chr>                    <chr>        <int>
-## 1      EV ExpressJet Airlines Inc.           51
-## 2      9E        Endeavor Air Inc.           48
-## 3      UA    United Air Lines Inc.           42
-## 4      DL     Delta Air Lines Inc.           39
-## 5      B6          JetBlue Airways           35
-## 6      AA   American Airlines Inc.           19
+##   carrier name                     destinations
+##   <chr>   <chr>                           <int>
+## 1 EV      ExpressJet Airlines Inc.           51
+## 2 9E      Endeavor Air Inc.                  48
+## 3 UA      United Air Lines Inc.              42
+## 4 DL      Delta Air Lines Inc.               39
+## 5 B6      JetBlue Airways                    35
+## 6 AA      American Airlines Inc.             19
 ```
 
 ### Problem 8 {-}
@@ -1476,12 +1476,12 @@ flights %>%
 ## # A tibble: 6 x 2
 ## # Groups:   tailnum [6]
 ##   tailnum     n
-##     <chr> <int>
-## 1  N954UW   206
-## 2  N952UW   163
-## 3  N957UW   142
-## 4  N5FAAA   117
-## 5  N38727    99
-## 6  N3742C    98
+##   <chr>   <int>
+## 1 N954UW    206
+## 2 N952UW    163
+## 3 N957UW    142
+## 4 N5FAAA    117
+## 5 N38727     99
+## 6 N3742C     98
 ```
 
