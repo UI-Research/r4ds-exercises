@@ -1,0 +1,11 @@
+# Chapter 21 - Iteration {-}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r library, message=FALSE}
+library(tidyverse)
+```
