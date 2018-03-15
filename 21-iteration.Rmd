@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Chapter 21 - Iteration {-}
 
 ```{r setup, include=FALSE}
@@ -9,3 +14,539 @@ knitr::opts_chunk$set(warning = FALSE)
 ```{r library, message=FALSE}
 library(tidyverse)
 ```
+
+## 21.2 - For loops {-}
+
+### Problem 1 {-}
+
+Write for loops to:
+
+Compute the mean of every column in mtcars.
+
+```{r 21-1-1a}
+means <- vector(mode = "double", length = ncol(mtcars))
+
+for (i in seq_along(mtcars)) {
+  means[[i]] <- mean(mtcars[[i]])
+}
+```
+
+Determine the type of each column in nycflights13::flights.
+
+```{r 21-1-1b}
+library(nycflights13)
+
+types <- vector(mode = "character", length = ncol(flights))
+
+for (i in seq_along(flights)) {
+  types[[i]] <- typeof(flights[[i]])
+}
+```
+
+Compute the number of unique values in each column of iris.
+
+```{r 21-1-1c}
+uniques <- vector(mode = "integer", length = ncol(iris))
+
+for (i in seq_along(iris)) {
+  uniques[[i]] <- length(unique(iris[[i]]))
+}
+```
+
+Generate 10 random normals for each of  
+μ=−10, 0, 10, and 100.
+
+```{r 21-1-1d}
+mu <- c(-10, 0, 10, 100)
+
+means <- vector(mode = "list", length = length(mu))
+
+for (i in seq_along(mu)) {
+  means[[i]] <- rnorm(10, mu[[i]])
+}
+```
+ 
+Think about the output, sequence, and body before you start writing the loop.
+
+### Problem 2 {-}
+
+Eliminate the for loop in each of the following examples by taking advantage of an existing function that works with vectors:
+
+```
+out <- ""
+for (x in letters) {
+  out <- stringr::str_c(out, x)
+}
+```
+
+```{r 21-1-2a}
+str_c(letters, collapse = "")
+```
+
+```
+x <- sample(100)
+sd <- 0
+for (i in seq_along(x)) {
+  sd <- sd + (x[i] - mean(x)) ^ 2
+}
+sd <- sqrt(sd / (length(x) - 1))
+```
+
+```{r 21-1-2b}
+x <- sample(100)
+sd(x)
+```
+
+```
+x <- runif(100)
+out <- vector("numeric", length(x))
+out[1] <- x[1]
+for (i in 2:length(x)) {
+  out[i] <- out[i - 1] + x[i]
+}
+```
+
+```{r 21-1-2c}
+x <- runif(100)
+cumsum(x)
+```
+
+### Problem 3 {-}
+
+Write a for loop that `prints()` the lyrics to the children’s song “Alice the camel”.
+
+```{r 21-2-3a}
+library(stringr)
+
+humps <- c("five", "four", "three", "two", "one", "no")
+for (i in seq_along(humps)) {
+  for (j in 1:3) {
+    print(str_glue("Alice the camel has {humps[i]} humps."))
+  }
+  if (i < 6) {
+    # str_glue is unecessary. it drops [1]
+    print(str_glue("So go, Alice, go."))
+  } else {
+    print(str_glue("Now Alice is a horse"))
+  }
+}
+```
+
+Convert the nursery rhyme “ten in the bed” to a function. Generalise it to any number of people in any sleeping structure.
+
+```{r 21-2-3b}
+n_in_the_bed <- function(occupants = 10L) {
+  
+  for (i in seq(from = occupants, to = 1)) {
+    if (i > 1) {
+      print(str_glue(
+        "There were {i} in a bed
+        And the little one said
+        'Roll over, roll over'
+        So they all rolled over
+        And one fell out
+        
+        "
+      ))
+    } else if (i == 1) {
+      print(str_glue("There was one in a bed
+      And the little one said
+      'Good night!'"))
+    }
+  }
+}
+
+n_in_the_bed()
+```
+
+Convert the song “99 bottles of beer on the wall” to a function. Generalise to any number of any vessel containing any liquid on any surface.
+
+```{r 21-2-3c}
+bottles_of_beer <- function(bottles = 99L) {
+  for (i in seq(from = bottles, to = 0)) {
+    
+    bottles_left <- ifelse(i == 0, "no more", i) 
+    
+    print(str_glue(
+      "{i} bottle of beer on the wall, {i} bottle of beer.
+      Take one down and pass it around, {bottles_left} bottles of beer on the wall."
+      )
+    )
+  }
+}
+
+bottles_of_beer()
+
+
+
+```
+
+
+### Problem 4 {-}
+
+It’s common to see for loops that don’t preallocate the output and instead increase the length of a vector at each step:
+
+```
+output <- vector("integer", 0)
+for (i in seq_along(x)) {
+  output <- c(output, lengths(x[[i]]))
+}
+output
+```
+
+How does this affect performance? Design and execute an experiment.
+
+```{r 21-2-4a}
+library(microbenchmark)
+
+grow_vector <- function() {
+  
+  # create a character vector
+  x <- rep("abc", 1000)
+  
+  # create an empty vector of length 0 for the output
+  output <- vector("integer", 0)
+  
+  # find the length of each observation in x and grow and concatenate it to 
+  # output
+  for (i in seq_along(x)) {
+    output <- c(output, lengths(x[[i]]))
+  }
+  output
+}
+
+microbenchmark(grow_vector())
+```
+
+This first chunk grows a vector from length zero to length 1,000. 
+
+```{r 21-2-4b}
+preallocate_vector <- function() {
+  
+  # create a character vector  
+  x <- rep("abc", 1000)
+  
+  # create an empty vector of length length(x) for the output
+  output <- vector("integer", length(x))
+  
+  # find the length of each observation in x and assignment it the corresponding
+  # location in the output vector
+  for (i in seq_along(x)) {
+    output[i] <- lengths(x[[i]])
+  }
+  output
+}
+
+microbenchmark(preallocate_vector())
+```
+
+This second chunk preallocates the space in the vector and then populates it. It is an order of magnitude faster. 
+
+## 21.3 - For loop variations {-}
+
+### Problem 1 {-}
+
+Imagine you have a directory full of CSV files that you want to read in. You have their paths in a vector, `files <- dir("data/", pattern = "\\.csv$", full.names = TRUE)`, and now want to read each one with `read_csv()`. Write the for loop that will load them into a single data frame.
+
+```{r 21-3-1, eval=FALSE}
+library(tidyverse)
+
+files <- dir("data/", pattern = "\\.csv$", full.names = TRUE)
+
+data <- vector("list", length(files))
+
+for (i in seq_along(files)) {
+  data[[i]] <- read_csv(files[[i]])
+}
+
+bind_rows(data)
+```
+
+### Problem 2 {-}
+
+What happens if you use `for (nm in names(x))` and `x` has no names? 
+
+Nothing, it doesn't iterate. 
+
+```{r 21-3-2a}
+
+x <- c(1, 2, 3)
+
+for (nm in names(x)) {
+  print(names(x[nm]))
+}
+```
+
+What if only some of the elements are named?
+
+It iterates along the entire vector. 
+
+```{r 21-3-2b}
+
+x <- c("a" = 1, 2, "c" = 3)
+
+for (nm in names(x)) {
+  print(names(x[nm]))
+}
+
+```
+
+What if the names are not unique?
+ 
+It does not matter. It still iterates along the entire vector. 
+ 
+```{r 21-3-2c}
+
+x <- c("a" = 1, "a" = 2, "c" = 3)
+
+for (nm in names(x)) {
+  print(names(x[nm]))
+}
+
+```
+
+### Problem 3 {-}
+
+Write a function that prints the mean of each numeric column in a data frame, along with its name. For example, `show_mean(iris)` would print:
+
+```
+show_mean(iris)
+#> Sepal.Length: 5.84
+#> Sepal.Width:  3.06
+#> Petal.Length: 3.76
+#> Petal.Width:  1.20
+```
+
+(Extra challenge: what function did I use to make sure that the numbers lined up nicely, even though the variable names had different lengths?)
+
+
+```{r 21-3-3}
+
+print_means <- function(data = iris, digits = 2) {
+
+  max_str_length <- max(str_length(names(data)))
+  
+    for (i in seq_along(data)) {
+    
+    if (is.numeric(data[[i]])) {
+      cat("#> ", 
+          str_pad(str_c(names(data)[[i]], ": "), width = max_str_length + 2, side = "right"), 
+          format(mean(data[[i]]), digits = digits, nsmall = 2),
+          "\n",
+          sep = "")
+    }
+  }
+}
+
+print_means()
+```
+
+### Problem 4 {-}
+
+What does this code do? How does it work?
+
+```
+trans <- list( 
+  disp = function(x) x * 0.0163871,
+  am = function(x) {
+    factor(x, labels = c("auto", "manual"))
+  }
+)
+for (var in names(trans)) {
+  mtcars[[var]] <- trans[[var]](mtcars[[var]])
+}
+```
+
+It creates a list of functions. Then it iterates across vectors in the `mtcars` data set and the correspondingly named function in the `trans` list. In the end, the variable `disp` is multiplied by `0.0163871` and the variable nm is labelled with "auto" and "manual".
+
+## 21.4 For loops vs. functionals {-}
+
+### Problem 1 {-}
+
+Read the documentation for `apply()`. In the 2d case, what two for loops does it generalise?
+
+It generalizes a for loop along a vector inside of a for loop along a series of columns in a data frame or matrix. 
+
+### Problem 2 {-}
+
+Adapt `col_summary()` so that it only applies to numeric columns You might want to start with an `is_numeric()` function that returns a logical vector that has a TRUE corresponding to each numeric column.
+
+```{r 21-4-2}
+col_summary <- function(df, fun) {
+  
+  out <- vector("double", length(df))
+  for (i in seq_along(df)) {
+    if (is_numeric(df[[i]])) {
+      out[i] <- fun(df[[i]])
+    }
+  }
+  out
+}
+
+col_summary(mtcars, median)
+```
+
+## 21.5 The map functions {-}
+
+### Problem 1 {-}
+
+Write code that uses one of the map functions to:
+
+Compute the mean of every column in mtcars.
+
+```{r 21-5-1a}
+mtcars %>%
+  map_dbl(mean)
+```
+
+Determine the type of each column in nycflights13::flights.
+
+```{r 21-5-1b}
+library(nycflights13)
+
+flights %>%
+  map_chr(typeof)
+```
+
+Compute the number of unique values in each column of iris.
+
+```{r 21-5-1c}
+iris %>%
+  map_int(~length(unique(.)))
+```
+
+```{r 21-5-1d}
+c(-10, 0, 10, 100) %>%
+  map(rnorm, n = 10)
+```
+
+### Problem 2 {-}
+
+How can you create a single vector that for each column in a data frame indicates whether or not it’s a factor?
+
+```{r 21-5-2}
+iris %>%
+  map_lgl(is.factor)
+```
+
+### Problem 3 {-}
+
+What happens when you use the map functions on vectors that aren’t lists? What does `map(1:5, runif)` do? Why?
+
+It iterates the function across each value in the vector. Here, `1:5` are treated as the argument `n`, so each iteration draws `n` values from the standard normal distribution. 
+
+### Problem 4 {-}
+
+What does `map(-2:2, rnorm, n = 5)` do? Why? What does `map_dbl(-2:2, rnorm, n = 5)` do? Why?
+
+`map(-2:2, rnorm, n = 5)` returns a list with five vectors of length five with values draw from the standard normal distribution with means ranging from -2 to 2. 
+
+`map_dbl(-2:2, rnorm, n = 5)` returns the error `Error: Result 1 is not a length 1 atomic vector` because vectors can't be nested inside of vectors. 
+
+The first works because `map()` returns a list and the second doesn't work because `map_dbl()` returns a vector. 
+
+### Problem 5 {-}
+
+Rewrite `map(x, function(df) lm(mpg ~ wt, data = df))` to eliminate the anonymous function.
+
+```{r 21-5-5}
+x <- mtcars %>%
+  split(.$cyl)
+
+map(x, ~lm(mpg ~ wt, data = .))
+```
+
+## 21.9 Other patterns of for loops {-}
+
+### Problem 1 {-}
+
+Implement your own version of `every()` using a for loop. Compare it with `purrr::every()`. What does purrr’s version do that your version doesn’t?
+
+```{r 21-9-1}
+
+x <- list(1:5, rep("a", 5), 1:5)
+
+x %>% 
+  every(is_vector)
+  
+my_every <- function(df, fun) {
+  out <- vector("logical", length(x))
+  for (i in seq_along(df)) {
+    out[[i]] <- fun(df[[i]])
+  }
+  !FALSE %in% out
+}
+
+x %>% 
+  my_every(is.numeric)
+
+```
+
+```{r 21-9-1b}
+every
+```
+
+`purrr:every()` is clever. It doesn't create a vector and store output. Instead, it tests every object and then returns a FALSE when the first vector fails the test. This is more efficient than my code. 
+
+### Problem 2 {-}
+
+Create an enhanced `col_sum()` that applies a summary function to every numeric column in a data frame.
+
+```{r 21-9-2}
+col_sum <- function(df, fun) {
+  is_num <- map_lgl(df, is.numeric)
+  
+  df_num <- df[, is_num]
+  
+  map_dbl(df_num, fun)
+}
+
+col_sum(mpg, mean)
+```
+
+### Problem 3 {-}
+
+A possible base R equivalent of `col_sum()` is:
+
+```{r}
+col_sum3 <- function(df, f) {
+  is_num <- sapply(df, is.numeric)
+  df_num <- df[, is_num]
+
+  sapply(df_num, f)
+}
+```
+
+But it has a number of bugs as illustrated with the following inputs:
+
+```
+df <- tibble(
+  x = 1:3, 
+  y = 3:1,
+  z = c("a", "b", "c")
+)
+# OK
+col_sum3(df, mean)
+# Has problems: don't always return numeric vector
+```
+
+```{r 21-9-3a}
+
+df <- tibble(
+  x = 1:3, 
+  y = 3:1,
+  z = c("a", "b", "c")
+)
+
+col_sum3(df[1:2], mean)
+```
+
+```{r 21-9-3b}
+col_sum3(df[1], mean)
+```
+
+```
+col_sum3(df[0], mean)
+```
+
+The first two "problem cases" run fine. The third problem case has an issue because `Error: Unsupported index type: list`. 
