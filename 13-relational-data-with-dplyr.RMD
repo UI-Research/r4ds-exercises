@@ -1,5 +1,7 @@
 # Chapter 13 - Relational data {-}
 
+Load the libraries needed for these exercises.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -213,7 +215,7 @@ lm(arr_delay ~ dewp + humid + precip + pressure + temp + visib + wind_gust + win
 
 What happened on June 13 2013? Display the spatial pattern of delays, and then use Google to cross-reference with the weather.
 
-```{r June 13th}
+```{r 13-4-5}
 
 flight_weather <- flights %>%
   left_join(weather, c("year", "month", "day", "hour", "origin")) %>%

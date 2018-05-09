@@ -1,5 +1,7 @@
 # Chapter 16 - Dates and times {-}
 
+Load the libraries needed for these exercises.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(message = FALSE)
@@ -18,7 +20,7 @@ library(nycflights13)
 
 What happens if you parse a string that contains invalid dates? 
 
-```
+```{r 16-2-1, warning=TRUE}
 ymd(c("2010-10-10", "bananas"))
 ```
 Warning message: 1 failed to parse.

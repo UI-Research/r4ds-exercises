@@ -1,5 +1,7 @@
 # Chapter 14 - Strings {-}
 
+Load the libraries needed for these exercises.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -8,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-## 14.2 String basics {-}
+## 14.2 - String basics {-}
 
 ### Problem 1 {-}
 
@@ -214,7 +216,7 @@ Let's try this with proof by contradiction. We need to look for two conditions:
 * ie after c
 * ei 
 
-```{r i before e}
+```{r 14-3.3-2}
 str_view(words, "ei|[c]ie", match = TRUE)
 ```
 
@@ -226,7 +228,7 @@ Is "q" always followed by a "u"?
 
 Proof by contradiction: look for a "q" not followed by a "u".
 
-```{r qu}
+```{r 14-3.3-3}
 str_view(words, "q^[u]", match = TRUE)
 ```
 
@@ -236,7 +238,7 @@ Yes, "q" is always followed by a "u" in this data set.
 
 Write a regular expression that matches a word if it's probably written in British English, not American English. 
 
-```{r british english}
+```{r b14-3.3-4}
 str_view(words, "our|ise|ogue", match = TRUE)
 ```
 
@@ -244,7 +246,7 @@ str_view(words, "our|ise|ogue", match = TRUE)
 
 Create a regular expression that will match telephone numbers as commonly written in your country. 
 
-```{r telephones}
+```{r 14-3.3-5}
 phone <- c("212-555-7891", "(212)-555-7891")
 
 str_view(phone, "\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d|\\(\\d\\d\\d\\)-\\d\\d\\d-\\d\\d\\d\\d", match = TRUE)
@@ -318,7 +320,7 @@ Describe in words what these expressions will match:
  3. Contain one letter repeated in at least three places (e.g., "eleven" contains three "e"s). `".*(.).*\\1.*\\1.*"`
 
 
-## 14.4 Tools {-}
+## 14.4 - Tools {-}
 
 ### Problem 1 {-}
 
@@ -328,13 +330,13 @@ For each of the following challenges, try solving it by using both a singular re
   3. Are there any words that contain at least one of each different vowel? TODO(aaron): hmm?
   4. What word has the highest number of vowels? What word has the highest proportion of vowels? (Hint: what is the denominator)
   
-```{r 14-4-1}
+```{r 14-4-1a}
 as_tibble(words) %>%
   mutate(vowels = str_count(value, "[aeiou]")) %>%
   filter(vowels == max(vowels))
 ```
 
-```{r proportion of vowels}
+```{r 14-4-1b}
 as_tibble(words) %>%
   mutate(letters = str_count(value), 
          vowels = str_count(value, "[aeiou]"),
@@ -365,7 +367,7 @@ From the Harvard sentences data, extract:
   TODO(aaron): hmm?
   
 
-## 14.4.4 Grouped matches {-}
+## 14.4.4 - Grouped matches {-}
 
 ### Problem 1 {-}
 

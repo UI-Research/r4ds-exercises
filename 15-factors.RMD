@@ -1,5 +1,7 @@
 # Chapter 15 - Factors {-}
 
+Load the libraries needed for these exercises.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(message = FALSE)
@@ -36,7 +38,7 @@ ggplot(gss_cat, aes(rincome)) +
 
 What is the most common `relig` in this survey? What's the most common `partyid`?
 
-```{r gss 15-3-2a}
+```{r 15-3-2a}
 gss_cat %>%
   count(relig) %>%
   top_n(1)
