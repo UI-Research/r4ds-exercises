@@ -16,7 +16,7 @@ complete source for this book is available on
 [github](https://github.com/khueyama/r4ds-exercises); full instructions on how 
 to contribute are available in the README.
 
-# Acknowledgements
+## Acknowledgements {-}
 
 A couple different resources were consulted at various points in drafting this 
 solution set (usually to double-check an answer when the question was somewhat 

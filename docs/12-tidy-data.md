@@ -197,12 +197,12 @@ bind_rows(table4a_1, table4a_2) %>%
 ## # A tibble: 6 x 5
 ##   country      year  cases population  rate
 ##   <chr>       <dbl>  <int>      <int> <dbl>
-## 1 Afghanistan  1999    745   19987071 0.373
-## 2 Brazil       1999  37737  172006362 2.19 
-## 3 China        1999 212258 1272915272 1.67 
-## 4 Afghanistan  2000   2666   20595360 1.29 
-## 5 Brazil       2000  80488  174504898 4.61 
-## 6 China        2000 213766 1280428583 1.67
+## 1 Afghanistan 1999.    745   19987071 0.373
+## 2 Brazil      1999.  37737  172006362 2.19 
+## 3 China       1999. 212258 1272915272 1.67 
+## 4 Afghanistan 2000.   2666   20595360 1.29 
+## 5 Brazil      2000.  80488  174504898 4.61 
+## 6 China       2000. 213766 1280428583 1.67
 ```
 
 ### Problem 3 {-}
@@ -245,10 +245,10 @@ stocks
 ## # A tibble: 4 x 3
 ##    year  half return
 ##   <dbl> <dbl>  <dbl>
-## 1  2015  1.00  1.88 
-## 2  2015  2.00  0.590
-## 3  2016  1.00  0.920
-## 4  2016  2.00  0.170
+## 1 2015.    1.  1.88 
+## 2 2015.    2.  0.590
+## 3 2016.    1.  0.920
+## 4 2016.    2.  0.170
 ```
 
 ```r
@@ -261,10 +261,10 @@ stocks %>%
 ## # A tibble: 4 x 3
 ##    half year  return
 ##   <dbl> <chr>  <dbl>
-## 1  1.00 2015   1.88 
-## 2  2.00 2015   0.590
-## 3  1.00 2016   0.920
-## 4  2.00 2016   0.170
+## 1    1. 2015   1.88 
+## 2    2. 2015   0.590
+## 3    1. 2016   0.920
+## 4    2. 2016   0.170
 ```
 
 (Hint: look at the variable types and think about column names.)
@@ -285,10 +285,10 @@ stocks %>%
 ## # A tibble: 4 x 3
 ##    half  year return
 ##   <dbl> <int>  <dbl>
-## 1  1.00  2015  1.88 
-## 2  2.00  2015  0.590
-## 3  1.00  2016  0.920
-## 4  2.00  2016  0.170
+## 1    1.  2015  1.88 
+## 2    2.  2015  0.590
+## 3    1.  2016  0.920
+## 4    2.  2016  0.170
 ```
 
 ### Problem 2 {-}
@@ -359,9 +359,9 @@ people %>%
 ## # A tibble: 3 x 4
 ##   name            count   age height
 ##   <chr>           <dbl> <dbl>  <dbl>
-## 1 Jessica Cordero  1.00  37.0    156
-## 2 Phillip Woods    1.00  45.0    186
-## 3 Phillip Woods    2.00  50.0     NA
+## 1 Jessica Cordero    1.   37.   156.
+## 2 Phillip Woods      1.   45.   186.
+## 3 Phillip Woods      2.   50.    NA
 ```
 
 ### Problem 4 {-}
@@ -391,10 +391,10 @@ preg %>%
 ## # A tibble: 4 x 3
 ##   pregnant sex    count
 ##   <chr>    <chr>  <dbl>
-## 1 yes      male    NA  
-## 2 no       male    20.0
-## 3 yes      female  10.0
-## 4 no       female  12.0
+## 1 yes      male     NA 
+## 2 no       male     20.
+## 3 yes      female   10.
+## 4 no       female   12.
 ```
 
 

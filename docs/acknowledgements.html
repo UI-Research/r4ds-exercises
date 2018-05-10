@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="chapter-10-tibbles.html">
-<link rel="next" href="chapter-12-tidy-data.html">
+<link rel="prev" href="index.html">
+<link rel="next" href="chapter-3-data-visualisation.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -100,9 +100,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>1</b> Acknowledgements</a></li>
 <li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html"><i class="fa fa-check"></i>Chapter 3 - Data Visualisation</a><ul>
 <li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#first-steps"><i class="fa fa-check"></i>3.2 - First Steps</a><ul>
 <li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1"><i class="fa fa-check"></i>Problem 1</a></li>
@@ -438,284 +437,22 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="chapter-11---data-import" class="section level1 unnumbered">
-<h1>Chapter 11 - Data Import</h1>
-<p>Load the libraries needed for these exercises.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
-<div id="getting-started" class="section level2 unnumbered">
-<h2>11.2 - Getting Started</h2>
-<div id="problem-1-16" class="section level3 unnumbered">
-<h3>Problem 1</h3>
-<p>What function would you use to read a file where fields were separated with “|”?</p>
-<p>Use <code>read_delim()</code>, using <code>|</code> as the delimiter:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> &#39;a|b|c</span><span class="ch">\n</span><span class="st">1|2|3&#39;</span>
-<span class="kw">read_delim</span>(data, <span class="dt">delim =</span> <span class="st">&#39;|&#39;</span>)</code></pre></div>
-<pre><code>## # A tibble: 1 x 3
-##       a     b     c
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
-## 1     1     2     3</code></pre>
-</div>
-<div id="problem-2-16" class="section level3 unnumbered">
-<h3>Problem 2</h3>
-<p>Apart from <code>file</code>, <code>skip</code>, and <code>comment</code>, what other arguments do <code>read_csv()</code> and <code>read_tsv()</code> have in common?</p>
-<p><code>read_csv()</code> and <code>read_tsv()</code> are essentially just <code>read_delim</code> with the delimiter preset to either a comma or a tab. All of their other arguments are the same.</p>
-</div>
-<div id="problem-3-15" class="section level3 unnumbered">
-<h3>Problem 3</h3>
-<p>What are the most important arguments to <code>read_fwf()</code>?</p>
-<p>The most important argument to <code>read_fwf()</code> is <code>col_positions</code>, as this determines how data is read:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fwf_sample &lt;-<span class="st"> </span><span class="kw">readr_example</span>(<span class="st">&quot;fwf-sample.txt&quot;</span>)
-<span class="kw">cat</span>(<span class="kw">read_lines</span>(fwf_sample))</code></pre></div>
-<pre><code>## John Smith          WA        418-Y11-4111 Mary Hartford       CA        319-Z19-4341 Evan Nolan          IL        219-532-c301</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_fwf</span>(fwf_sample, <span class="kw">fwf_widths</span>(<span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="dv">12</span>), <span class="kw">c</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;ssn&quot;</span>)))</code></pre></div>
-<pre><code>## Parsed with column specification:
-## cols(
-##   name = col_character(),
-##   state = col_character(),
-##   ssn = col_character()
-## )</code></pre>
-<pre><code>## # A tibble: 3 x 3
-##   name          state ssn         
-##   &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;       
-## 1 John Smith    WA    418-Y11-4111
-## 2 Mary Hartford CA    319-Z19-4341
-## 3 Evan Nolan    IL    219-532-c301</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_fwf</span>(fwf_sample, <span class="kw">fwf_widths</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">12</span>), <span class="kw">c</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;ssn&quot;</span>)))</code></pre></div>
-<pre><code>## Parsed with column specification:
-## cols(
-##   name = col_character(),
-##   state = col_character(),
-##   ssn = col_character()
-## )</code></pre>
-<pre><code>## # A tibble: 3 x 3
-##   name  state    ssn  
-##   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;
-## 1 John  Smith    WA   
-## 2 Mary  Hartford CA   
-## 3 Evan  Nolan    IL</code></pre>
-</div>
-<div id="problem-4-15" class="section level3 unnumbered">
-<h3>Problem 4</h3>
-<p>Sometimes strings in a CSV file contain commas. To prevent them from causing problems they need to be surrounded by a quoting character, like <code>&quot;</code> or <code>'</code>. By convention, <code>read_csv()</code> assumes that the quoting character will be <code>&quot;</code>, and if you want to change it you’ll need to use <code>read_delim()</code> instead. What arguments do you need to specify to read the following text into a data frame?</p>
-<p><code>&quot;x,y\n1,'a,b'&quot;</code></p>
-<p>Since <code>read_delim()</code> must be used instead of <code>read_csv()</code>, the delimiter must be set. The <code>quote</code> argument can be set to a single quote instead of a double quote:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> &quot;x,y</span><span class="ch">\n</span><span class="st">1,&#39;a,b&#39;&quot;</span>
-<span class="kw">read_delim</span>(data, <span class="dt">delim =</span> <span class="st">&#39;,&#39;</span>, <span class="dt">quote =</span> <span class="st">&#39;</span><span class="ch">\&#39;</span><span class="st">&#39;</span>)</code></pre></div>
-<pre><code>## # A tibble: 1 x 2
-##       x y    
-##   &lt;int&gt; &lt;chr&gt;
-## 1     1 a,b</code></pre>
-</div>
-<div id="problem-5-9" class="section level3 unnumbered">
-<h3>Problem 5</h3>
-<p>Identify what is wrong with each of the following inline CSV files. What happens when you run the code?</p>
+<div id="acknowledgements" class="section level1">
+<h1><span class="header-section-number">1</span> Acknowledgements</h1>
+<p>A couple different resources were consulted at various points in drafting this solution set (usually to double-check an answer when the question was somewhat ambiguous). Full credit and thanks go to the following guides, which are great resources if you would like a different take on a question:</p>
 <ul>
-<li>There are more data than columns, which results in a parsing failure. The extra data are dropped from the data frame:</li>
+<li><a href="https://jrnold.github.io/r4ds-exercise-solutions/" class="uri">https://jrnold.github.io/r4ds-exercise-solutions/</a></li>
+<li><a href="http://cfss.uchicago.edu/r4ds_solutions.html" class="uri">http://cfss.uchicago.edu/r4ds_solutions.html</a></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a,b</span><span class="ch">\n</span><span class="st">1,2,3</span><span class="ch">\n</span><span class="st">4,5,6&quot;</span>)</code></pre></div>
-<pre><code>## Warning: 2 parsing failures.
-## row # A tibble: 2 x 5 col     row col   expected  actual    file         expected   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        actual 1     1 &lt;NA&gt;  2 columns 3 columns literal data file 2     2 &lt;NA&gt;  2 columns 3 columns literal data</code></pre>
-<pre><code>## # A tibble: 2 x 2
-##       a     b
-##   &lt;int&gt; &lt;int&gt;
-## 1     1     2
-## 2     4     5</code></pre>
-<ul>
-<li>There is too little data in row 2 and too much data in row 3 - row 2 is filled in with a missing value while row 3 drops data:</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a,b,c</span><span class="ch">\n</span><span class="st">1,2</span><span class="ch">\n</span><span class="st">1,2,3,4&quot;</span>)</code></pre></div>
-<pre><code>## Warning: 2 parsing failures.
-## row # A tibble: 2 x 5 col     row col   expected  actual    file         expected   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;        actual 1     1 &lt;NA&gt;  3 columns 2 columns literal data file 2     2 &lt;NA&gt;  3 columns 4 columns literal data</code></pre>
-<pre><code>## # A tibble: 2 x 3
-##       a     b     c
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
-## 1     1     2    NA
-## 2     1     2     3</code></pre>
-<ul>
-<li>There are two variables but only one data point - <code>b</code> is filled in with a missing value:</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a,b</span><span class="ch">\n\&quot;</span><span class="st">1&quot;</span>)</code></pre></div>
-<pre><code>## Warning: 2 parsing failures.
-## row # A tibble: 2 x 5 col     row col   expected                     actual    file         expected   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;                        &lt;chr&gt;     &lt;chr&gt;        actual 1     1 a     closing quote at end of file &quot;&quot;        literal data file 2     1 &lt;NA&gt;  2 columns                    1 columns literal data</code></pre>
-<pre><code>## # A tibble: 1 x 2
-##       a b    
-##   &lt;int&gt; &lt;chr&gt;
-## 1     1 &lt;NA&gt;</code></pre>
-<ul>
-<li>Appears that the header was entered twice, so the data are parsed as character instead of a string. Or if the goal here was to enter a missing value <code>NA</code>, note that the <code>n</code> was processed as a new line <code>\n</code>.</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a,b</span><span class="ch">\n</span><span class="st">1,2</span><span class="ch">\n</span><span class="st">a,b&quot;</span>)</code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   a     b    
-##   &lt;chr&gt; &lt;chr&gt;
-## 1 1     2    
-## 2 a     b</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a,b</span><span class="ch">\n</span><span class="st">1,2</span><span class="ch">\n</span><span class="st">na,b&quot;</span>)</code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   a     b    
-##   &lt;chr&gt; &lt;chr&gt;
-## 1 1     2    
-## 2 na    b</code></pre>
-<ul>
-<li><code>read_csv()</code> has a delimiter set to <code>,</code>, use <code>read_csv2()</code> instead:</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;a;b</span><span class="ch">\n</span><span class="st">1;3&quot;</span>)</code></pre></div>
-<pre><code>## # A tibble: 1 x 1
-##   `a;b`
-##   &lt;chr&gt;
-## 1 1;3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv2</span>(<span class="st">&quot;a;b</span><span class="ch">\n</span><span class="st">1;3&quot;</span>)</code></pre></div>
-<pre><code>## Using &#39;,&#39; as decimal and &#39;.&#39; as grouping mark. Use read_delim() for more control.</code></pre>
-<pre><code>## # A tibble: 1 x 2
-##       a     b
-##   &lt;int&gt; &lt;int&gt;
-## 1     1     3</code></pre>
-</div>
-</div>
-<div id="parsing-a-vector" class="section level2 unnumbered">
-<h2>11.3 - Parsing a Vector</h2>
-<div id="problem-1-17" class="section level3 unnumbered">
-<h3>Problem 1</h3>
-<p>What are the most important arguments to <code>locale()</code>?</p>
-<p>The <code>date_names</code> argument provides useful defaults for a <code>locale()</code> object:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dutch &lt;-<span class="st"> </span><span class="kw">locale</span>(<span class="st">&#39;nl&#39;</span>)
-japanese &lt;-<span class="st"> </span><span class="kw">locale</span>(<span class="st">&#39;ja&#39;</span>)
 
-<span class="kw">str</span>(dutch)</code></pre></div>
-<pre><code>## List of 7
-##  $ date_names   :List of 5
-##   ..$ mon   : chr [1:12] &quot;januari&quot; &quot;februari&quot; &quot;maart&quot; &quot;april&quot; ...
-##   ..$ mon_ab: chr [1:12] &quot;jan.&quot; &quot;feb.&quot; &quot;mrt.&quot; &quot;apr.&quot; ...
-##   ..$ day   : chr [1:7] &quot;zondag&quot; &quot;maandag&quot; &quot;dinsdag&quot; &quot;woensdag&quot; ...
-##   ..$ day_ab: chr [1:7] &quot;zo&quot; &quot;ma&quot; &quot;di&quot; &quot;wo&quot; ...
-##   ..$ am_pm : chr [1:2] &quot;a.m.&quot; &quot;p.m.&quot;
-##   ..- attr(*, &quot;class&quot;)= chr &quot;date_names&quot;
-##  $ date_format  : chr &quot;%AD&quot;
-##  $ time_format  : chr &quot;%AT&quot;
-##  $ decimal_mark : chr &quot;.&quot;
-##  $ grouping_mark: chr &quot;,&quot;
-##  $ tz           : chr &quot;UTC&quot;
-##  $ encoding     : chr &quot;UTF-8&quot;
-##  - attr(*, &quot;class&quot;)= chr &quot;locale&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(japanese)</code></pre></div>
-<pre><code>## List of 7
-##  $ date_names   :List of 5
-##   ..$ mon   : chr [1:12] &quot;1月&quot; &quot;2月&quot; &quot;3月&quot; &quot;4月&quot; ...
-##   ..$ mon_ab: chr [1:12] &quot;1月&quot; &quot;2月&quot; &quot;3月&quot; &quot;4月&quot; ...
-##   ..$ day   : chr [1:7] &quot;日曜日&quot; &quot;月曜日&quot; &quot;火曜日&quot; &quot;水曜日&quot; ...
-##   ..$ day_ab: chr [1:7] &quot;日&quot; &quot;月&quot; &quot;火&quot; &quot;水&quot; ...
-##   ..$ am_pm : chr [1:2] &quot;午前&quot; &quot;午後&quot;
-##   ..- attr(*, &quot;class&quot;)= chr &quot;date_names&quot;
-##  $ date_format  : chr &quot;%AD&quot;
-##  $ time_format  : chr &quot;%AT&quot;
-##  $ decimal_mark : chr &quot;.&quot;
-##  $ grouping_mark: chr &quot;,&quot;
-##  $ tz           : chr &quot;UTC&quot;
-##  $ encoding     : chr &quot;UTF-8&quot;
-##  - attr(*, &quot;class&quot;)= chr &quot;locale&quot;</code></pre>
-<p>Be sure to read the full documentation for <code>locale()</code>. Common data import issues can probably be solved with <code>decimal_mark</code>, <code>grouping_mark</code>, and/or <code>encoding</code>.</p>
-</div>
-<div id="problem-2-17" class="section level3 unnumbered">
-<h3>Problem 2</h3>
-<p>What happens if you try and set <code>decimal_mark</code> and <code>grouping_mark</code> to the same character? What happens to the default value of <code>grouping_mark</code> when you set <code>decimal_mark</code> to <code>“,”</code>? What happens to the default value of <code>decimal_mark</code> when you set the grouping_mark to <code>“.”</code>?</p>
-<p><code>locale()</code> requires that <code>decimal_mark</code> and <code>grouping_mark</code> be different:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">locale</span>(<span class="dt">decimal_mark =</span> <span class="st">&#39;.&#39;</span>, <span class="dt">grouping_mark =</span> <span class="st">&#39;.&#39;</span>)</code></pre></div>
-<pre><code>## Error: `decimal_mark` and `grouping_mark` must be different</code></pre>
-<p>Setting <code>decimal_mark</code> to <code>,</code> will automatically update <code>grouping_mark</code> to <code>.</code>. Similarly setting <code>grouping_mark</code> to <code>.</code> will automatically update <code>decimal_mark</code> to <code>,</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">locale</span>(<span class="dt">decimal_mark =</span> <span class="st">&#39;,&#39;</span>)
-x<span class="op">$</span>grouping_mark</code></pre></div>
-<pre><code>## [1] &quot;.&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">locale</span>(<span class="dt">grouping_mark =</span> <span class="st">&#39;.&#39;</span>)
-y<span class="op">$</span>decimal_mark</code></pre></div>
-<pre><code>## [1] &quot;,&quot;</code></pre>
-</div>
-<div id="problem-3-16" class="section level3 unnumbered">
-<h3>Problem 3</h3>
-<p>I didn’t discuss the <code>date_format</code> and <code>time_format</code> options to <code>locale()</code>. What do they do? Construct an example that shows when they might be useful.</p>
-<p>A specific <code>date_format</code> and <code>time_format</code> structure can be specified in a <code>locale()</code>. This can be useful for formatting data with non-standard formatting:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(<span class="st">&#39;June/7/90&#39;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">date_format =</span> <span class="st">&#39;%B/%d/%y&#39;</span>))</code></pre></div>
-<pre><code>## [1] &quot;1990-06-07&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_time</span>(<span class="st">&#39;1:15PM&#39;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">time_format =</span> <span class="st">&#39;%I:%M%p&#39;</span>))</code></pre></div>
-<pre><code>## 13:15:00</code></pre>
-</div>
-<div id="problem-4-16" class="section level3 unnumbered">
-<h3>Problem 4</h3>
-<p>If you live outside the US, create a new locale object that encapsulates the settings for the types of file you read most commonly.</p>
-<p>Create a locale with the time zone updated:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(<span class="kw">locale</span>(<span class="dt">tz =</span> <span class="st">&#39;US/Eastern&#39;</span>))</code></pre></div>
-<pre><code>## List of 7
-##  $ date_names   :List of 5
-##   ..$ mon   : chr [1:12] &quot;January&quot; &quot;February&quot; &quot;March&quot; &quot;April&quot; ...
-##   ..$ mon_ab: chr [1:12] &quot;Jan&quot; &quot;Feb&quot; &quot;Mar&quot; &quot;Apr&quot; ...
-##   ..$ day   : chr [1:7] &quot;Sunday&quot; &quot;Monday&quot; &quot;Tuesday&quot; &quot;Wednesday&quot; ...
-##   ..$ day_ab: chr [1:7] &quot;Sun&quot; &quot;Mon&quot; &quot;Tue&quot; &quot;Wed&quot; ...
-##   ..$ am_pm : chr [1:2] &quot;AM&quot; &quot;PM&quot;
-##   ..- attr(*, &quot;class&quot;)= chr &quot;date_names&quot;
-##  $ date_format  : chr &quot;%AD&quot;
-##  $ time_format  : chr &quot;%AT&quot;
-##  $ decimal_mark : chr &quot;.&quot;
-##  $ grouping_mark: chr &quot;,&quot;
-##  $ tz           : chr &quot;US/Eastern&quot;
-##  $ encoding     : chr &quot;UTF-8&quot;
-##  - attr(*, &quot;class&quot;)= chr &quot;locale&quot;</code></pre>
-</div>
-<div id="problem-5-10" class="section level3 unnumbered">
-<h3>Problem 5</h3>
-<p>What’s the difference between <code>read_csv()</code> and <code>read_csv2()</code>?</p>
-<p><code>read_csv()</code> has a delimiter set to <code>,</code> while <code>read_csv2</code> is set to <code>;</code>, as some countries use <code>,</code> as the <code>decimal_mark</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&#39;a,b</span><span class="ch">\n</span><span class="st">1,2&#39;</span>)</code></pre></div>
-<pre><code>## # A tibble: 1 x 2
-##       a     b
-##   &lt;int&gt; &lt;int&gt;
-## 1     1     2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv2</span>(<span class="st">&#39;a;b</span><span class="ch">\n</span><span class="st">1;2&#39;</span>)</code></pre></div>
-<pre><code>## Using &#39;,&#39; as decimal and &#39;.&#39; as grouping mark. Use read_delim() for more control.</code></pre>
-<pre><code>## # A tibble: 1 x 2
-##       a     b
-##   &lt;int&gt; &lt;int&gt;
-## 1     1     2</code></pre>
-</div>
-<div id="problem-6-7" class="section level3 unnumbered">
-<h3>Problem 6</h3>
-<p>What are the most common encodings used in Europe? What are the most common encodings used in Asia? Do some googling to find out.</p>
-<p>See <a href="https://en.wikipedia.org/wiki/Character_encoding#Common_character_encodings">this list</a> of common encodings (via Wikipedia).</p>
-</div>
-<div id="problem-7-1" class="section level3 unnumbered">
-<h3>Problem 7</h3>
-<p>Generate the correct format string to parse each of the following dates and times:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d1 &lt;-<span class="st"> &quot;January 1, 2010&quot;</span>
-d2 &lt;-<span class="st"> &quot;2015-Mar-07&quot;</span>
-d3 &lt;-<span class="st"> &quot;06-Jun-2017&quot;</span>
-d4 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;August 19 (2015)&quot;</span>, <span class="st">&quot;July 1 (2015)&quot;</span>)
-d5 &lt;-<span class="st"> &quot;12/30/14&quot;</span> <span class="co"># Dec 30, 2014</span>
-t1 &lt;-<span class="st"> &quot;1705&quot;</span>
-t2 &lt;-<span class="st"> &quot;11:15:10.12 PM&quot;</span></code></pre></div>
-<p>Build up a datetime format using the pieces described in the chapter:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(d1, <span class="dt">format =</span> <span class="st">&#39;%B %d, %Y&#39;</span>)</code></pre></div>
-<pre><code>## [1] &quot;2010-01-01&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(d2, <span class="dt">format =</span> <span class="st">&#39;%Y-%b-%d&#39;</span>)</code></pre></div>
-<pre><code>## [1] &quot;2015-03-07&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(d3, <span class="dt">format =</span> <span class="st">&#39;%d-%b-%Y&#39;</span>)</code></pre></div>
-<pre><code>## [1] &quot;2017-06-06&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(d4, <span class="dt">format =</span> <span class="st">&#39;%B %d (%Y)&#39;</span>)</code></pre></div>
-<pre><code>## [1] &quot;2015-08-19&quot; &quot;2015-07-01&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(d5, <span class="dt">format =</span> <span class="st">&#39;%m/%d/%y&#39;</span>)</code></pre></div>
-<pre><code>## [1] &quot;2014-12-30&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_time</span>(t1, <span class="dt">format =</span> <span class="st">&#39;%H%M&#39;</span>)</code></pre></div>
-<pre><code>## 17:05:00</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_time</span>(t2, <span class="dt">format =</span> <span class="st">&#39;%I:%M:%OS %p&#39;</span>)</code></pre></div>
-<pre><code>## 23:15:10.12</code></pre>
-
-</div>
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="chapter-10-tibbles.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="chapter-12-tidy-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-3-data-visualisation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

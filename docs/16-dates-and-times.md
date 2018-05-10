@@ -1,5 +1,7 @@
 # Chapter 16 - Dates and times {-}
 
+Load the libraries needed for these exercises.
+
 
 
 
@@ -15,8 +17,17 @@ library(nycflights13)
 
 What happens if you parse a string that contains invalid dates? 
 
-```
+
+```r
 ymd(c("2010-10-10", "bananas"))
+```
+
+```
+## Warning: 1 failed to parse.
+```
+
+```
+## [1] "2010-10-10" NA
 ```
 Warning message: 1 failed to parse.
 
@@ -163,16 +174,16 @@ flights_dt %>%
 ## # A tibble: 328,063 x 5
 ##    origin dest  air_time air_time_calc air_time_diff
 ##    <chr>  <chr>    <dbl>         <dbl>         <dbl>
-##  1 EWR    IAH      227           193            34.0
-##  2 LGA    IAH      227           197            30.0
-##  3 JFK    MIA      160           221           -61.0
-##  4 JFK    BQN      183           260           -77.0
-##  5 LGA    ATL      116           138           -22.0
-##  6 EWR    ORD      150           106            44.0
-##  7 EWR    FLL      158           198           -40.0
-##  8 LGA    IAD       53.0          72.0         -19.0
-##  9 JFK    MCO      140           161           -21.0
-## 10 LGA    ORD      138           115            23.0
+##  1 EWR    IAH       227.          193.           34.
+##  2 LGA    IAH       227.          197.           30.
+##  3 JFK    MIA       160.          221.          -61.
+##  4 JFK    BQN       183.          260.          -77.
+##  5 LGA    ATL       116.          138.          -22.
+##  6 EWR    ORD       150.          106.           44.
+##  7 EWR    FLL       158.          198.          -40.
+##  8 LGA    IAD        53.           72.          -19.
+##  9 JFK    MCO       140.          161.          -21.
+## 10 LGA    ORD       138.          115.           23.
 ## # ... with 328,053 more rows
 ```
 
@@ -343,7 +354,7 @@ age(ymd("1992-03-14"))
 ```
 
 ```
-## [1] 25.96986
+## [1] 26.16986
 ```
 
 ### Problem 5 {-}

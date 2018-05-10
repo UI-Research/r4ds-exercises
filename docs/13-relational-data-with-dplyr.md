@@ -1,5 +1,7 @@
 # Chapter 13 - Relational data {-}
 
+Load the libraries needed for these exercises.
+
 
 
 
@@ -50,16 +52,16 @@ flights %>%
 ## # A tibble: 336,776 x 20
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
 ##    <int> <int> <int>    <int>          <int>     <dbl>    <int>
-##  1  2013     1     1      517            515      2.00      830
-##  2  2013     1     1      533            529      4.00      850
-##  3  2013     1     1      542            540      2.00      923
-##  4  2013     1     1      544            545     -1.00     1004
-##  5  2013     1     1      554            600     -6.00      812
-##  6  2013     1     1      554            558     -4.00      740
-##  7  2013     1     1      555            600     -5.00      913
-##  8  2013     1     1      557            600     -3.00      709
-##  9  2013     1     1      557            600     -3.00      838
-## 10  2013     1     1      558            600     -2.00      753
+##  1  2013     1     1      517            515        2.      830
+##  2  2013     1     1      533            529        4.      850
+##  3  2013     1     1      542            540        2.      923
+##  4  2013     1     1      544            545       -1.     1004
+##  5  2013     1     1      554            600       -6.      812
+##  6  2013     1     1      554            558       -4.      740
+##  7  2013     1     1      555            600       -5.      913
+##  8  2013     1     1      557            600       -3.      709
+##  9  2013     1     1      557            600       -3.      838
+## 10  2013     1     1      558            600       -2.      753
 ## # ... with 336,766 more rows, and 13 more variables: sched_arr_time <int>,
 ## #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>,
 ## #   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,
@@ -175,16 +177,16 @@ diamonds %>%
 ## # A tibble: 143 x 11
 ##    carat cut       color clarity depth table price     x     y     z     n
 ##    <dbl> <ord>     <ord> <ord>   <dbl> <dbl> <int> <dbl> <dbl> <dbl> <int>
-##  1 0.300 Good      J     VS1      63.4  57.0   394  4.23  4.26  2.69     2
-##  2 0.300 Very Good G     VS2      63.0  55.0   526  4.29  4.31  2.71     2
-##  3 0.300 Very Good J     VS1      63.4  57.0   506  4.26  4.23  2.69     2
-##  4 0.300 Premium   D     SI1      62.2  58.0   709  4.31  4.28  2.67     2
-##  5 0.300 Ideal     G     VS2      63.0  55.0   675  4.31  4.29  2.71     2
-##  6 0.300 Ideal     G     IF       62.1  55.0   863  4.32  4.35  2.69     2
-##  7 0.300 Ideal     H     SI1      62.2  57.0   450  4.26  4.29  2.66     2
-##  8 0.300 Ideal     H     SI1      62.2  57.0   450  4.27  4.28  2.66     2
-##  9 0.310 Good      D     SI1      63.5  56.0   571  4.29  4.31  2.73     2
-## 10 0.310 Very Good D     SI1      63.5  56.0   732  4.31  4.29  2.73     2
+##  1 0.300 Good      J     VS1      63.4   57.   394  4.23  4.26  2.69     2
+##  2 0.300 Very Good G     VS2      63.0   55.   526  4.29  4.31  2.71     2
+##  3 0.300 Very Good J     VS1      63.4   57.   506  4.26  4.23  2.69     2
+##  4 0.300 Premium   D     SI1      62.2   58.   709  4.31  4.28  2.67     2
+##  5 0.300 Ideal     G     VS2      63.0   55.   675  4.31  4.29  2.71     2
+##  6 0.300 Ideal     G     IF       62.1   55.   863  4.32  4.35  2.69     2
+##  7 0.300 Ideal     H     SI1      62.2   57.   450  4.26  4.29  2.66     2
+##  8 0.300 Ideal     H     SI1      62.2   57.   450  4.27  4.28  2.66     2
+##  9 0.310 Good      D     SI1      63.5   56.   571  4.29  4.31  2.73     2
+## 10 0.310 Very Good D     SI1      63.5   56.   732  4.31  4.29  2.73     2
 ## # ... with 133 more rows
 ```
 
@@ -262,16 +264,16 @@ flights %>%
 ## # A tibble: 336,776 x 23
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
 ##    <int> <int> <int>    <int>          <int>     <dbl>    <int>
-##  1  2013     1     1      517            515      2.00      830
-##  2  2013     1     1      533            529      4.00      850
-##  3  2013     1     1      542            540      2.00      923
-##  4  2013     1     1      544            545     -1.00     1004
-##  5  2013     1     1      554            600     -6.00      812
-##  6  2013     1     1      554            558     -4.00      740
-##  7  2013     1     1      555            600     -5.00      913
-##  8  2013     1     1      557            600     -3.00      709
-##  9  2013     1     1      557            600     -3.00      838
-## 10  2013     1     1      558            600     -2.00      753
+##  1  2013     1     1      517            515        2.      830
+##  2  2013     1     1      533            529        4.      850
+##  3  2013     1     1      542            540        2.      923
+##  4  2013     1     1      544            545       -1.     1004
+##  5  2013     1     1      554            600       -6.      812
+##  6  2013     1     1      554            558       -4.      740
+##  7  2013     1     1      555            600       -5.      913
+##  8  2013     1     1      557            600       -3.      709
+##  9  2013     1     1      557            600       -3.      838
+## 10  2013     1     1      558            600       -2.      753
 ## # ... with 336,766 more rows, and 16 more variables: sched_arr_time <int>,
 ## #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>,
 ## #   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,
@@ -418,7 +420,7 @@ flight_airports %>%
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-<img src="13-relational-data-with-dplyr_files/figure-html/June 13th-1.png" width="672" />
+<img src="13-relational-data-with-dplyr_files/figure-html/13-4-5-1.png" width="672" />
 
 ```r
 flight_airports %>%
@@ -430,7 +432,7 @@ flight_airports %>%
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-<img src="13-relational-data-with-dplyr_files/figure-html/June 13th-2.png" width="672" />
+<img src="13-relational-data-with-dplyr_files/figure-html/13-4-5-2.png" width="672" />
 
 ```r
 flight_airports %>%
@@ -440,7 +442,7 @@ flight_airports %>%
     coord_quickmap()
 ```
 
-<img src="13-relational-data-with-dplyr_files/figure-html/June 13th-3.png" width="672" />
+<img src="13-relational-data-with-dplyr_files/figure-html/13-4-5-3.png" width="672" />
 
 Two derechos hit the United States East Coast on June 13, 2013. This caused significant departure delays at several airports. 
 
@@ -510,16 +512,16 @@ semi_join(flights, flights100, "tailnum")
 ## # A tibble: 230,902 x 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
 ##    <int> <int> <int>    <int>          <int>     <dbl>    <int>
-##  1  2013     1     1      517            515      2.00      830
-##  2  2013     1     1      533            529      4.00      850
-##  3  2013     1     1      544            545     -1.00     1004
-##  4  2013     1     1      554            558     -4.00      740
-##  5  2013     1     1      555            600     -5.00      913
-##  6  2013     1     1      557            600     -3.00      709
-##  7  2013     1     1      557            600     -3.00      838
-##  8  2013     1     1      558            600     -2.00      849
-##  9  2013     1     1      558            600     -2.00      853
-## 10  2013     1     1      558            600     -2.00      923
+##  1  2013     1     1      517            515        2.      830
+##  2  2013     1     1      533            529        4.      850
+##  3  2013     1     1      544            545       -1.     1004
+##  4  2013     1     1      554            558       -4.      740
+##  5  2013     1     1      555            600       -5.      913
+##  6  2013     1     1      557            600       -3.      709
+##  7  2013     1     1      557            600       -3.      838
+##  8  2013     1     1      558            600       -2.      849
+##  9  2013     1     1      558            600       -2.      853
+## 10  2013     1     1      558            600       -2.      923
 ## # ... with 230,892 more rows, and 12 more variables: sched_arr_time <int>,
 ## #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>,
 ## #   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,

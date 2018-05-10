@@ -100,7 +100,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html"><i class="fa fa-check"></i>Chapter 3 - Data Visualisation</a><ul>
 <li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#first-steps"><i class="fa fa-check"></i>3.2 - First Steps</a><ul>
 <li class="chapter" data-level="" data-path="chapter-3-data-visualisation.html"><a href="chapter-3-data-visualisation.html#problem-1"><i class="fa fa-check"></i>Problem 1</a></li>
@@ -287,7 +289,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html"><i class="fa fa-check"></i>Chapter 14 - Strings</a><ul>
-<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#string-basics"><i class="fa fa-check"></i>14.2 String basics</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#string-basics"><i class="fa fa-check"></i>14.2 - String basics</a><ul>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-25"><i class="fa fa-check"></i>Problem 1</a></li>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-25"><i class="fa fa-check"></i>Problem 2</a></li>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-3-24"><i class="fa fa-check"></i>Problem 3</a></li>
@@ -319,14 +321,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-30"><i class="fa fa-check"></i>Problem 1</a></li>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-30"><i class="fa fa-check"></i>Problem 2</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#tools"><i class="fa fa-check"></i>14.4 Tools</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#tools"><i class="fa fa-check"></i>14.4 - Tools</a><ul>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-31"><i class="fa fa-check"></i>Problem 1</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#extract-matches"><i class="fa fa-check"></i>14.4.3 - Extract Matches</a><ul>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-32"><i class="fa fa-check"></i>Problem 1</a></li>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-31"><i class="fa fa-check"></i>Problem 2</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#grouped-matches"><i class="fa fa-check"></i>14.4.4 Grouped matches</a><ul>
+<li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#grouped-matches"><i class="fa fa-check"></i>14.4.4 - Grouped matches</a><ul>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-1-33"><i class="fa fa-check"></i>Problem 1</a></li>
 <li class="chapter" data-level="" data-path="chapter-14-strings.html"><a href="chapter-14-strings.html#problem-2-32"><i class="fa fa-check"></i>Problem 2</a></li>
 </ul></li>
@@ -438,6 +440,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="chapter-16---dates-and-times" class="section level1 unnumbered">
 <h1>Chapter 16 - Dates and times</h1>
+<p>Load the libraries needed for these exercises.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(lubridate)
 <span class="kw">library</span>(nycflights13)</code></pre></div>
@@ -446,7 +449,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="problem-1-41" class="section level3 unnumbered">
 <h3>Problem 1</h3>
 <p>What happens if you parse a string that contains invalid dates?</p>
-<pre><code>ymd(c(&quot;2010-10-10&quot;, &quot;bananas&quot;))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ymd</span>(<span class="kw">c</span>(<span class="st">&quot;2010-10-10&quot;</span>, <span class="st">&quot;bananas&quot;</span>))</code></pre></div>
+<pre><code>## Warning: 1 failed to parse.</code></pre>
+<pre><code>## [1] &quot;2010-10-10&quot; NA</code></pre>
 <p>Warning message: 1 failed to parse.</p>
 </div>
 <div id="problem-2-40" class="section level3 unnumbered">
@@ -536,16 +541,16 @@ flights_dt &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><
 <pre><code>## # A tibble: 328,063 x 5
 ##    origin dest  air_time air_time_calc air_time_diff
 ##    &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;
-##  1 EWR    IAH      227           193            34.0
-##  2 LGA    IAH      227           197            30.0
-##  3 JFK    MIA      160           221           -61.0
-##  4 JFK    BQN      183           260           -77.0
-##  5 LGA    ATL      116           138           -22.0
-##  6 EWR    ORD      150           106            44.0
-##  7 EWR    FLL      158           198           -40.0
-##  8 LGA    IAD       53.0          72.0         -19.0
-##  9 JFK    MCO      140           161           -21.0
-## 10 LGA    ORD      138           115            23.0
+##  1 EWR    IAH       227.          193.           34.
+##  2 LGA    IAH       227.          197.           30.
+##  3 JFK    MIA       160.          221.          -61.
+##  4 JFK    BQN       183.          260.          -77.
+##  5 LGA    ATL       116.          138.          -22.
+##  6 EWR    ORD       150.          106.           44.
+##  7 EWR    FLL       158.          198.          -40.
+##  8 LGA    IAD        53.           72.          -19.
+##  9 JFK    MCO       140.          161.          -21.
+## 10 LGA    ORD       138.          115.           23.
 ## # ... with 328,053 more rows</code></pre>
 </div>
 <div id="problem-4-25" class="section level3 unnumbered">
@@ -660,7 +665,7 @@ flights_dt &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><
 }
 
 <span class="kw">age</span>(<span class="kw">ymd</span>(<span class="st">&quot;1992-03-14&quot;</span>))</code></pre></div>
-<pre><code>## [1] 25.96986</code></pre>
+<pre><code>## [1] 26.16986</code></pre>
 </div>
 <div id="problem-5-16" class="section level3 unnumbered">
 <h3>Problem 5</h3>

@@ -1,5 +1,7 @@
 # Chapter 19 - Functions {-}
 
+Load the libraries needed for these exercises.
+
 
 
 
