@@ -1,3 +1,6 @@
-output: bookdown::gitbook
+output: 
+  bookdown::gitbook
+    includes:
+      in_header: analytics.html
 output_dir: docs
 new_session: yes
