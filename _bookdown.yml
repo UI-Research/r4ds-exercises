@@ -1,5 +1,5 @@
 output: 
-  bookdown::gitbook
+  bookdown::gitbook:
     includes:
       in_header: analytics.html
 output_dir: docs
