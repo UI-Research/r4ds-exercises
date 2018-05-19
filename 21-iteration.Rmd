@@ -1,0 +1,141 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Chapter 21 - Iteration {-}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r library, message=FALSE}
+library(tidyverse)
+library(stringr)
+```
+
+## 21.2 For loops {-}
+
+### Problem 1 {-}
+
+Write a for loop to compute the mean of every column in mtcars.
+
+``` {r 21.2.1a}
+x <- vector("double", ncol(mtcars))
+for (i in seq_along(mtcars)) {
+  x[[i]] <- mean(mtcars[[i]])
+}
+```
+
+Write a for loop to determine the type of each column in nycflights13::flights.
+(NOTE: Unsure how to deal with class "unknown" in column 19)
+
+``` {r 21.2.1b}
+x <- vector("character", ncol(nycflights13::flights))
+for (i in seq_along(nycflights13::flights)) {
+  x[[i]] <- str_c(class(nycflights13::flights[[i]]), collapse = ", ")
+}
+```
+
+Write a for loop to compute the number of unique values in each column of iris.
+
+``` {r 21.2.1c}
+x <- vector("integer", ncol(iris))
+for (i in seq_along(iris)) {
+  x[[i]] <- length(unique(iris[[i]]))
+}
+```
+
+Write a for loop to generate 10 random normals for each of mean = -10, 0, 10, 100. 
+``` {r 21.2.1d}
+means <- c(rep(-10, 10), rep(0, 10), rep(10, 10), rep(100, 10))
+x <- vector("double", 40)
+for (i in seq_along(means)) {
+  x[[i]] <- rnorm(1, means[[i]])
+}
+```
+
+### Problem 2 {-}
+
+Eliminate the for loop in each of the following examples by taking advantage of an existing function that works with vectors:
+
+``` {r 21.2.2a}
+out <- ""
+for (x in letters) {
+  out <- stringr::str_c(out, x)
+}
+
+str_c(letters[1:26], collapse = "")
+```
+
+``` {r 21.2.2b}
+x <- sample(100)
+sd <- 0
+for (i in seq_along(x)) {
+  sd <- sd + (x[i] - mean(x)) ^ 2
+}
+sd <- sqrt(sd / (length(x) - 1))
+
+sd(x)
+```
+
+``` {r 21.2.2c}
+x <- runif(100)
+out <- vector("numeric", length(x))
+out[1] <- x[1]
+for (i in 2:length(x)) {
+  out[i] <- out[i - 1] + x[i]
+}
+
+cumsum(x)
+```
+
+### Problem 3 {-}
+
+Write a for loop that prints() the lyrics to the children’s song “Alice the camel”.
+
+``` {r 21.2.3a}
+humps <- c("five", "four", "three", "two", "one", "no")
+
+y <- vector("character", 6)
+for (x in seq_along(humps)) {
+  x <- str_replace_all(str_c(c(rep("Alice the camel has x humps; ", 3), "So go, Alice, go. "), collapse = ""), "x", humps)
+}
+print(str_c(c(x, " Now Alice has no humps!"), collapse = ""))
+```
+
+Convert the nursery rhyme “ten in the bed” to a function. Generalise it to any number of people in any sleeping structure.
+
+``` {r 21.2.3b}
+roll_bed <- function(n, structure) {
+  
+n <- n:2 
+y <- vector("numeric", length(n))
+for (x in seq_along(n)) {
+  y <- str_c("There were ",n," in the ",structure," and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.")
+}
+y <- c(y, str_c("There was 1 in the ", structure, " and the little one said, 'Alone at last!'"))
+ print(y)
+}
+roll_bed(10, "bed")
+```
+
+Convert the song “99 bottles of beer on the wall” to a function. Generalise to any number of any vessel containing any liquid on any surface.
+
+``` {r 21.2.3c}
+beer_wall <- function(n, liquid) {
+
+n <- n:1
+y <- vector("numeric", length(n))
+for (x in seq_along(n)) {
+  y <- str_replace_all(str_c(n, " bottles of beer on the wall, ", n, " bottles of beer. Take one down and pass it around, ", (n-1)," bottles of beer on the wall."), "beer", liquid)
+}
+n <- n[1]
+y <- c(y, str_replace_all(str_c("No more bottles of beer on the wall, no more bottles of beer. Go to the store and buy some more, ", n, " bottles of beer on the wall."), "beer", liquid))
+ print(y)
+}
+beer_wall(10, "beer")
+```
+
