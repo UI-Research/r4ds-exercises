@@ -100,7 +100,7 @@ Write a for loop that prints() the lyrics to the children’s song “Alice the 
 humps <- c("five", "four", "three", "two", "one", "no")
 
 y <- vector("character", 6)
-for (x in seq_along(humps)) {
+for (i in seq_along(humps)) {
   x <- str_replace_all(str_c(c(rep("Alice the camel has x humps; ", 3), "So go, Alice, go. "), collapse = ""), "x", humps)
 }
 print(str_c(c(x, " Now Alice has no humps!"), collapse = ""))
@@ -113,7 +113,7 @@ roll_bed <- function(n, structure) {
   
 n <- n:2 
 y <- vector("numeric", length(n))
-for (x in seq_along(n)) {
+for (i in seq_along(n)) {
   y <- str_c("There were ",n," in the ",structure," and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.")
 }
 y <- c(y, str_c("There was 1 in the ", structure, " and the little one said, 'Alone at last!'"))
@@ -129,7 +129,7 @@ beer_wall <- function(n, liquid) {
 
 n <- n:1
 y <- vector("numeric", length(n))
-for (x in seq_along(n)) {
+for (i in seq_along(n)) {
   y <- str_replace_all(str_c(n, " bottles of beer on the wall, ", n, " bottles of beer. Take one down and pass it around, ", (n-1)," bottles of beer on the wall."), "beer", liquid)
 }
 n <- n[1]
@@ -138,4 +138,175 @@ y <- c(y, str_replace_all(str_c("No more bottles of beer on the wall, no more bo
 }
 beer_wall(10, "beer")
 ```
+
+### Problem 4 {-}
+
+It’s common to see for loops that don’t preallocate the output and instead increase the length of a vector at each step:
+``` {}
+output <- vector("integer", 0)
+for (i in seq_along(x)) {
+  output <- c(output, lengths(x[[i]]))
+}
+output
+```
+How does this affect performance? Design and execute an experiment.
+
+``` {r 21.2.4}
+data <- nycflights13::flights %>% 
+  select(-year, -carrier, -tailnum, -origin, -dest, -time_hour)
+
+library(microbenchmark)
+
+# With preallocation
+x <- vector("numeric", 13)
+microbenchmark(for (i in seq_along(data))
+  x[[i]] <- mean(data[[i]])
+)
+
+#  Without preallocation
+y <- vector("numeric", 0)
+microbenchmark(for (i in seq_along(data))
+  y[[i]] <- mean(data[[i]])
+)
+```
+
+## 21.3 For loop variations {-}
+
+### Problem 1 {-}
+
+Imagine you have a directory full of CSV files that you want to read in. You have their paths in a vector, files <- dir("data/", pattern = "\\.csv$", full.names = TRUE), and now want to read each one with read_csv(). Write the for loop that will load them into a single data frame.
+
+``` {r 21.3.1}
+files <- dir("data/", pattern = "\\.csv$", full.names = TRUE)
+output <- vector("list", length(files))
+for (i in seq_along(files)) {
+  output[[i]] <- read_csv(files[[i]])
+}
+output <- purrr::flatten_df(output)
+```
+
+### Problem 2 {-}
+
+What happens if you use for (nm in names(x)) and x has no names? 
+
+``` {r 21.3.2a}
+no_iris <- unname(iris)
+no_iris <- no_iris[, 1:4]
+
+# Leaves the list empty and does not throw an error.
+
+y <- vector("list")
+for (nm in names(no_iris)) {
+  y[[nm]] <- mean(no_iris[[nm]])
+}
+y
+```
+
+What if only some of the elements are named? 
+
+``` {r 21.3.2b}
+
+# Returns a list of length 2 with the value of the named element. 
+
+names(no_iris[[1]]) <- "Sepal.length"
+y <- vector("list")
+for (nm in names(no_iris)) {
+  y[[nm]] <- mean(no_iris[[nm]])
+}
+y
+```
+
+What if the names are not unique?
+
+``` {r 21.3.2c}
+# Only returns the mean of the first element and does not throw an error.
+
+names(no_iris) <- c("Sepal.length", "Sepal.length", "Sepal.length", "Sepal.length")
+y <- vector("list")
+for (nm in names(no_iris)) {
+  y[[nm]] <- mean(no_iris[[nm]])
+}
+y
+```
+
+### Problem 3 {-}
+
+Write a function that prints the mean of each numeric column in a data frame, along with its name. For example, show_mean(iris) would print:
+
+show_mean(iris)
+#> Sepal.Length: 5.84
+#> Sepal.Width:  3.06
+#> Petal.Length: 3.76
+#> Petal.Width:  1.20
+(Extra challenge: what function did I use to make sure that the numbers lined up nicely, even though the variable names had different lengths?)
+
+``` {r 21.3.3}
+print_means <- function(data) {
+data <- select_if(data, is.numeric)
+
+Means <- vector("double", length(data))
+for (i in seq_along(data)) {
+  Means[[i]] <- mean(data[[i]], na.rm = TRUE)
+}
+
+Names <- names(data)
+
+print(as_data_frame(cbind(Names, Means)))
+}
+```
+
+### Problem 4 {-}
+
+What does this code do? How does it work?
+
+``` {r 21.3.4}
+trans <- list( 
+  disp = function(x) x * 0.0163871,
+  am = function(x) {
+    factor(x, labels = c("auto", "manual"))
+  }
+)
+for (var in names(trans)) {
+  mtcars[[var]] <- trans[[var]](mtcars[[var]])
+}
+
+# The list trans contains two functions: disp and am. Disp takes its input and  multiplies by .0163871 and am takes its input and creates a factor variable with the value "auto" or "manual." The for loop loops over the two functions in the list, uses the variables disp" and am in the dataset mtcars as inputs, and outputs a new mtcars dataset.
+```
+
+## 21.4 For loops vs. functionals {-}
+
+### Problem 1 {-}
+
+Read the documentation for apply(). In the 2d case, what two for loops does it generalise?
+
+``` {r 21.4.1}
+# Unsure. 
+```
+
+### Problem 2 {-}
+
+Adapt col_summary() so that it only applies to numeric columns You might want to start with an is_numeric() function that returns a logical vector that has a TRUE corresponding to each numeric column.
+
+``` {r 21.4.2}
+# Original col_summary: 
+col_summary <- function(df, fun) {
+  out <- vector("double", length(df))
+  for (i in seq_along(df)) {
+    out[i] <- fun(df[[i]])
+  }
+  out
+}
+
+# Adapted col_summary:
+col_summary <- function(df, fun) {
+  df <- select_if(df, is.numeric)
+  out <- vector("double", length(df))
+  for (i in seq_along(df)) {
+    out[i] <- fun(df[[i]])
+  }
+  out
+}
+```
+
+
 
