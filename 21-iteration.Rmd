@@ -30,7 +30,6 @@ for (i in seq_along(mtcars)) {
 ```
 
 Write a for loop to determine the type of each column in nycflights13::flights.
-(NOTE: Unsure how to deal with class "unknown" in column 19)
 
 ``` {r 21.2.1b}
 x <- vector("character", ncol(nycflights13::flights))
@@ -308,5 +307,60 @@ col_summary <- function(df, fun) {
 }
 ```
 
+## 21.5 The map functions
+
+### Problem 1
+
+Write code that uses one of the map functions to compute the mean of every column in mtcars.
+
+``` {r 21.5.1a}
+mtcars %>% 
+  map(summary) %>% 
+  map_dbl("Mean")
+```
+
+Write code that uses one of the map functions to determine the type of each column in nycflights13::flights
+
+``` {r 21.5.1b}
+nycflights13::flights %>% 
+  map_chr(~str_c(class(.), collapse = ", "))
+```
+
+Write code that uses one of the map functions to compute the number of unique values in each column of iris
+
+``` {r 21.5.1c}
+iris %>% 
+  map_int(~n_distinct(.))
+```
+
+Write code that uses one of the map functions to generate 10 random normals for each of μ = -10, 0, 10, and 100. 
+
+``` {r 21.5.1d}
+x <- c(-10, 0, 10, 100)
+x %>% 
+  map(~rnorm(10, mean = .))
+```
+
+### Problem 2
+
+How can you create a single vector that for each column in a data frame indicates whether or not it’s a factor?
+
+``` {r 21.5.2}
+factor_fun <- function(data) {
+  data %>%
+    map_lgl(~is.factor(.))
+}
+```
+
+### Problem 3
+
+What happens when you use the map functions on vectors that aren’t lists? What does map(1:5, runif) do? Why?
+
+``` {r 21.5.3}
+# map(1:5, runif) creates a list of length five that includes the outputs of the respective inputs. 
+
+# map(list(1:5), runif) creates a list of length one that only includes one output. # ??????
 
 
+
+```
