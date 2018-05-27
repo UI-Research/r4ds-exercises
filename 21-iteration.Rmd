@@ -14,6 +14,7 @@ knitr::opts_chunk$set(warning = FALSE)
 ```{r library, message=FALSE}
 library(tidyverse)
 library(stringr)
+library(purrr)
 ```
 
 ## 21.2 For loops {-}
@@ -356,13 +357,13 @@ factor_fun <- function(data) {
 What happens when you use the map functions on vectors that aren’t lists? What does map(1:5, runif) do? Why?
 
 ``` {r 21.5.3}
-# map(1:5, runif) iterates across each value, 1:5, in the vector and returns a list with five vectors containing between one and five random deviates:
+#The function iterates across each value, 1:5, in the vector and returns a list with five vectors containing between one and five random deviates:
 
 map(1:5, runif)
 
 #If the vector 1:5 is a list, the function does not iterate across five values but rather takes one value, the length five vector, as its sole input. Since the input is not a single value, the map function uses the length of the vector as its input:
   
-map(list(1:5, runif)
+map(list(1:5), runif)
     
 # And as a result, the above function is equivalent to: 
 
@@ -382,7 +383,7 @@ map(-2:2, rnorm, n = 5)
 
 # The function above takes a length five vector from -2:2 and returns a list of five vectors of five observations along a normal distribution given mean values of -2, -1, 0, 1, and 2, respectively. It takes each value from -2:2 and returns a vector of five observations, looping over the entire vector and storing the vectors in a single list. 
 
-map_dbl(-2:2, rnorm, n = 5)
+#map_dbl(-2:2, rnorm, n = 5)
 
 # The above function throws the error "Result 1 is not a length 1 atomic vector," because it is unable to store the output of the function as a single value in a vector. Map_dbl expects each iterative output to be a single value, but each iteration of this function is a vector of five observations. In order to return the function's output as a single vector, the map() function would need to be wrapped in unlist(): 
 
@@ -422,10 +423,6 @@ bens_every(iris, is.vector)
 iris %>% 
   select_if(is.numeric) %>% 
   every(~mean(.) > 3)
-
-iris %>% 
-  select_if(is.numeric) %>% 
-  bens_every(~mean(.) > 3)
 ```
 
 ### Problem 2
@@ -434,7 +431,7 @@ Create an enhanced col_sum() that applies a summary function to every numeric co
 
 ``` {r 21.9.2}
 col_summary <- function(df, fun) {
-  df <- select_if(df, is.numeric)
+  df <- keep(df, is.numeric)
   out <- vector("double", length(df))
   for (i in seq_along(df)) {
     out[[i]] <- fun(df[[i]])
@@ -442,18 +439,7 @@ col_summary <- function(df, fun) {
   out
 }
 
-```
-  df <- select_if(df, is.numeric)
-out <- vector("double", length(df))
-for (i in seq_along(df)) {
-  out[i] <- fun(df[[i]])
-}
-out
-
-
-
 col_summary(iris, mean)
-col_summary(iris, median)
 ```
 
 ### Problem 3
@@ -478,16 +464,35 @@ df <- tibble(
   z = c("a", "b", "c")
 )
 # OK
-col_sum3(df, mean)
+boom col_sum3(df, mean)
 # Has problems: don't always return numeric vector
 col_sum3(df[1:2], mean)
 col_sum3(df[1], mean)
-col_sum3(df[0], mean)
+#col_sum3(df[0], mean)
 ```
 
 What causes the bugs?
 
+``` {r 21.9.3}
+#The bug stems from sapply, which returns a list rather than a vector when given a dataframe with no variables. Here is a more consistent approach in base R: 
 
+col_sum3 <- function(df, f) {
+  is_num <- vapply(df, is.numeric, logical(1))
+  df_num <- df[, is_num]
+
+  sapply(df_num, f)
+}
+
+df <- tibble(
+  x = 1:3, 
+  y = 3:1,
+  z = c("a", "b", "c")
+)
+
+col_sum3(df[0], mean)
+col_sum3(df[1:2], mean)
+col_sum3(df[1], mean)
+```
 
 
 

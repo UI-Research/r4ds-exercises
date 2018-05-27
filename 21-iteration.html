@@ -124,7 +124,8 @@ $(document).ready(function () {
 <div id="chapter-21---iteration" class="section level1 unnumbered">
 <h1>Chapter 21 - Iteration</h1>
 <pre class="r"><code>library(tidyverse)
-library(stringr)</code></pre>
+library(stringr)
+library(purrr)</code></pre>
 <div id="for-loops" class="section level2 unnumbered">
 <h2>21.2 For loops</h2>
 <div id="problem-1" class="section level3 unnumbered">
@@ -134,7 +135,7 @@ library(stringr)</code></pre>
 for (i in seq_along(mtcars)) {
   x[[i]] &lt;- mean(mtcars[[i]])
 }</code></pre>
-<p>Write a for loop to determine the type of each column in nycflights13::flights. (NOTE: Unsure how to deal with class “unknown” in column 19)</p>
+<p>Write a for loop to determine the type of each column in nycflights13::flights.</p>
 <pre class="r"><code>x &lt;- vector(&quot;character&quot;, ncol(nycflights13::flights))
 for (i in seq_along(nycflights13::flights)) {
   x[[i]] &lt;- str_c(class(nycflights13::flights[[i]]), collapse = &quot;, &quot;)
@@ -178,23 +179,23 @@ for (i in 2:length(x)) {
 }
 
 cumsum(x)</code></pre>
-<pre><code>##   [1]  0.5171035  0.5637688  1.5033430  2.4186838  2.9700349  3.0687385
-##   [7]  3.2316400  3.2658192  3.8482981  3.9406996  4.7685569  5.0751530
-##  [13]  5.4561412  5.8807816  6.1624371  6.2200042  6.5378709  7.4348532
-##  [19]  7.8753861  8.4832268  8.8909005  9.3572370  9.5337544 10.2501832
-##  [25] 10.4038069 10.9674234 11.2351873 11.9999084 12.7486439 13.2594195
-##  [31] 14.1917006 14.2346545 14.4501670 14.6447106 14.7264751 15.7247508
-##  [37] 15.7860389 16.0510848 16.8623405 17.4261027 17.4480641 17.7402108
-##  [43] 18.5797970 18.7288500 19.2785145 20.0932594 20.3054865 20.6736078
-##  [49] 21.2588780 21.8985077 22.3143787 22.7999328 23.1767778 23.3701050
-##  [55] 24.2990960 24.9002792 25.3747359 25.9710814 26.6703840 27.5464257
-##  [61] 27.5554594 28.1628493 28.8585611 29.0456579 29.1644420 29.2033433
-##  [67] 29.3755110 29.6810764 29.9312152 30.0877771 30.1111832 30.8865364
-##  [73] 31.1217665 31.6999732 32.6120921 33.1201525 33.7486277 34.5198753
-##  [79] 35.4894902 36.1422250 36.3582487 36.7824083 37.0790836 37.3630213
-##  [85] 37.4381194 38.1295833 38.8099258 39.4275909 39.6115998 40.2120420
-##  [91] 40.7831487 41.2882792 42.1828023 42.3257526 42.7615675 43.2040982
-##  [97] 43.4728940 44.1991968 44.2196332 45.0351548</code></pre>
+<pre><code>##   [1]  0.1808478  0.2663033  0.8896058  1.1886833  1.9529288  2.6253398
+##   [7]  2.7533935  3.2076378  3.8520953  4.1440588  4.6666300  5.4400254
+##  [13]  5.9083498  6.4008760  6.8264417  7.3355057  7.3881148  8.0893803
+##  [19]  8.8059071  9.6688730 10.1323902 10.2703393 10.3485492 10.9981765
+##  [25] 11.4246328 12.1188876 12.8204319 12.8850794 13.0374658 13.9976647
+##  [31] 14.5065298 14.7863224 15.6279739 16.5786304 16.8234274 17.2797105
+##  [37] 17.3125924 17.5642465 17.8225310 18.1859305 18.6703228 19.2695802
+##  [43] 19.5118925 20.0749892 20.4751801 20.7725761 20.9930009 21.5048383
+##  [49] 22.1036620 22.9519264 23.3244559 23.3994967 24.3701989 25.2218909
+##  [55] 25.8573304 26.7646144 27.3153185 27.3515508 27.5194470 28.1986047
+##  [61] 28.8127044 29.0600762 29.8830032 30.2523901 30.3232389 31.1838557
+##  [67] 31.8410500 31.9049010 32.1653216 32.4113603 32.4798935 33.4795888
+##  [73] 33.5170358 33.6521106 34.1128640 34.8646873 35.5227862 36.4126449
+##  [79] 36.8890836 37.6687166 37.9710413 38.3871897 39.1549285 39.6200504
+##  [85] 39.7004230 40.5437921 40.6296925 40.9505458 40.9647739 41.0424335
+##  [91] 41.4169771 41.5256738 42.5243209 43.0248211 43.5384864 43.5870455
+##  [97] 43.9659032 44.0656091 44.1490532 44.5934366</code></pre>
 </div>
 <div id="problem-3" class="section level3 unnumbered">
 <h3>Problem 3</h3>
@@ -202,18 +203,422 @@ cumsum(x)</code></pre>
 <pre class="r"><code>humps &lt;- c(&quot;five&quot;, &quot;four&quot;, &quot;three&quot;, &quot;two&quot;, &quot;one&quot;, &quot;no&quot;)
 
 y &lt;- vector(&quot;character&quot;, 6)
-for (x in seq_along(humps)) {
-  x &lt;- str_replace_all(str_c(c(rep(&quot;Alice the camel has x humps\n&quot;, 3), &quot;So go, Alice, go.\n&quot;), collapse = &quot;&quot;),
-                             &quot;x&quot;, humps)
+for (i in seq_along(humps)) {
+  x &lt;- str_replace_all(str_c(c(rep(&quot;Alice the camel has x humps; &quot;, 3), &quot;So go, Alice, go. &quot;), collapse = &quot;&quot;), &quot;x&quot;, humps)
 }
-print(str_c(c(x, &quot;Now Alice has no humps!&quot;), collapse = &quot;&quot;))</code></pre>
-<pre><code>## [1] &quot;Alice the camel has five humps\nAlice the camel has five humps\nAlice the camel has five humps\nSo go, Alice, go.\nAlice the camel has four humps\nAlice the camel has four humps\nAlice the camel has four humps\nSo go, Alice, go.\nAlice the camel has three humps\nAlice the camel has three humps\nAlice the camel has three humps\nSo go, Alice, go.\nAlice the camel has two humps\nAlice the camel has two humps\nAlice the camel has two humps\nSo go, Alice, go.\nAlice the camel has one humps\nAlice the camel has one humps\nAlice the camel has one humps\nSo go, Alice, go.\nAlice the camel has no humps\nAlice the camel has no humps\nAlice the camel has no humps\nSo go, Alice, go.\nNow Alice has no humps!&quot;</code></pre>
+print(str_c(c(x, &quot; Now Alice has no humps!&quot;), collapse = &quot;&quot;))</code></pre>
+<pre><code>## [1] &quot;Alice the camel has five humps; Alice the camel has five humps; Alice the camel has five humps; So go, Alice, go. Alice the camel has four humps; Alice the camel has four humps; Alice the camel has four humps; So go, Alice, go. Alice the camel has three humps; Alice the camel has three humps; Alice the camel has three humps; So go, Alice, go. Alice the camel has two humps; Alice the camel has two humps; Alice the camel has two humps; So go, Alice, go. Alice the camel has one humps; Alice the camel has one humps; Alice the camel has one humps; So go, Alice, go. Alice the camel has no humps; Alice the camel has no humps; Alice the camel has no humps; So go, Alice, go.  Now Alice has no humps!&quot;</code></pre>
 <p>Convert the nursery rhyme “ten in the bed” to a function. Generalise it to any number of people in any sleeping structure.</p>
-<pre class="r"><code>numbs &lt;- c(&quot;five&quot;, &quot;four&quot;, &quot;three&quot;, &quot;two&quot;)
-y &lt;- vector(&quot;character&quot;, 5)
-for (x in seq_along(numbs)) {
-  y &lt;- str_c(str_c(&quot;There were &quot;,numbs,&quot; in the bed\nAnd the little one said,\n'Roll over! Roll over!'\nSo they all rolled over and\none fell out.&quot;), &quot;\nThere was one in the bed\nAnd the little one said,\nAlone at last!&quot;)
+<pre class="r"><code>roll_bed &lt;- function(n, structure) {
+  
+n &lt;- n:2 
+y &lt;- vector(&quot;numeric&quot;, length(n))
+for (i in seq_along(n)) {
+  y &lt;- str_c(&quot;There were &quot;,n,&quot; in the &quot;,structure,&quot; and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.&quot;)
+}
+y &lt;- c(y, str_c(&quot;There was 1 in the &quot;, structure, &quot; and the little one said, 'Alone at last!'&quot;))
+ print(y)
+}
+roll_bed(10, &quot;bed&quot;)</code></pre>
+<pre><code>##  [1] &quot;There were 10 in the bed and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.&quot;
+##  [2] &quot;There were 9 in the bed and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.&quot; 
+##  [3] &quot;There were 8 in the bed and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.&quot; 
+##  [4] &quot;There were 7 in the bed and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.&quot; 
+##  [5] &quot;There were 6 in the bed and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.&quot; 
+##  [6] &quot;There were 5 in the bed and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.&quot; 
+##  [7] &quot;There were 4 in the bed and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.&quot; 
+##  [8] &quot;There were 3 in the bed and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.&quot; 
+##  [9] &quot;There were 2 in the bed and the little one said, 'Roll over! Roll over!' So they all rolled over and  none fell out.&quot; 
+## [10] &quot;There was 1 in the bed and the little one said, 'Alone at last!'&quot;</code></pre>
+<p>Convert the song “99 bottles of beer on the wall” to a function. Generalise to any number of any vessel containing any liquid on any surface.</p>
+<pre class="r"><code>beer_wall &lt;- function(n, liquid) {
+
+n &lt;- n:1
+y &lt;- vector(&quot;numeric&quot;, length(n))
+for (i in seq_along(n)) {
+  y &lt;- str_replace_all(str_c(n, &quot; bottles of beer on the wall, &quot;, n, &quot; bottles of beer. Take one down and pass it around, &quot;, (n-1),&quot; bottles of beer on the wall.&quot;), &quot;beer&quot;, liquid)
+}
+n &lt;- n[1]
+y &lt;- c(y, str_replace_all(str_c(&quot;No more bottles of beer on the wall, no more bottles of beer. Go to the store and buy some more, &quot;, n, &quot; bottles of beer on the wall.&quot;), &quot;beer&quot;, liquid))
+ print(y)
+}
+beer_wall(10, &quot;beer&quot;)</code></pre>
+<pre><code>##  [1] &quot;10 bottles of beer on the wall, 10 bottles of beer. Take one down and pass it around, 9 bottles of beer on the wall.&quot;            
+##  [2] &quot;9 bottles of beer on the wall, 9 bottles of beer. Take one down and pass it around, 8 bottles of beer on the wall.&quot;              
+##  [3] &quot;8 bottles of beer on the wall, 8 bottles of beer. Take one down and pass it around, 7 bottles of beer on the wall.&quot;              
+##  [4] &quot;7 bottles of beer on the wall, 7 bottles of beer. Take one down and pass it around, 6 bottles of beer on the wall.&quot;              
+##  [5] &quot;6 bottles of beer on the wall, 6 bottles of beer. Take one down and pass it around, 5 bottles of beer on the wall.&quot;              
+##  [6] &quot;5 bottles of beer on the wall, 5 bottles of beer. Take one down and pass it around, 4 bottles of beer on the wall.&quot;              
+##  [7] &quot;4 bottles of beer on the wall, 4 bottles of beer. Take one down and pass it around, 3 bottles of beer on the wall.&quot;              
+##  [8] &quot;3 bottles of beer on the wall, 3 bottles of beer. Take one down and pass it around, 2 bottles of beer on the wall.&quot;              
+##  [9] &quot;2 bottles of beer on the wall, 2 bottles of beer. Take one down and pass it around, 1 bottles of beer on the wall.&quot;              
+## [10] &quot;1 bottles of beer on the wall, 1 bottles of beer. Take one down and pass it around, 0 bottles of beer on the wall.&quot;              
+## [11] &quot;No more bottles of beer on the wall, no more bottles of beer. Go to the store and buy some more, 10 bottles of beer on the wall.&quot;</code></pre>
+</div>
+<div id="problem-4" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>It’s common to see for loops that don’t preallocate the output and instead increase the length of a vector at each step:</p>
+<pre><code>output &lt;- vector(&quot;integer&quot;, 0)
+for (i in seq_along(x)) {
+  output &lt;- c(output, lengths(x[[i]]))
+}
+output</code></pre>
+<p>How does this affect performance? Design and execute an experiment.</p>
+<pre class="r"><code>data &lt;- nycflights13::flights %&gt;% 
+  select(-year, -carrier, -tailnum, -origin, -dest, -time_hour)
+
+library(microbenchmark)
+
+# With preallocation
+x &lt;- vector(&quot;numeric&quot;, 13)
+microbenchmark(for (i in seq_along(data))
+  x[[i]] &lt;- mean(data[[i]])
+)</code></pre>
+<pre><code>## Unit: milliseconds
+##                                                  expr      min       lq
+##  for (i in seq_along(data)) x[[i]] &lt;- mean(data[[i]]) 153.8821 155.2586
+##      mean   median       uq     max neval
+##  159.3196 156.5056 159.0554 228.122   100</code></pre>
+<pre class="r"><code>#  Without preallocation
+y &lt;- vector(&quot;numeric&quot;, 0)
+microbenchmark(for (i in seq_along(data))
+  y[[i]] &lt;- mean(data[[i]])
+)</code></pre>
+<pre><code>## Unit: milliseconds
+##                                                  expr      min       lq
+##  for (i in seq_along(data)) y[[i]] &lt;- mean(data[[i]]) 154.8286 156.7012
+##      mean   median       uq      max neval
+##  162.1294 158.2955 163.1426 213.1168   100</code></pre>
+</div>
+</div>
+<div id="for-loop-variations" class="section level2 unnumbered">
+<h2>21.3 For loop variations</h2>
+<div id="problem-1-1" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Imagine you have a directory full of CSV files that you want to read in. You have their paths in a vector, files &lt;- dir(“data/”, pattern = “\.csv$”, full.names = TRUE), and now want to read each one with read_csv(). Write the for loop that will load them into a single data frame.</p>
+<pre class="r"><code>files &lt;- dir(&quot;data/&quot;, pattern = &quot;\\.csv$&quot;, full.names = TRUE)
+output &lt;- vector(&quot;list&quot;, length(files))
+for (i in seq_along(files)) {
+  output[[i]] &lt;- read_csv(files[[i]])
+}
+output &lt;- purrr::flatten_df(output)</code></pre>
+</div>
+<div id="problem-2-1" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>What happens if you use for (nm in names(x)) and x has no names?</p>
+<pre class="r"><code>no_iris &lt;- unname(iris)
+no_iris &lt;- no_iris[, 1:4]
+
+# Leaves the list empty and does not throw an error.
+
+y &lt;- vector(&quot;list&quot;)
+for (nm in names(no_iris)) {
+  y[[nm]] &lt;- mean(no_iris[[nm]])
+}
+y</code></pre>
+<pre><code>## list()</code></pre>
+<p>What if only some of the elements are named?</p>
+<pre class="r"><code># Returns a list of length 2 with the value of the named element. 
+
+names(no_iris[[1]]) &lt;- &quot;Sepal.length&quot;
+y &lt;- vector(&quot;list&quot;)
+for (nm in names(no_iris)) {
+  y[[nm]] &lt;- mean(no_iris[[nm]])
+}
+y</code></pre>
+<pre><code>## list()</code></pre>
+<p>What if the names are not unique?</p>
+<pre class="r"><code># Only returns the mean of the first element and does not throw an error.
+
+names(no_iris) &lt;- c(&quot;Sepal.length&quot;, &quot;Sepal.length&quot;, &quot;Sepal.length&quot;, &quot;Sepal.length&quot;)
+y &lt;- vector(&quot;list&quot;)
+for (nm in names(no_iris)) {
+  y[[nm]] &lt;- mean(no_iris[[nm]])
+}
+y</code></pre>
+<pre><code>## $Sepal.length
+## [1] 5.843333</code></pre>
+</div>
+<div id="problem-3-1" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>Write a function that prints the mean of each numeric column in a data frame, along with its name. For example, show_mean(iris) would print:</p>
+<p>show_mean(iris) #&gt; Sepal.Length: 5.84 #&gt; Sepal.Width: 3.06 #&gt; Petal.Length: 3.76 #&gt; Petal.Width: 1.20 (Extra challenge: what function did I use to make sure that the numbers lined up nicely, even though the variable names had different lengths?)</p>
+<pre class="r"><code>print_means &lt;- function(data) {
+data &lt;- select_if(data, is.numeric)
+
+Means &lt;- vector(&quot;double&quot;, length(data))
+for (i in seq_along(data)) {
+  Means[[i]] &lt;- mean(data[[i]], na.rm = TRUE)
+}
+
+Names &lt;- names(data)
+
+print(as_data_frame(cbind(Names, Means)))
 }</code></pre>
+</div>
+<div id="problem-4-1" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>What does this code do? How does it work?</p>
+<pre class="r"><code>trans &lt;- list( 
+  disp = function(x) x * 0.0163871,
+  am = function(x) {
+    factor(x, labels = c(&quot;auto&quot;, &quot;manual&quot;))
+  }
+)
+for (var in names(trans)) {
+  mtcars[[var]] &lt;- trans[[var]](mtcars[[var]])
+}
+
+# The list trans contains two functions: disp and am. Disp takes its input and  multiplies by .0163871 and am takes its input and creates a factor variable with the value &quot;auto&quot; or &quot;manual.&quot; The for loop loops over the two functions in the list, uses the variables disp&quot; and am in the dataset mtcars as inputs, and outputs a new mtcars dataset.</code></pre>
+</div>
+</div>
+<div id="for-loops-vs.functionals" class="section level2 unnumbered">
+<h2>21.4 For loops vs. functionals</h2>
+<div id="problem-1-2" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>Read the documentation for apply(). In the 2d case, what two for loops does it generalise?</p>
+<pre class="r"><code># Unsure. </code></pre>
+</div>
+<div id="problem-2-2" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Adapt col_summary() so that it only applies to numeric columns You might want to start with an is_numeric() function that returns a logical vector that has a TRUE corresponding to each numeric column.</p>
+<pre class="r"><code># Original col_summary: 
+col_summary &lt;- function(df, fun) {
+  out &lt;- vector(&quot;double&quot;, length(df))
+  for (i in seq_along(df)) {
+    out[i] &lt;- fun(df[[i]])
+  }
+  out
+}
+
+# Adapted col_summary:
+col_summary &lt;- function(df, fun) {
+  df &lt;- select_if(df, is.numeric)
+  out &lt;- vector(&quot;double&quot;, length(df))
+  for (i in seq_along(df)) {
+    out[i] &lt;- fun(df[[i]])
+  }
+  out
+}</code></pre>
+</div>
+</div>
+<div id="the-map-functions" class="section level2">
+<h2>21.5 The map functions</h2>
+<div id="problem-1-3" class="section level3">
+<h3>Problem 1</h3>
+<p>Write code that uses one of the map functions to compute the mean of every column in mtcars.</p>
+<pre class="r"><code>mtcars %&gt;% 
+  map_dbl(mean)</code></pre>
+<pre><code>##        mpg        cyl       disp         hp       drat         wt 
+##  20.090625   6.187500   3.780862 146.687500   3.596563   3.217250 
+##       qsec         vs         am       gear       carb 
+##  17.848750   0.437500         NA   3.687500   2.812500</code></pre>
+<p>Write code that uses one of the map functions to determine the type of each column in nycflights13::flights</p>
+<pre class="r"><code>nycflights13::flights %&gt;% 
+  map_chr(~str_c(class(.), collapse = &quot;, &quot;))</code></pre>
+<pre><code>##              year             month               day          dep_time 
+##         &quot;integer&quot;         &quot;integer&quot;         &quot;integer&quot;         &quot;integer&quot; 
+##    sched_dep_time         dep_delay          arr_time    sched_arr_time 
+##         &quot;integer&quot;         &quot;numeric&quot;         &quot;integer&quot;         &quot;integer&quot; 
+##         arr_delay           carrier            flight           tailnum 
+##         &quot;numeric&quot;       &quot;character&quot;         &quot;integer&quot;       &quot;character&quot; 
+##            origin              dest          air_time          distance 
+##       &quot;character&quot;       &quot;character&quot;         &quot;numeric&quot;         &quot;numeric&quot; 
+##              hour            minute         time_hour 
+##         &quot;numeric&quot;         &quot;numeric&quot; &quot;POSIXct, POSIXt&quot;</code></pre>
+<p>Write code that uses one of the map functions to compute the number of unique values in each column of iris</p>
+<pre class="r"><code>iris %&gt;% 
+  map_int(~n_distinct(.))</code></pre>
+<pre><code>## Sepal.Length  Sepal.Width Petal.Length  Petal.Width      Species 
+##           35           23           43           22            3</code></pre>
+<p>Write code that uses one of the map functions to generate 10 random normals for each of μ = -10, 0, 10, and 100.</p>
+<pre class="r"><code>x &lt;- c(-10, 0, 10, 100)
+x %&gt;% 
+  map(~rnorm(10, mean = .))</code></pre>
+<pre><code>## [[1]]
+##  [1] -10.292095  -8.703226  -9.938466  -8.755890  -9.448409  -8.697930
+##  [7] -12.164836  -9.930438  -9.699010  -7.788943
+## 
+## [[2]]
+##  [1]  1.024216912  1.145537235 -0.895108823  1.198158861  0.668602486
+##  [6]  0.570837521  0.367160580 -0.007168991  0.619916292  0.187897331
+## 
+## [[3]]
+##  [1] 10.617743 10.567520 11.462116  9.487655 11.496849  9.238046 11.868844
+##  [8]  7.923314 10.769211  7.501733
+## 
+## [[4]]
+##  [1] 100.30707 101.72831 100.41065 101.34616  99.83531 100.24407 102.16591
+##  [8]  99.63871  98.39858  99.91759</code></pre>
+</div>
+<div id="problem-2-3" class="section level3">
+<h3>Problem 2</h3>
+<p>How can you create a single vector that for each column in a data frame indicates whether or not it’s a factor?</p>
+<pre class="r"><code>factor_fun &lt;- function(data) {
+  data %&gt;%
+    map_lgl(~is.factor(.))
+}</code></pre>
+</div>
+<div id="problem-3-2" class="section level3">
+<h3>Problem 3</h3>
+<p>What happens when you use the map functions on vectors that aren’t lists? What does map(1:5, runif) do? Why?</p>
+<pre class="r"><code>#The function iterates across each value, 1:5, in the vector and returns a list with five vectors containing between one and five random deviates:
+
+map(1:5, runif)</code></pre>
+<pre><code>## [[1]]
+## [1] 0.3987562
+## 
+## [[2]]
+## [1] 0.1447144 0.5330345
+## 
+## [[3]]
+## [1] 0.02774444 0.19508065 0.31612982
+## 
+## [[4]]
+## [1] 0.05092335 0.43699845 0.07902087 0.47964287
+## 
+## [[5]]
+## [1] 0.9308512 0.5420614 0.9366889 0.0778394 0.1745781</code></pre>
+<pre class="r"><code>#If the vector 1:5 is a list, the function does not iterate across five values but rather takes one value, the length five vector, as its sole input. Since the input is not a single value, the map function uses the length of the vector as its input:
+  
+map(list(1:5), runif)</code></pre>
+<pre><code>## [[1]]
+## [1] 0.9086228 0.8951890 0.1259304 0.6766724 0.4934776</code></pre>
+<pre class="r"><code># And as a result, the above function is equivalent to: 
+
+map(list(5), runif)</code></pre>
+<pre><code>## [[1]]
+## [1] 0.5544666 0.6024197 0.6964546 0.3684083 0.9705916</code></pre>
+<pre class="r"><code>map(5, runif)</code></pre>
+<pre><code>## [[1]]
+## [1] 0.7271702 0.5954498 0.7144705 0.8171014 0.9131747</code></pre>
+<pre class="r"><code>map(list(5:9), runif)</code></pre>
+<pre><code>## [[1]]
+## [1] 0.5961015 0.1569546 0.7481731 0.2846281 0.9852789</code></pre>
+</div>
+<div id="problem-4-2" class="section level3">
+<h3>Problem 4</h3>
+<p>What does map(-2:2, rnorm, n = 5) do? Why? What does map_dbl(-2:2, rnorm, n = 5) do? Why?</p>
+<pre class="r"><code>map(-2:2, rnorm, n = 5)</code></pre>
+<pre><code>## [[1]]
+## [1] -3.154350 -2.528921 -2.167875 -1.315318 -1.614413
+## 
+## [[2]]
+## [1] -0.29274730 -0.07184583 -0.94775771 -2.48545620 -0.35061566
+## 
+## [[3]]
+## [1]  2.0739681 -0.7492824  0.3673448 -0.8628568  2.5412162
+## 
+## [[4]]
+## [1] -0.2179670 -0.4682073 -0.2111883  0.5406357 -1.0461578
+## 
+## [[5]]
+## [1] 1.252434 3.841499 2.962807 1.743927 1.957779</code></pre>
+<pre class="r"><code># The function above takes a length five vector from -2:2 and returns a list of five vectors of five observations along a normal distribution given mean values of -2, -1, 0, 1, and 2, respectively. It takes each value from -2:2 and returns a vector of five observations, looping over the entire vector and storing the vectors in a single list. 
+
+#map_dbl(-2:2, rnorm, n = 5)
+
+# The above function throws the error &quot;Result 1 is not a length 1 atomic vector,&quot; because it is unable to store the output of the function as a single value in a vector. Map_dbl expects each iterative output to be a single value, but each iteration of this function is a vector of five observations. In order to return the function's output as a single vector, the map() function would need to be wrapped in unlist(): 
+
+unlist(map(-2:2, rnorm, n = 5))</code></pre>
+<pre><code>##  [1] -3.82187246 -1.24865063 -3.75856173 -1.51484070 -0.95476804
+##  [6] -0.73541967 -1.67675521 -1.22399896 -1.50495749 -3.32815572
+## [11]  1.11639964  1.93491526 -1.97407883  0.02316592  1.68094558
+## [16]  2.74428050  1.59546284  1.87998796  1.75559888  0.50591120
+## [21]  2.51012878  1.85403635  2.19390787  2.03354340  3.28734728</code></pre>
+</div>
+<div id="problem-5" class="section level3">
+<h3>Problem 5</h3>
+<p>Rewrite map(x, function(df) lm(mpg ~ wt, data = df)) to eliminate the anonymous function.</p>
+<pre class="r"><code># map(x, ~lm(mpg ~ wt, data = .))</code></pre>
+</div>
+</div>
+<div id="other-patterns-of-for-loops" class="section level2">
+<h2>21.9 Other patterns of for loops</h2>
+<div id="problem-1-4" class="section level3">
+<h3>Problem 1</h3>
+<p>Implement your own version of every() using a for loop. Compare it with purrr::every(). What does purrr’s version do that your version doesn’t?</p>
+<pre class="r"><code>x &lt;- list(1:5, letters, list(10))
+
+
+bens_every &lt;- function(x, f) {
+out &lt;- vector(&quot;logical&quot;, 1)
+for (. in seq_along(x))
+  out &lt;- all((f(.)))
+out
+}
+
+bens_every(iris, is.character)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>bens_every(iris, is.vector)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code># Unlike dplyr's every(), my function does not support shortcuts for anonymous functions
+
+iris %&gt;% 
+  select_if(is.numeric) %&gt;% 
+  every(~mean(.) &gt; 3)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+</div>
+<div id="problem-2-4" class="section level3">
+<h3>Problem 2</h3>
+<p>Create an enhanced col_sum() that applies a summary function to every numeric column in a data frame.</p>
+<pre class="r"><code>col_summary &lt;- function(df, fun) {
+  df &lt;- keep(df, is.numeric)
+  out &lt;- vector(&quot;double&quot;, length(df))
+  for (i in seq_along(df)) {
+    out[[i]] &lt;- fun(df[[i]])
+  }
+  out
+}
+
+col_summary(iris, mean)</code></pre>
+<pre><code>## [1] 5.843333 3.057333 3.758000 1.199333</code></pre>
+</div>
+<div id="problem-3-3" class="section level3">
+<h3>Problem 3</h3>
+<p>A possible base R equivalent of col_sum() is:</p>
+<pre><code>col_sum3 &lt;- function(df, f) {
+  is_num &lt;- sapply(df, is.numeric)
+  df_num &lt;- df[, is_num]
+
+  sapply(df_num, f)
+}</code></pre>
+<p>But it has a number of bugs as illustrated with the following inputs:</p>
+<pre><code>df &lt;- tibble(
+  x = 1:3, 
+  y = 3:1,
+  z = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
+)
+# OK
+boom col_sum3(df, mean)
+# Has problems: don't always return numeric vector
+col_sum3(df[1:2], mean)
+col_sum3(df[1], mean)
+#col_sum3(df[0], mean)</code></pre>
+<p>What causes the bugs?</p>
+<pre class="r"><code>#The bug stems from sapply, which returns a list rather than a vector when given a dataframe with no variables. Here is a more consistent approach in base R: 
+
+col_sum3 &lt;- function(df, f) {
+  is_num &lt;- vapply(df, is.numeric, logical(1))
+  df_num &lt;- df[, is_num]
+
+  sapply(df_num, f)
+}
+
+df &lt;- tibble(
+  x = 1:3, 
+  y = 3:1,
+  z = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
+)
+
+col_sum3(df[0], mean)</code></pre>
+<pre><code>## named list()</code></pre>
+<pre class="r"><code>col_sum3(df[1:2], mean)</code></pre>
+<pre><code>## x y 
+## 2 2</code></pre>
+<pre class="r"><code>col_sum3(df[1], mean)</code></pre>
+<pre><code>## x 
+## 2</code></pre>
 </div>
 </div>
 </div>
