@@ -1,7 +1,7 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 # Chapter 21 - Iteration {-}
 
@@ -315,8 +315,7 @@ Write code that uses one of the map functions to compute the mean of every colum
 
 ``` {r 21.5.1a}
 mtcars %>% 
-  map(summary) %>% 
-  map_dbl("Mean")
+  map_dbl(mean)
 ```
 
 Write code that uses one of the map functions to determine the type of each column in nycflights13::flights
@@ -357,10 +356,138 @@ factor_fun <- function(data) {
 What happens when you use the map functions on vectors that aren’t lists? What does map(1:5, runif) do? Why?
 
 ``` {r 21.5.3}
-# map(1:5, runif) creates a list of length five that includes the outputs of the respective inputs. 
+# map(1:5, runif) iterates across each value, 1:5, in the vector and returns a list with five vectors containing between one and five random deviates:
 
-# map(list(1:5), runif) creates a list of length one that only includes one output. # ??????
+map(1:5, runif)
+
+#If the vector 1:5 is a list, the function does not iterate across five values but rather takes one value, the length five vector, as its sole input. Since the input is not a single value, the map function uses the length of the vector as its input:
+  
+map(list(1:5, runif)
+    
+# And as a result, the above function is equivalent to: 
+
+map(list(5), runif)
+
+map(5, runif)
+
+map(list(5:9), runif)
+```
+
+### Problem 4
+
+What does map(-2:2, rnorm, n = 5) do? Why? What does map_dbl(-2:2, rnorm, n = 5) do? Why?
+
+``` {r 21.5.4}
+map(-2:2, rnorm, n = 5)
+
+# The function above takes a length five vector from -2:2 and returns a list of five vectors of five observations along a normal distribution given mean values of -2, -1, 0, 1, and 2, respectively. It takes each value from -2:2 and returns a vector of five observations, looping over the entire vector and storing the vectors in a single list. 
+
+map_dbl(-2:2, rnorm, n = 5)
+
+# The above function throws the error "Result 1 is not a length 1 atomic vector," because it is unable to store the output of the function as a single value in a vector. Map_dbl expects each iterative output to be a single value, but each iteration of this function is a vector of five observations. In order to return the function's output as a single vector, the map() function would need to be wrapped in unlist(): 
+
+unlist(map(-2:2, rnorm, n = 5))
+```
+
+### Problem 5
+
+Rewrite map(x, function(df) lm(mpg ~ wt, data = df)) to eliminate the anonymous function.
+
+``` {r 21.5.5}
+# map(x, ~lm(mpg ~ wt, data = .))
+```
+
+## 21.9 Other patterns of for loops
+
+### Problem 1
+
+Implement your own version of every() using a for loop. Compare it with purrr::every(). What does purrr’s version do that your version doesn’t?
+
+``` {r 21.9.1}
+x <- list(1:5, letters, list(10))
 
 
+bens_every <- function(x, f) {
+out <- vector("logical", 1)
+for (. in seq_along(x))
+  out <- all((f(.)))
+out
+}
+
+bens_every(iris, is.character)
+bens_every(iris, is.vector)
+
+# Unlike dplyr's every(), my function does not support shortcuts for anonymous functions
+
+iris %>% 
+  select_if(is.numeric) %>% 
+  every(~mean(.) > 3)
+
+iris %>% 
+  select_if(is.numeric) %>% 
+  bens_every(~mean(.) > 3)
+```
+
+### Problem 2
+
+Create an enhanced col_sum() that applies a summary function to every numeric column in a data frame.
+
+``` {r 21.9.2}
+col_summary <- function(df, fun) {
+  df <- select_if(df, is.numeric)
+  out <- vector("double", length(df))
+  for (i in seq_along(df)) {
+    out[[i]] <- fun(df[[i]])
+  }
+  out
+}
 
 ```
+  df <- select_if(df, is.numeric)
+out <- vector("double", length(df))
+for (i in seq_along(df)) {
+  out[i] <- fun(df[[i]])
+}
+out
+
+
+
+col_summary(iris, mean)
+col_summary(iris, median)
+```
+
+### Problem 3
+
+A possible base R equivalent of col_sum() is:
+
+``` {}
+col_sum3 <- function(df, f) {
+  is_num <- sapply(df, is.numeric)
+  df_num <- df[, is_num]
+
+  sapply(df_num, f)
+}
+```
+
+But it has a number of bugs as illustrated with the following inputs:
+
+``` {}
+df <- tibble(
+  x = 1:3, 
+  y = 3:1,
+  z = c("a", "b", "c")
+)
+# OK
+col_sum3(df, mean)
+# Has problems: don't always return numeric vector
+col_sum3(df[1:2], mean)
+col_sum3(df[1], mean)
+col_sum3(df[0], mean)
+```
+
+What causes the bugs?
+
+
+
+
+
