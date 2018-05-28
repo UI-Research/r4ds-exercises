@@ -1,0 +1,207 @@
+# Chapter 20 - Vectors {-}
+
+Load the libraries needed for these exercises.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r library, message=FALSE}
+library(tidyverse)
+```
+
+## 20.3 - Important types of atomic vector {-}
+
+### Problem 1 {-}
+
+Describe the difference between is.finite(x) and !is.infinite(x).
+
+``` {r 21.3.1}
+# Given a character vector, is.finite() returns a vector of FALSEs and !is.infinite() returns a vector of FALSEs: 
+
+x <- c("a", "b", "c")
+
+is.finite(x)
+!is.infinite(x)
+```
+
+### Problem 2 {-}
+
+Read the source code for dplyr::near() (Hint: to see the source code, drop the ()). How does it work?
+
+``` {r 21.3.2}
+dplyr::near
+
+# near() takes two numeric vectors, x and y, and checks to see if the absolute value of their difference is less than 1.490116e-08. 
+```
+
+### Problem 3 {-}
+
+A logical vector can take 3 possible values. How many possible values can an integer vector take? How many possible values can a double take? Use google to do some research.
+
+An integer vector can take two possible values: any integer number or NA. A double vector can take 5 possible values: any real number, NA, NaN, Inf, or -Inf. 
+
+### Problem 4 {-}
+
+Brainstorm at least four functions that allow you to convert a double to an integer. How do they differ? Be precise.
+
+``` {r 21.3.4}
+x <- c("a" = 2.1,"b" = 2.4,"c" = 4.3,"d" = 5.8)
+x <- as.integer(x)
+mode(x)
+class(x)
+#as.integer() strips attributes, such as names. It changes the class of the vector to integer, but does not change the object's mode, the way R stores the object.
+
+x <- c("a" = 2.1,"b" = 2.4,"c" = 4.3,"d" = 5.8)
+(class(x) <- "integer")
+mode(x)
+#This approach retains the vector's names, changes the class to integer, and leaves the mode unchanged.
+
+x <- c("a" = 2.1,"b" = 2.4,"c" = 4.3,"d" = 5.8)
+(storage.mode(x) <- "integer")
+class(x)
+#This approach retains names and changes the object's mode and class to integer. 
+
+x <- c("a" = 2.1,"b" = 2.4,"c" = 4.3,"d" = 5.8)
+(mode(x) <- "integer")
+class(x)
+#This approach retains names and changes the object's mode and class to integer. (Unsure how this differs from storage.mode())
+```
+
+### Problem 4 {-}
+
+What functions from the readr package allow you to turn a string into logical, integer, and double vector?
+
+The parse_* functions take a character vector and parse it into a logical, integer, or double vector. 
+
+## 20.4 - Using atomic vectors {-}
+
+### Problem 1 {-}
+
+What does mean(is.na(x)) tell you about a vector x?
+
+``` {r 20.4.1a}
+#The function mean(is.na(x)) returns the proportion of NA values in the vector x: 
+x <- c(1, 2, 3, NA)
+mean(is.na(x))
+```
+
+What about sum(!is.finite(x))?
+
+``` {r 20.4.1b}
+#The function returns the number of non-finite values in the vector x:
+x <- c(1, 2, 3, NA, Inf)
+sum(!is.finite(x))
+```
+
+### Problem 2 {-}
+
+Carefully read the documentation of is.vector(). What does it actually test for? 
+
+``` {r 20.4.2a}
+# Is vector tests whether the object is a vector with no attributes other than names. Therefore, it returns false if the object is a factor:
+
+y <- factor(c(1, 2, 3, 4))
+is.vector(y)
+
+# It returns true if the object is a non-atomic vector, but only if the mode is "any": 
+
+x <- list(c(1, 2, 3), c("a", "b", "c"))
+is.vector(x)
+
+x <- list(c(1, 2, 3))
+is.vector(x, "numeric")
+```
+
+Why does is.atomic() not agree with the definition of atomic vectors above?
+
+
+``` {r 20.4.2b}
+# The above definition deems NULL objects to be of a different type than lists or atomic vectors, but is.atomic() returns TRUE if passed a NULL object:
+
+x <- NULL
+is.atomic(x)
+```
+
+### Problem 3 {-}
+
+Compare and contrast setNames() with purrr::set_names().
+
+``` {r 20.4.3}
+# Both functions will take a vector and assign it the names included in another vector:
+
+x <- c(1, 2, 3, 4)
+y <- c("a", "b", "c", "d")
+
+set_names(x, y)
+
+setNames(x, y)
+
+# But in addition to stricter argument checking, set_names() will name a vector after itself if not given a vector of names: 
+
+set_names(x)
+
+# And accepts naming functions: 
+
+set_names(1:10, function(z) letters[seq_along(z)])
+```
+
+### Problem 4 {-}
+
+Create a function that takes a vector as input and returns the last value. (Should you use [ or [[?)
+
+``` {r 20.4.4a}
+
+last_val <- function(x) {
+  x[[length(x)]]
+}
+
+# Double brackets are better than single brackets, because they return the last value of a list as a vector rather than another list:
+
+x <- list(c(1, 2, 3, 6), (c("a", "b", "c")))
+last_val(x)
+```
+
+Create a function that takes a vector as input and returns the elements at even numbered positions.
+
+``` {r 20.4.4b}
+
+even_val <- function(x) {
+  y <- seq(2, length(x), 2)
+  x[y]
+}
+
+x <- c(1, 3, 5, 7, 9)
+
+even_val(x)
+```
+
+Create a function that takes a vector as input and returns every element except the last value.
+
+``` {r 20.4.4c}
+
+first_vals <- function(x) {
+  x[-length(x)]
+}
+
+x <- c(1, 3, 5, 7, 9)
+
+first_vals(x)
+```
+
+Create a function that takes a vector as input and returns only even numbers (and no missing values).
+
+``` {r 20.4.4d}
+
+evens <- function(x) {
+  y <- x[!is.na(x)]
+  y[y %% 2 == 0]
+}
+
+x <- c(1, 3, 4, 5, NA)
+
+evens(x)
+```
+
+
+
