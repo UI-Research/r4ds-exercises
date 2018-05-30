@@ -52,16 +52,16 @@ flights %>%
 ## # A tibble: 336,776 x 20
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
 ##    <int> <int> <int>    <int>          <int>     <dbl>    <int>
-##  1  2013     1     1      517            515        2.      830
-##  2  2013     1     1      533            529        4.      850
-##  3  2013     1     1      542            540        2.      923
-##  4  2013     1     1      544            545       -1.     1004
-##  5  2013     1     1      554            600       -6.      812
-##  6  2013     1     1      554            558       -4.      740
-##  7  2013     1     1      555            600       -5.      913
-##  8  2013     1     1      557            600       -3.      709
-##  9  2013     1     1      557            600       -3.      838
-## 10  2013     1     1      558            600       -2.      753
+##  1  2013     1     1      517            515         2      830
+##  2  2013     1     1      533            529         4      850
+##  3  2013     1     1      542            540         2      923
+##  4  2013     1     1      544            545        -1     1004
+##  5  2013     1     1      554            600        -6      812
+##  6  2013     1     1      554            558        -4      740
+##  7  2013     1     1      555            600        -5      913
+##  8  2013     1     1      557            600        -3      709
+##  9  2013     1     1      557            600        -3      838
+## 10  2013     1     1      558            600        -2      753
 ## # ... with 336,766 more rows, and 13 more variables: sched_arr_time <int>,
 ## #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>,
 ## #   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,
@@ -177,16 +177,16 @@ diamonds %>%
 ## # A tibble: 143 x 11
 ##    carat cut       color clarity depth table price     x     y     z     n
 ##    <dbl> <ord>     <ord> <ord>   <dbl> <dbl> <int> <dbl> <dbl> <dbl> <int>
-##  1 0.300 Good      J     VS1      63.4   57.   394  4.23  4.26  2.69     2
-##  2 0.300 Very Good G     VS2      63.0   55.   526  4.29  4.31  2.71     2
-##  3 0.300 Very Good J     VS1      63.4   57.   506  4.26  4.23  2.69     2
-##  4 0.300 Premium   D     SI1      62.2   58.   709  4.31  4.28  2.67     2
-##  5 0.300 Ideal     G     VS2      63.0   55.   675  4.31  4.29  2.71     2
-##  6 0.300 Ideal     G     IF       62.1   55.   863  4.32  4.35  2.69     2
-##  7 0.300 Ideal     H     SI1      62.2   57.   450  4.26  4.29  2.66     2
-##  8 0.300 Ideal     H     SI1      62.2   57.   450  4.27  4.28  2.66     2
-##  9 0.310 Good      D     SI1      63.5   56.   571  4.29  4.31  2.73     2
-## 10 0.310 Very Good D     SI1      63.5   56.   732  4.31  4.29  2.73     2
+##  1  0.3  Good      J     VS1      63.4    57   394  4.23  4.26  2.69     2
+##  2  0.3  Very Good G     VS2      63      55   526  4.29  4.31  2.71     2
+##  3  0.3  Very Good J     VS1      63.4    57   506  4.26  4.23  2.69     2
+##  4  0.3  Premium   D     SI1      62.2    58   709  4.31  4.28  2.67     2
+##  5  0.3  Ideal     G     VS2      63      55   675  4.31  4.29  2.71     2
+##  6  0.3  Ideal     G     IF       62.1    55   863  4.32  4.35  2.69     2
+##  7  0.3  Ideal     H     SI1      62.2    57   450  4.26  4.29  2.66     2
+##  8  0.3  Ideal     H     SI1      62.2    57   450  4.27  4.28  2.66     2
+##  9  0.31 Good      D     SI1      63.5    56   571  4.29  4.31  2.73     2
+## 10  0.31 Very Good D     SI1      63.5    56   732  4.31  4.29  2.73     2
 ## # ... with 133 more rows
 ```
 
@@ -264,16 +264,16 @@ flights %>%
 ## # A tibble: 336,776 x 23
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
 ##    <int> <int> <int>    <int>          <int>     <dbl>    <int>
-##  1  2013     1     1      517            515        2.      830
-##  2  2013     1     1      533            529        4.      850
-##  3  2013     1     1      542            540        2.      923
-##  4  2013     1     1      544            545       -1.     1004
-##  5  2013     1     1      554            600       -6.      812
-##  6  2013     1     1      554            558       -4.      740
-##  7  2013     1     1      555            600       -5.      913
-##  8  2013     1     1      557            600       -3.      709
-##  9  2013     1     1      557            600       -3.      838
-## 10  2013     1     1      558            600       -2.      753
+##  1  2013     1     1      517            515         2      830
+##  2  2013     1     1      533            529         4      850
+##  3  2013     1     1      542            540         2      923
+##  4  2013     1     1      544            545        -1     1004
+##  5  2013     1     1      554            600        -6      812
+##  6  2013     1     1      554            558        -4      740
+##  7  2013     1     1      555            600        -5      913
+##  8  2013     1     1      557            600        -3      709
+##  9  2013     1     1      557            600        -3      838
+## 10  2013     1     1      558            600        -2      753
 ## # ... with 336,766 more rows, and 16 more variables: sched_arr_time <int>,
 ## #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>,
 ## #   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,
@@ -512,16 +512,16 @@ semi_join(flights, flights100, "tailnum")
 ## # A tibble: 230,902 x 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
 ##    <int> <int> <int>    <int>          <int>     <dbl>    <int>
-##  1  2013     1     1      517            515        2.      830
-##  2  2013     1     1      533            529        4.      850
-##  3  2013     1     1      544            545       -1.     1004
-##  4  2013     1     1      554            558       -4.      740
-##  5  2013     1     1      555            600       -5.      913
-##  6  2013     1     1      557            600       -3.      709
-##  7  2013     1     1      557            600       -3.      838
-##  8  2013     1     1      558            600       -2.      849
-##  9  2013     1     1      558            600       -2.      853
-## 10  2013     1     1      558            600       -2.      923
+##  1  2013     1     1      517            515         2      830
+##  2  2013     1     1      533            529         4      850
+##  3  2013     1     1      544            545        -1     1004
+##  4  2013     1     1      554            558        -4      740
+##  5  2013     1     1      555            600        -5      913
+##  6  2013     1     1      557            600        -3      709
+##  7  2013     1     1      557            600        -3      838
+##  8  2013     1     1      558            600        -2      849
+##  9  2013     1     1      558            600        -2      853
+## 10  2013     1     1      558            600        -2      923
 ## # ... with 230,892 more rows, and 12 more variables: sched_arr_time <int>,
 ## #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>,
 ## #   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,
@@ -547,16 +547,16 @@ semi_join(vehicles, common)
 ## # A tibble: 14,531 x 12
 ##       id make  model  year class trans drive   cyl displ fuel    hwy   cty
 ##    <int> <chr> <chr> <int> <chr> <chr> <chr> <int> <dbl> <chr> <int> <int>
-##  1  1833 Acura Inte…  1986 Subc… Auto… Fron…     4  1.60 Regu…    28    22
-##  2  1834 Acura Inte…  1986 Subc… Manu… Fron…     4  1.60 Regu…    28    23
-##  3  3037 Acura Inte…  1987 Subc… Auto… Fron…     4  1.60 Regu…    28    22
-##  4  3038 Acura Inte…  1987 Subc… Manu… Fron…     4  1.60 Regu…    28    23
-##  5  4183 Acura Inte…  1988 Subc… Auto… Fron…     4  1.60 Regu…    27    22
-##  6  4184 Acura Inte…  1988 Subc… Manu… Fron…     4  1.60 Regu…    28    23
-##  7  5303 Acura Inte…  1989 Subc… Auto… Fron…     4  1.60 Regu…    27    22
-##  8  5304 Acura Inte…  1989 Subc… Manu… Fron…     4  1.60 Regu…    28    23
-##  9  6442 Acura Inte…  1990 Subc… Auto… Fron…     4  1.80 Regu…    24    20
-## 10  6443 Acura Inte…  1990 Subc… Manu… Fron…     4  1.80 Regu…    26    21
+##  1  1833 Acura Inte…  1986 Subc… Auto… Fron…     4   1.6 Regu…    28    22
+##  2  1834 Acura Inte…  1986 Subc… Manu… Fron…     4   1.6 Regu…    28    23
+##  3  3037 Acura Inte…  1987 Subc… Auto… Fron…     4   1.6 Regu…    28    22
+##  4  3038 Acura Inte…  1987 Subc… Manu… Fron…     4   1.6 Regu…    28    23
+##  5  4183 Acura Inte…  1988 Subc… Auto… Fron…     4   1.6 Regu…    27    22
+##  6  4184 Acura Inte…  1988 Subc… Manu… Fron…     4   1.6 Regu…    28    23
+##  7  5303 Acura Inte…  1989 Subc… Auto… Fron…     4   1.6 Regu…    27    22
+##  8  5304 Acura Inte…  1989 Subc… Manu… Fron…     4   1.6 Regu…    28    23
+##  9  6442 Acura Inte…  1990 Subc… Auto… Fron…     4   1.8 Regu…    24    20
+## 10  6443 Acura Inte…  1990 Subc… Manu… Fron…     4   1.8 Regu…    26    21
 ## # ... with 14,521 more rows
 ```
 

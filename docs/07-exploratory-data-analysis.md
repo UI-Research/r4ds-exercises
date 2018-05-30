@@ -99,8 +99,8 @@ diamonds %>%
 ## # Groups:   carat [2]
 ##   carat     n
 ##   <dbl> <int>
-## 1 0.990    23
-## 2 1.00   1558
+## 1  0.99    23
+## 2  1     1558
 ```
 
 ### Problem 4 {-}
