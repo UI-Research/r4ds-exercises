@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="chapter-11-data-import.html">
-<link rel="next" href="chapter-13-relational-data.html">
+<link rel="prev" href="chapter-21-iteration.html">
+<link rel="next" href="chapter-24-model-building.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -523,325 +523,141 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="chapter-12---tidy-data" class="section level1 unnumbered">
-<h1>Chapter 12 - Tidy Data</h1>
-<p>Load the libraries needed for these exercises.</p>
+<div id="chapter-23---model-basics" class="section level1 unnumbered">
+<h1>Chapter 23 - Model basics</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
-<div id="tidy-data" class="section level2 unnumbered">
-<h2>12.2 - Tidy Data</h2>
-<div id="problem-1-18" class="section level3 unnumbered">
+<div id="a-simple-model" class="section level2 unnumbered">
+<h2>23.2 - A simple model</h2>
+<div id="problem-1-56" class="section level3 unnumbered">
 <h3>Problem 1</h3>
-<p>Using prose, describe how the variables and observations are organised in each of the sample tables.</p>
-<p><code>table1</code> is the ‘tidy’ dataset: each variable has its own column, each observation has its own row, and each value has its own cell:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table1</code></pre></div>
-<pre><code>## # A tibble: 6 x 4
-##   country      year  cases population
-##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
-## 1 Afghanistan  1999    745   19987071
-## 2 Afghanistan  2000   2666   20595360
-## 3 Brazil       1999  37737  172006362
-## 4 Brazil       2000  80488  174504898
-## 5 China        1999 212258 1272915272
-## 6 China        2000 213766 1280428583</code></pre>
-<p><code>table2</code> combines <code>cases</code> and <code>population</code> into one column called <code>type</code>, this means that each variable does not have its own column, and that each observation spans multiple rows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table2</code></pre></div>
-<pre><code>## # A tibble: 12 x 4
-##    country      year type            count
-##    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;           &lt;int&gt;
-##  1 Afghanistan  1999 cases             745
-##  2 Afghanistan  1999 population   19987071
-##  3 Afghanistan  2000 cases            2666
-##  4 Afghanistan  2000 population   20595360
-##  5 Brazil       1999 cases           37737
-##  6 Brazil       1999 population  172006362
-##  7 Brazil       2000 cases           80488
-##  8 Brazil       2000 population  174504898
-##  9 China        1999 cases          212258
-## 10 China        1999 population 1272915272
-## 11 China        2000 cases          213766
-## 12 China        2000 population 1280428583</code></pre>
-<p>In <code>table3</code> the variable <code>rate</code> violates a tidy principle, with multiple values contained in a cell, which also means that each variable does not have its own column:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table3</code></pre></div>
-<pre><code>## # A tibble: 6 x 3
-##   country      year rate             
-## * &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;            
-## 1 Afghanistan  1999 745/19987071     
-## 2 Afghanistan  2000 2666/20595360    
-## 3 Brazil       1999 37737/172006362  
-## 4 Brazil       2000 80488/174504898  
-## 5 China        1999 212258/1272915272
-## 6 China        2000 213766/1280428583</code></pre>
-<p><code>table4a</code> and <code>table4b</code> separate cases and population into their own tables across years, with multiple observations in each row:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table4a</code></pre></div>
-<pre><code>## # A tibble: 3 x 3
-##   country     `1999` `2000`
-## * &lt;chr&gt;        &lt;int&gt;  &lt;int&gt;
-## 1 Afghanistan    745   2666
-## 2 Brazil       37737  80488
-## 3 China       212258 213766</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table4b</code></pre></div>
-<pre><code>## # A tibble: 3 x 3
-##   country         `1999`     `2000`
-## * &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;
-## 1 Afghanistan   19987071   20595360
-## 2 Brazil       172006362  174504898
-## 3 China       1272915272 1280428583</code></pre>
-</div>
-<div id="problem-2-18" class="section level3 unnumbered">
-<h3>Problem 2</h3>
-<p>Compute the rate for <code>table2</code>, and <code>table4a + table4b</code>. You will need to perform four operations:</p>
-<ul>
-<li>Extract the number of TB cases per country per year.</li>
-<li>Extract the matching population per country per year.</li>
-<li>Divide cases by population, and multiply by 10000.</li>
-<li>Store back in the appropriate place.</li>
-</ul>
-<p>Which representation is easiest to work with? Which is hardest? Why?</p>
-<p><strong>NOTE</strong> these exercises demonstrate the difficulties of working with non-tidy data, the methods to come later in this chapter will greatly simplify the below code.</p>
-<p>Create a <code>tidy</code> version of <code>table2</code> by filtering <code>type</code> into two tables and using the <code>dplyr</code> <code>full_join()</code> function to recreate <code>table1</code></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table2a &lt;-<span class="st"> </span>table2 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &#39;cases&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(country, year, <span class="dt">cases =</span> count)
-
-table2b &lt;-<span class="st"> </span>table2 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &#39;population&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(country, year, <span class="dt">population =</span> count)
-
-<span class="kw">full_join</span>(table2a, table2b) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rate =</span> cases <span class="op">/</span><span class="st"> </span>population <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)</code></pre></div>
-<pre><code>## Joining, by = c(&quot;country&quot;, &quot;year&quot;)</code></pre>
-<pre><code>## # A tibble: 6 x 5
-##   country      year  cases population  rate
-##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt; &lt;dbl&gt;
-## 1 Afghanistan  1999    745   19987071 0.373
-## 2 Afghanistan  2000   2666   20595360 1.29 
-## 3 Brazil       1999  37737  172006362 2.19 
-## 4 Brazil       2000  80488  174504898 4.61 
-## 5 China        1999 212258 1272915272 1.67 
-## 6 China        2000 213766 1280428583 1.67</code></pre>
-<p>Use similar logic on <code>table4a</code> and <code>table4b</code> - this ends up being a bit more work as the data are already stored across two tables:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table4a_<span class="dv">1</span> &lt;-<span class="st"> </span>table4a <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="dv">1999</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(country, year, <span class="dt">cases =</span> <span class="st">`</span><span class="dt">1999</span><span class="st">`</span>)
-
-table4a_<span class="dv">2</span> &lt;-<span class="st"> </span>table4a <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="dv">2000</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(country, year, <span class="dt">cases =</span> <span class="st">`</span><span class="dt">2000</span><span class="st">`</span>)
-
-table4b_<span class="dv">1</span> &lt;-<span class="st"> </span>table4b <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="dv">1999</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(country, year, <span class="dt">population =</span> <span class="st">`</span><span class="dt">1999</span><span class="st">`</span>)
-
-table4b_<span class="dv">2</span> &lt;-<span class="st"> </span>table4b <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="dv">2000</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(country, year, <span class="dt">population =</span> <span class="st">`</span><span class="dt">2000</span><span class="st">`</span>)
-
-<span class="kw">bind_rows</span>(table4a_<span class="dv">1</span>, table4a_<span class="dv">2</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">full_join</span>(<span class="kw">bind_rows</span>(table4b_<span class="dv">1</span>, table4b_<span class="dv">2</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rate =</span> cases <span class="op">/</span><span class="st"> </span>population <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)</code></pre></div>
-<pre><code>## Joining, by = c(&quot;country&quot;, &quot;year&quot;)</code></pre>
-<pre><code>## # A tibble: 6 x 5
-##   country      year  cases population  rate
-##   &lt;chr&gt;       &lt;dbl&gt;  &lt;int&gt;      &lt;int&gt; &lt;dbl&gt;
-## 1 Afghanistan  1999    745   19987071 0.373
-## 2 Brazil       1999  37737  172006362 2.19 
-## 3 China        1999 212258 1272915272 1.67 
-## 4 Afghanistan  2000   2666   20595360 1.29 
-## 5 Brazil       2000  80488  174504898 4.61 
-## 6 China        2000 213766 1280428583 1.67</code></pre>
-</div>
-<div id="problem-3-17" class="section level3 unnumbered">
-<h3>Problem 3</h3>
-<p>Recreate the plot showing change in cases over time using <code>table2</code> instead of <code>table1</code>. What do you need to do first?</p>
-<p>Filter <code>type</code> so that only <code>cases</code> is plotted:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table2 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &#39;cases&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(year, count)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> country), <span class="dt">colour =</span> <span class="st">&quot;grey50&quot;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> country))</code></pre></div>
-<p><img src="12-tidy-data_files/figure-html/12-2-3-1.png" width="672" /></p>
-</div>
-</div>
-<div id="spreading-and-gathering" class="section level2 unnumbered">
-<h2>12.3 - Spreading and Gathering</h2>
-<div id="problem-1-19" class="section level3 unnumbered">
-<h3>Problem 1</h3>
-<p>Why are <code>gather()</code> and <code>spread()</code> not perfectly symmetrical? Carefully consider the following example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stocks &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="dt">year   =</span> <span class="kw">c</span>(<span class="dv">2015</span>, <span class="dv">2015</span>, <span class="dv">2016</span>, <span class="dv">2016</span>),
-  <span class="dt">half  =</span> <span class="kw">c</span>(   <span class="dv">1</span>,    <span class="dv">2</span>,     <span class="dv">1</span>,    <span class="dv">2</span>),
-  <span class="dt">return =</span> <span class="kw">c</span>(<span class="fl">1.88</span>, <span class="fl">0.59</span>, <span class="fl">0.92</span>, <span class="fl">0.17</span>)
+<p>One downside of the linear model is that it is sensitive to unusual values because the distance incorporates a squared term. Fit a linear model to the simulated data below, and visualise the results. Rerun a few times to generate different simulated datasets. What do you notice about the model?</p>
+<pre><code>sim1a &lt;- tibble(
+  x = rep(1:10, each = 3),
+  y = x * 1.5 + 6 + rt(length(x), df = 2)
+)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">20180315</span>)
+sim1a &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+    <span class="dt">x =</span> <span class="kw">rep</span>(<span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">each =</span> <span class="dv">3</span>), <span class="dv">4</span>),
+    <span class="dt">y =</span> x <span class="op">*</span><span class="st"> </span><span class="fl">1.5</span> <span class="op">+</span><span class="st"> </span><span class="dv">6</span> <span class="op">+</span><span class="st"> </span><span class="kw">rt</span>(<span class="kw">length</span>(x), <span class="dt">df =</span> <span class="dv">2</span>),
+    <span class="dt">model =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;model1&quot;</span>, <span class="st">&quot;model2&quot;</span>, <span class="st">&quot;model3&quot;</span>, <span class="st">&quot;model4&quot;</span>), <span class="dt">each =</span> <span class="kw">length</span>(x) <span class="op">/</span><span class="st"> </span><span class="dv">4</span>)
 )
 
-stocks</code></pre></div>
-<pre><code>## # A tibble: 4 x 3
-##    year  half return
-##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1  2015     1   1.88
-## 2  2015     2   0.59
-## 3  2016     1   0.92
-## 4  2016     2   0.17</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stocks <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">spread</span>(year, return) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;return&quot;</span>, <span class="st">`</span><span class="dt">2015</span><span class="st">`</span><span class="op">:</span><span class="st">`</span><span class="dt">2016</span><span class="st">`</span>)</code></pre></div>
-<pre><code>## # A tibble: 4 x 3
-##    half year  return
-##   &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
-## 1     1 2015    1.88
-## 2     2 2015    0.59
-## 3     1 2016    0.92
-## 4     2 2016    0.17</code></pre>
-<p>(Hint: look at the variable types and think about column names.) Both <code>spread()</code> and <code>gather()</code> have a <code>convert</code> argument. What does it do?</p>
-<p>In the above example <code>gather()</code> and <code>spread()</code> are not perfectly symmetrical as <code>year</code> is converted from a numeric to a character variable. Use the <code>convert</code> argument to automatically run <code>type.convert()</code> on the <code>key</code> column:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stocks <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">spread</span>(year, return, <span class="dt">convert =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;return&quot;</span>, <span class="st">`</span><span class="dt">2015</span><span class="st">`</span><span class="op">:</span><span class="st">`</span><span class="dt">2016</span><span class="st">`</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## # A tibble: 4 x 3
-##    half  year return
-##   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
-## 1     1  2015   1.88
-## 2     2  2015   0.59
-## 3     1  2016   0.92
-## 4     2  2016   0.17</code></pre>
+sim1a <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>model)</code></pre></div>
+<p><img src="23-model-basics_files/figure-html/23-2-1-1.png" width="672" /></p>
+<p>The fitted line is surprsingly stable, but it doesn’t do a good job accounting for values that are far from the fitted line.</p>
 </div>
-<div id="problem-2-19" class="section level3 unnumbered">
+<div id="problem-2-56" class="section level3 unnumbered">
 <h3>Problem 2</h3>
-<p>Why does this code fail?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table4a <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">gather</span>(<span class="dv">1999</span>, <span class="dv">2000</span>, <span class="dt">key =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;cases&quot;</span>)</code></pre></div>
-<pre><code>## Error in inds_combine(.vars, ind_list): Position must be between 0 and n</code></pre>
-<p>Be sure to use backticks to include a nonstandard variable name within a <code>tibble</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">table4a <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">gather</span>(<span class="st">`</span><span class="dt">1999</span><span class="st">`</span>, <span class="st">`</span><span class="dt">2000</span><span class="st">`</span>, <span class="dt">key =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;cases&quot;</span>)</code></pre></div>
-<pre><code>## # A tibble: 6 x 3
-##   country     year   cases
-##   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
-## 1 Afghanistan 1999     745
-## 2 Brazil      1999   37737
-## 3 China       1999  212258
-## 4 Afghanistan 2000    2666
-## 5 Brazil      2000   80488
-## 6 China       2000  213766</code></pre>
-</div>
-<div id="problem-3-18" class="section level3 unnumbered">
-<h3>Problem 3</h3>
-<p>Why does spreading this <code>tibble</code> fail? How could you add a new column to fix the problem?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">people &lt;-<span class="st"> </span><span class="kw">tribble</span>(
-  <span class="op">~</span>name,             <span class="op">~</span>key,    <span class="op">~</span>value,
-  <span class="co">#-----------------|--------|------</span>
-  <span class="st">&quot;Phillip Woods&quot;</span>,   <span class="st">&quot;age&quot;</span>,       <span class="dv">45</span>,
-  <span class="st">&quot;Phillip Woods&quot;</span>,   <span class="st">&quot;height&quot;</span>,   <span class="dv">186</span>,
-  <span class="st">&quot;Phillip Woods&quot;</span>,   <span class="st">&quot;age&quot;</span>,       <span class="dv">50</span>,
-  <span class="st">&quot;Jessica Cordero&quot;</span>, <span class="st">&quot;age&quot;</span>,       <span class="dv">37</span>,
-  <span class="st">&quot;Jessica Cordero&quot;</span>, <span class="st">&quot;height&quot;</span>,   <span class="dv">156</span>
-)</code></pre></div>
-<p>Spreading the given <code>tibble</code> will fail because rows 1 and 3 are identical observations. Add a <code>count</code> variable to fix the problem:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">people<span class="op">$</span>count &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>)
+<p>One way to make linear models more robust is to use a different distance measure. For example, instead of root-mean-squared distance, you could use mean-absolute distance:</p>
+<pre><code>measure_distance &lt;- function(mod, data) {
+  diff &lt;- data$y - make_prediction(mod, data)
+  mean(abs(diff))
+}</code></pre>
+<p>Use <code>optim()</code> to fit this model to the simulated data above and compare it to the linear model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(modelr)
 
-people <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">spread</span>(key, value)</code></pre></div>
-<pre><code>## # A tibble: 3 x 4
-##   name            count   age height
-##   &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 Jessica Cordero     1    37    156
-## 2 Phillip Woods       1    45    186
-## 3 Phillip Woods       2    50     NA</code></pre>
+model1 &lt;-<span class="st"> </span><span class="cf">function</span>(a, data) {
+  a[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>data<span class="op">$</span>x <span class="op">*</span><span class="st"> </span>a[<span class="dv">2</span>]
+}
+
+measure_distance &lt;-<span class="st"> </span><span class="cf">function</span>(mod, data) {
+  diff &lt;-<span class="st"> </span>data<span class="op">$</span>y <span class="op">-</span><span class="st"> </span><span class="kw">model1</span>(mod, data)
+  <span class="kw">mean</span>(<span class="kw">abs</span>(diff))
+}
+
+best &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), measure_distance, <span class="dt">data =</span> sim1a)
+
+<span class="kw">ggplot</span>(sim1a, <span class="kw">aes</span>(x, y)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;grey30&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> best<span class="op">$</span>par[<span class="dv">1</span>], <span class="dt">slope =</span> best<span class="op">$</span>par[<span class="dv">2</span>], <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="23-model-basics_files/figure-html/23-2-2-1.png" width="672" /></p>
 </div>
-<div id="problem-4-17" class="section level3 unnumbered">
-<h3>Problem 4</h3>
-<p>Tidy the simple <code>tibble</code> below. Do you need to <code>spread</code> or <code>gather</code> it? What are the variables?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">preg &lt;-<span class="st"> </span><span class="kw">tribble</span>(
-  <span class="op">~</span>pregnant, <span class="op">~</span>male, <span class="op">~</span>female,
-  <span class="st">&quot;yes&quot;</span>,     <span class="ot">NA</span>,    <span class="dv">10</span>,
-  <span class="st">&quot;no&quot;</span>,      <span class="dv">20</span>,    <span class="dv">12</span>
-)</code></pre></div>
-<p>The given <code>tibble</code> is not tidy as one variable (<code>sex</code>) is spread across multiple columns. Use <code>gather()</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">preg <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gather</span>(male<span class="op">:</span>female, <span class="dt">key =</span> sex, <span class="dt">value =</span> count)</code></pre></div>
-<pre><code>## # A tibble: 4 x 3
-##   pregnant sex    count
-##   &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt;
-## 1 yes      male      NA
-## 2 no       male      20
-## 3 yes      female    10
-## 4 no       female    12</code></pre>
-</div>
-</div>
-<div id="spreading-and-uniting" class="section level2 unnumbered">
-<h2>12.4 - Spreading and Uniting</h2>
-<div id="problem-1-20" class="section level3 unnumbered">
-<h3>Problem 1</h3>
-<p>What do the <code>extra</code> and <code>fill</code> arguments do in <code>separate()</code>? Experiment with the various options for the following two toy datasets.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;a,b,c&quot;</span>, <span class="st">&quot;d,e,f,g&quot;</span>, <span class="st">&quot;h,i,j&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>))</code></pre></div>
-<pre><code>## Warning: Expected 3 pieces. Additional pieces discarded in 1 rows [2].</code></pre>
-<pre><code>## # A tibble: 3 x 3
-##   one   two   three
-##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-## 1 a     b     c    
-## 2 d     e     f    
-## 3 h     i     j</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;a,b,c&quot;</span>, <span class="st">&quot;d,e&quot;</span>, <span class="st">&quot;f,g,i&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>))</code></pre></div>
-<pre><code>## Warning: Expected 3 pieces. Missing pieces filled with `NA` in 1 rows [2].</code></pre>
-<pre><code>## # A tibble: 3 x 3
-##   one   two   three
-##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-## 1 a     b     c    
-## 2 d     e     &lt;NA&gt; 
-## 3 f     g     i</code></pre>
-<p><code>extra</code> controls what happens when <code>separate()</code> results in too many pieces. In the first example, the second row appears to have an extra observation, which is dropped by default. Using <code>extra = 'merge'</code> will preserve the value:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;a,b,c&quot;</span>, <span class="st">&quot;d,e,f,g&quot;</span>, <span class="st">&quot;h,i,j&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>), <span class="dt">extra =</span> <span class="st">&#39;merge&#39;</span>)</code></pre></div>
-<pre><code>## # A tibble: 3 x 3
-##   one   two   three
-##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-## 1 a     b     c    
-## 2 d     e     f,g  
-## 3 h     i     j</code></pre>
-<p><code>fill</code> controls what happens when <code>separate()</code> results in not enough pieces. In the second example, the second row appears to be missing an observation, which will be filled from the right be default. Using <code>fill = 'left'</code> will fill from left instead.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;a,b,c&quot;</span>, <span class="st">&quot;d,e&quot;</span>, <span class="st">&quot;f,g,i&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>), <span class="dt">fill =</span> <span class="st">&#39;left&#39;</span>)</code></pre></div>
-<pre><code>## # A tibble: 3 x 3
-##   one   two   three
-##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-## 1 a     b     c    
-## 2 &lt;NA&gt;  d     e    
-## 3 f     g     i</code></pre>
-</div>
-<div id="problem-2-20" class="section level3 unnumbered">
-<h3>Problem 2</h3>
-<p>Both <code>unite()</code> and <code>separate()</code> have a <code>remove</code> argument. What does it do? Why would you set it to <code>FALSE</code>?</p>
-<p><code>remove</code> will drop the original input column from the data frame. Set it to <code>FALSE</code> in order to keep it in the data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="st">&quot;a,b,c&quot;</span>, <span class="st">&quot;d,e,f&quot;</span>, <span class="st">&quot;g,h,i&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>, <span class="st">&quot;three&quot;</span>), <span class="dt">remove =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>## # A tibble: 3 x 4
-##   x     one   two   three
-##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-## 1 a,b,c a     b     c    
-## 2 d,e,f d     e     f    
-## 3 g,h,i g     h     i</code></pre>
-</div>
-<div id="problem-3-19" class="section level3 unnumbered">
+<div id="problem-3-46" class="section level3 unnumbered">
 <h3>Problem 3</h3>
-<p>Compare and contrast <code>separate()</code> and <code>extract()</code>. Why are there three variations of separation (by position, by separator, and with groups), but only one unite?</p>
-<p><code>separate()</code> will create columns using either a position or a separator, while <code>extract()</code> will create columns using a regular expression groups. Consider the differences in the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="st">&quot;a-b&quot;</span>, <span class="st">&quot;a-d&quot;</span>, <span class="st">&quot;b-c&quot;</span>, <span class="st">&quot;d-e&quot;</span>))
-df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</code></pre></div>
-<pre><code>##      A    B
-## 1 &lt;NA&gt; &lt;NA&gt;
-## 2    a    b
-## 3    a    d
-## 4    b    c
-## 5    d    e</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">extract</span>(x, <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="st">&quot;([a-d]+)-([a-d]+)&quot;</span>)</code></pre></div>
-<pre><code>##      A    B
-## 1 &lt;NA&gt; &lt;NA&gt;
-## 2    a    b
-## 3    a    d
-## 4    b    c
-## 5 &lt;NA&gt; &lt;NA&gt;</code></pre>
-<p>There is only one variation of <code>unite()</code> since it is a many to one mapping. The arguments passed to <code>unite()</code> will always be concatenated to single result.</p>
+<p>One challenge with performing numerical optimisation is that it’s only guaranteed to find one local optima. What’s the problem with optimising a three parameter model like this?</p>
+<pre><code>model1 &lt;- function(a, data) {
+  a[1] + data$x * a[2] + a[3]
+}</code></pre>
+</div>
+</div>
+<div id="visualizing-models" class="section level2 unnumbered">
+<h2>23.3 Visualizing models</h2>
+<p>Instead of using <code>lm()</code> to fit a straight line, you can use <code>loess()</code> to fit a smooth curve. Repeat the process of model fitting, grid generation, predictions, and visualisation on sim1 using <code>loess()</code> instead of <code>lm()</code>. How does the result compare to <code>geom_smooth()</code>?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim1_loess &lt;-<span class="st"> </span><span class="kw">loess</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> sim1)
+
+grid &lt;-<span class="st"> </span>sim1 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">data_grid</span>(x) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">add_predictions</span>(sim1_loess) 
+
+<span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(x)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> y)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> pred), <span class="dt">data =</span> grid, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">y =</span> y))</code></pre></div>
+<p><img src="23-model-basics_files/figure-html/23-3-1-1.png" width="672" /></p>
+<p>The result is identical to <code>geom_smooth()</code> without the standard error shading.</p>
+<div id="problem-3-47" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p><code>add_predictions()</code> is paired with <code>gather_predictions()</code> and <code>spread_predictions()</code>. How do these three functions differ?</p>
+<p><code>gather_predictions()</code> and <code>spread_predictions()</code> work with multiple models and <code>add_predictions()</code> only works with one model. <code>gather_predictions()</code> adds each prediction as a new row with a column for model name and a column for prediction. <code>spread_predictions()</code> adds a new column for the predictions from each model.</p>
+</div>
+<div id="problem-3-48" class="section level3 unnumbered">
+<h3>Problem 3</h3>
+<p>What does <code>geom_ref_line()</code> do? What package does it come from? Why is displaying a reference line in plots showing residuals useful and important?</p>
+<p><code>geom_ref_line()</code>, from <code>library(modelr)</code>, can add horizontal and vertical reference lines. This could be useful for visually partitioning points or comparing the slope or slopes from models against levels lines.</p>
+</div>
+<div id="problem-4-36" class="section level3 unnumbered">
+<h3>Problem 4</h3>
+<p>Why might you want to look at a frequency polygon of absolute residuals? What are the pros and cons compared to looking at the raw residuals?</p>
+<p>A frequency polygon of absolute residuals is useful for exploring the magnitudes of errors from a model. A problem is that is can obscure real differences between residuals from above the fitted model and residuals below the fitted model.</p>
+</div>
+</div>
+<div id="formulas-and-model-families" class="section level2 unnumbered">
+<h2>23.4 Formulas and model families</h2>
+<div id="problem-1-57" class="section level3 unnumbered">
+<h3>Problem 1</h3>
+<p>What happens if you repeat the analysis of <code>sim2</code> using a model without an intercept. What happens to the model equation? What happens to the predictions?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> sim2)
+
+grid &lt;-<span class="st"> </span>sim2 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">data_grid</span>(x) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">add_predictions</span>(mod2)
+  
+<span class="kw">ggplot</span>(sim2, <span class="kw">aes</span>(x)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> y)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> grid, <span class="kw">aes</span>(<span class="dt">y =</span> pred), <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="dv">4</span>)</code></pre></div>
+<p><img src="23-model-basics_files/figure-html/23-4-1-1.png" width="672" /></p>
+<p>The model equation changes from <code>y = a_0 + a_1 * xb + a_2 * xc + a_3 * xd</code> to <code>y = a_1 * xa + a_2 * xb + a_3 * xc + a_4 * xd</code>. Basically, the first model replaces one level of the equation with the y-intercept. The second model has no intercept and all four levels of the discrete variable. The predictions don’t change.</p>
+</div>
+<div id="problem-2-57" class="section level3 unnumbered">
+<h3>Problem 2</h3>
+<p>Use <code>model_matrix()</code> to explore the equations generated for the models I fit to <code>sim3</code> and <code>sim4</code>. Why is <code>*</code> a good shorthand for interaction?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2, <span class="dt">data =</span> sim3)
+mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">*</span><span class="st"> </span>x2, <span class="dt">data =</span> sim3)
+
+
+
+
+<span class="kw">model_matrix</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">*</span><span class="st"> </span>x2, <span class="dt">data =</span> sim3)</code></pre></div>
+<pre><code>## # A tibble: 120 x 8
+##    `(Intercept)`    x1   x2b   x2c   x2d `x1:x2b` `x1:x2c` `x1:x2d`
+##            &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+##  1             1     1     0     0     0        0        0        0
+##  2             1     1     0     0     0        0        0        0
+##  3             1     1     0     0     0        0        0        0
+##  4             1     1     1     0     0        1        0        0
+##  5             1     1     1     0     0        1        0        0
+##  6             1     1     1     0     0        1        0        0
+##  7             1     1     0     1     0        0        1        0
+##  8             1     1     0     1     0        0        1        0
+##  9             1     1     0     1     0        0        1        0
+## 10             1     1     0     0     1        0        0        1
+## # ... with 110 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2, <span class="dt">data =</span> sim4)
+mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">*</span><span class="st"> </span>x2, <span class="dt">data =</span> sim4)</code></pre></div>
 
 </div>
 </div>
@@ -851,8 +667,8 @@ df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separ
           </div>
         </div>
       </div>
-<a href="chapter-11-data-import.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="chapter-13-relational-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chapter-21-iteration.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-24-model-building.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -1,0 +1,118 @@
+# Chapter 24 - Model building {-}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r library, message=FALSE}
+library(tidyverse)
+library(modelr)
+```
+
+## 24.2 - Why are low quality diamonds more expensive? {-}
+
+### Problem 1 {-}
+
+In the plot of `lcarat` vs. `lprice`, there are some bright vertical strips. What do they represent?
+
+The carats of the diamonds bunch at key values like 0.5 carats and 1 carat. This bunching shows up as bright vertical stripes when using `geom_hex()`.
+
+### Problem 2 {-}
+
+If `log(price) = a_0 + a_1 * log(carat)`, what does that say about the relationship between `price` and `carat`?
+
+A one log-unit increase in carat increases log-price by `a_1`. A zero-carat diamond has log-price of `a_0`.
+
+### Problem 3 {-}
+
+Extract the diamonds that have very high and very low residuals. Is there anything unusual about these diamonds? Are the particularly bad or good, or do you think these are pricing errors?
+
+Most of the errors are predictions that are lower than the sale price. There could be some unobserved characteristic that explains why these diamonds are more valuable than the model suggests. 
+
+```{r 24-2-3}
+diamonds2 <- diamonds %>%
+  filter(carat <= 2.5) %>%
+  mutate(lprice = log2(price), lcarat = log2(carat))
+
+mod_diamond2 <- lm(lprice ~ lcarat + color + cut + clarity, data = diamonds2)
+
+diamonds2 <- diamonds2 %>% 
+  add_residuals(mod_diamond2, "lresid2")
+
+diamonds2 %>% 
+  filter(abs(lresid2) > 1) %>% 
+  add_predictions(mod_diamond2) %>% 
+  mutate(pred = round(2 ^ pred)) %>% 
+  select(price, pred, carat:table, x:z) %>% 
+  arrange(price) %>%
+  mutate(error = ifelse(price > pred, "too low", "too high"))
+```
+
+### Problem 4 {-}
+
+Does the final model, `mod_diamonds2`, do a good job of predicting diamond prices? Would you trust it to tell you how much to spend if you were buying a diamond?
+
+`mod_diamonds2` was estimated on a large data set with substantial variation and does a good job capturing the variance in the data with a relatively parsimonious specification. The residuals from this model are heteroskedasticitic which suggests there isn't a significant confounding variable missing from the model. I would trust it to to get me in the ball-park but wouldn't trust it the dollar. 
+
+## 24.3 - What affects the number of daily flights? {-}
+
+### Problem 1 {-}
+
+Use your Google sleuthing skills to brainstorm why there were fewer than expected flights on Jan 20, May 26, and Sep 1. (Hint: they all have the same explanation.) How would these days generalise to another year?
+
+January 20th was the Saturday before Martin Luther King Jr. day. May 26th was the Saturday before Memorial Day. September 1st was the Saturday before Labor Day. This could be generalized to other years as the Saturdays before MLK Jr. day, Memorial Day, and Labor Day. 
+
+### Problem 2 {-}
+
+What do the three days with high positive residuals represent? How would these days generalise to another year?
+
+November 30th was the Saturday after Thanksgiving, December 1st was the Sunday after Thanksgiving, and December 28th was the Saturday after Christmas. These could be generalized to another year as the Saturday and Sunday after Thanksgiving and the Saturday after Christmas. 
+
+### Problem 3 {-}
+
+Create a new variable that splits the wday variable into terms, but only for Saturdays, i.e. it should have Thurs, Fri, but Sat-summer, Sat-spring, Sat-fall. How does this model compare with the model with every combination of wday and term?
+
+The new model is less accurate than the old model in the spring and summer. 
+
+The old model has 20 predictors and the new model has 8 predictors. 
+
+```{r 24-3-3}
+library(nycflights13)
+library(lubridate)
+
+term <- function(date) {
+  cut(date, 
+    breaks = ymd(20130101, 20130605, 20130825, 20140101),
+    labels = c("spring", "summer", "fall") 
+  )
+}
+
+daily <- flights %>% 
+  mutate(date = make_date(year, month, day)) %>%
+  group_by(date) %>% 
+  summarise(n = n()) %>%
+  mutate(wday = wday(date, label = TRUE)) %>%
+  mutate(term = term(date)) %>%
+  mutate(date_combined = case_when(
+    wday == "Sat" & term == "spring" ~ "Sat-spring",
+    wday == "Sat" & term == "summer" ~ "Sat-summer",
+    wday == "Sat" & term == "fall" ~ "Sat-fall",
+    TRUE ~ as.character(wday)
+    )) %>%
+  mutate(date_combined = as.factor(date_combined))
+
+old_model <- lm(n ~ wday * term, data = daily)
+
+new_model <- lm(n ~ date_combined, data = daily)
+
+daily %>% 
+  gather_residuals(old_model = old_model, new_model = new_model) %>% 
+  ggplot(aes(date, resid, colour = model)) +
+    geom_line(alpha = 0.75)
+```
+
+### Problem 4 {-}
+
+Create a new wday variable that combines the day of week, term (for Saturdays), and public holidays. What do the residuals of that model look like?

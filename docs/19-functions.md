@@ -403,4 +403,3 @@ What does the `trim` argument to `mean()` do? When might you use it?
 The default value for the `method` argument to `cor()` is `c("pearson", "kendall", "spearman")`. What does that mean? What value is used by default?
 
 It means the possible methods are `"pearson", "kendall", "spearman"`. It defaults to `"pearson"` for the Pearson correlation coefficient. 
-
