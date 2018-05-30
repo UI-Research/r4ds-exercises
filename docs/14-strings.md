@@ -161,8 +161,8 @@ It will match a string of three periods separated by characters. `\\..\\..\\..`.
 str_view(".a.b.c", "\\..\\..\\..")
 ```
 
-<!--html_preserve--><div id="htmlwidget-52fe6b23d6008ed02f74" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-52fe6b23d6008ed02f74">{"x":{"html":"<ul>\n  <li><span class='match'>.a.b.c<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-938e253531d73e87848c" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-938e253531d73e87848c">{"x":{"html":"<ul>\n  <li><span class='match'>.a.b.c<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ## 14.3.2 - Anchors {-}
 
@@ -176,8 +176,8 @@ x <- "$^$"
 str_view(x, "\\$\\^\\$")
 ```
 
-<!--html_preserve--><div id="htmlwidget-ba177f8a7ff71413dfaa" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ba177f8a7ff71413dfaa">{"x":{"html":"<ul>\n  <li><span class='match'>$^$<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-9509d2e8b7c1d257dfd3" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9509d2e8b7c1d257dfd3">{"x":{"html":"<ul>\n  <li><span class='match'>$^$<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ### Problem 2 {-}
 
@@ -190,8 +190,8 @@ Given the corpus of common words in stringr::words, create regular expressions t
 str_view(words, "^y", match = TRUE)
 ```
 
-<!--html_preserve--><div id="htmlwidget-d41283512a8169aecc53" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d41283512a8169aecc53">{"x":{"html":"<ul>\n  <li><span class='match'>y<\/span>ear<\/li>\n  <li><span class='match'>y<\/span>es<\/li>\n  <li><span class='match'>y<\/span>esterday<\/li>\n  <li><span class='match'>y<\/span>et<\/li>\n  <li><span class='match'>y<\/span>ou<\/li>\n  <li><span class='match'>y<\/span>oung<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-dc10f76ead2af157bce0" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dc10f76ead2af157bce0">{"x":{"html":"<ul>\n  <li><span class='match'>y<\/span>ear<\/li>\n  <li><span class='match'>y<\/span>es<\/li>\n  <li><span class='match'>y<\/span>esterday<\/li>\n  <li><span class='match'>y<\/span>et<\/li>\n  <li><span class='match'>y<\/span>ou<\/li>\n  <li><span class='match'>y<\/span>oung<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 2. End with "x"
 
@@ -245,8 +245,8 @@ Create regular expressions to find all words that:
 str_view(words[1:10], "^[aeiou]", match = TRUE)
 ```
 
-<!--html_preserve--><div id="htmlwidget-d0c6a78ba7216d761d25" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d0c6a78ba7216d761d25">{"x":{"html":"<ul>\n  <li><span class='match'>a<\/span><\/li>\n  <li><span class='match'>a<\/span>ble<\/li>\n  <li><span class='match'>a<\/span>bout<\/li>\n  <li><span class='match'>a<\/span>bsolute<\/li>\n  <li><span class='match'>a<\/span>ccept<\/li>\n  <li><span class='match'>a<\/span>ccount<\/li>\n  <li><span class='match'>a<\/span>chieve<\/li>\n  <li><span class='match'>a<\/span>cross<\/li>\n  <li><span class='match'>a<\/span>ct<\/li>\n  <li><span class='match'>a<\/span>ctive<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-0fecb8c363628fdeed10" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0fecb8c363628fdeed10">{"x":{"html":"<ul>\n  <li><span class='match'>a<\/span><\/li>\n  <li><span class='match'>a<\/span>ble<\/li>\n  <li><span class='match'>a<\/span>bout<\/li>\n  <li><span class='match'>a<\/span>bsolute<\/li>\n  <li><span class='match'>a<\/span>ccept<\/li>\n  <li><span class='match'>a<\/span>ccount<\/li>\n  <li><span class='match'>a<\/span>chieve<\/li>\n  <li><span class='match'>a<\/span>cross<\/li>\n  <li><span class='match'>a<\/span>ct<\/li>\n  <li><span class='match'>a<\/span>ctive<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 2. Only contain consonants. (Hint: think about match "not"-vowels.)
 
@@ -255,8 +255,8 @@ str_view(words[1:10], "^[aeiou]", match = TRUE)
 str_view(words, "^[^aeiou]+$", match = TRUE)
 ```
 
-<!--html_preserve--><div id="htmlwidget-3020c002a19987b3b138" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3020c002a19987b3b138">{"x":{"html":"<ul>\n  <li><span class='match'>by<\/span><\/li>\n  <li><span class='match'>dry<\/span><\/li>\n  <li><span class='match'>fly<\/span><\/li>\n  <li><span class='match'>mrs<\/span><\/li>\n  <li><span class='match'>try<\/span><\/li>\n  <li><span class='match'>why<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-9e53d98896e2c3d5a9e8" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9e53d98896e2c3d5a9e8">{"x":{"html":"<ul>\n  <li><span class='match'>by<\/span><\/li>\n  <li><span class='match'>dry<\/span><\/li>\n  <li><span class='match'>fly<\/span><\/li>\n  <li><span class='match'>mrs<\/span><\/li>\n  <li><span class='match'>try<\/span><\/li>\n  <li><span class='match'>why<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 I'm not sure if this can be done with `+` which is introduced on page 204 after the exercises. 
 
@@ -267,8 +267,8 @@ I'm not sure if this can be done with `+` which is introduced on page 204 after 
 str_view(words, "[^e]ed$", match = TRUE)
 ```
 
-<!--html_preserve--><div id="htmlwidget-be69ecf5d5b755cafe57" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-be69ecf5d5b755cafe57">{"x":{"html":"<ul>\n  <li><span class='match'>bed<\/span><\/li>\n  <li>hund<span class='match'>red<\/span><\/li>\n  <li><span class='match'>red<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-38b327f50ab9caae0759" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-38b327f50ab9caae0759">{"x":{"html":"<ul>\n  <li><span class='match'>bed<\/span><\/li>\n  <li>hund<span class='match'>red<\/span><\/li>\n  <li><span class='match'>red<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 4. End with ing or ize. 
 
@@ -277,8 +277,8 @@ str_view(words, "[^e]ed$", match = TRUE)
 str_view(words, "ing$|ize$", match = TRUE)
 ```
 
-<!--html_preserve--><div id="htmlwidget-175b02fbe8a45adf4df5" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-175b02fbe8a45adf4df5">{"x":{"html":"<ul>\n  <li>br<span class='match'>ing<\/span><\/li>\n  <li>dur<span class='match'>ing<\/span><\/li>\n  <li>even<span class='match'>ing<\/span><\/li>\n  <li>k<span class='match'>ing<\/span><\/li>\n  <li>mean<span class='match'>ing<\/span><\/li>\n  <li>morn<span class='match'>ing<\/span><\/li>\n  <li>organ<span class='match'>ize<\/span><\/li>\n  <li>recogn<span class='match'>ize<\/span><\/li>\n  <li>r<span class='match'>ing<\/span><\/li>\n  <li>s<span class='match'>ing<\/span><\/li>\n  <li>s<span class='match'>ize<\/span><\/li>\n  <li>th<span class='match'>ing<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-a5ab259b4bc7ee73a3ec" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a5ab259b4bc7ee73a3ec">{"x":{"html":"<ul>\n  <li>br<span class='match'>ing<\/span><\/li>\n  <li>dur<span class='match'>ing<\/span><\/li>\n  <li>even<span class='match'>ing<\/span><\/li>\n  <li>k<span class='match'>ing<\/span><\/li>\n  <li>mean<span class='match'>ing<\/span><\/li>\n  <li>morn<span class='match'>ing<\/span><\/li>\n  <li>organ<span class='match'>ize<\/span><\/li>\n  <li>recogn<span class='match'>ize<\/span><\/li>\n  <li>r<span class='match'>ing<\/span><\/li>\n  <li>s<span class='match'>ing<\/span><\/li>\n  <li>s<span class='match'>ize<\/span><\/li>\n  <li>th<span class='match'>ing<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ### Problem 2 {-}
 
@@ -294,8 +294,8 @@ Let's try this with proof by contradiction. We need to look for two conditions:
 str_view(words, "ei|[c]ie", match = TRUE)
 ```
 
-<!--html_preserve--><div id="htmlwidget-9b97a5813dd925b6b793" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9b97a5813dd925b6b793">{"x":{"html":"<ul>\n  <li><span class='match'>ei<\/span>ght<\/li>\n  <li><span class='match'>ei<\/span>ther<\/li>\n  <li>rec<span class='match'>ei<\/span>ve<\/li>\n  <li>s<span class='match'>cie<\/span>nce<\/li>\n  <li>so<span class='match'>cie<\/span>ty<\/li>\n  <li>w<span class='match'>ei<\/span>gh<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-0198054a66b693b1363f" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0198054a66b693b1363f">{"x":{"html":"<ul>\n  <li><span class='match'>ei<\/span>ght<\/li>\n  <li><span class='match'>ei<\/span>ther<\/li>\n  <li>rec<span class='match'>ei<\/span>ve<\/li>\n  <li>s<span class='match'>cie<\/span>nce<\/li>\n  <li>so<span class='match'>cie<\/span>ty<\/li>\n  <li>w<span class='match'>ei<\/span>gh<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 Six words violate the rules. "i before e except after c" is and always will be rubbish. 
 
@@ -310,8 +310,8 @@ Proof by contradiction: look for a "q" not followed by a "u".
 str_view(words, "q^[u]", match = TRUE)
 ```
 
-<!--html_preserve--><div id="htmlwidget-45ae5a2ed6a9e8449813" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-45ae5a2ed6a9e8449813">{"x":{"html":"<ul>\n  <li><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-875216356d743746d4ee" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-875216356d743746d4ee">{"x":{"html":"<ul>\n  <li><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 Yes, "q" is always followed by a "u" in this data set. 
 
@@ -324,8 +324,8 @@ Write a regular expression that matches a word if it's probably written in Briti
 str_view(words, "our|ise|ogue", match = TRUE)
 ```
 
-<!--html_preserve--><div id="htmlwidget-8a10e56a32ad90fd2a11" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8a10e56a32ad90fd2a11">{"x":{"html":"<ul>\n  <li>advert<span class='match'>ise<\/span><\/li>\n  <li>col<span class='match'>our<\/span><\/li>\n  <li>c<span class='match'>our<\/span>se<\/li>\n  <li>c<span class='match'>our<\/span>t<\/li>\n  <li>enc<span class='match'>our<\/span>age<\/li>\n  <li>exerc<span class='match'>ise<\/span><\/li>\n  <li>fav<span class='match'>our<\/span><\/li>\n  <li>f<span class='match'>our<\/span><\/li>\n  <li>h<span class='match'>our<\/span><\/li>\n  <li>lab<span class='match'>our<\/span><\/li>\n  <li>otherw<span class='match'>ise<\/span><\/li>\n  <li>pract<span class='match'>ise<\/span><\/li>\n  <li>ra<span class='match'>ise<\/span><\/li>\n  <li>real<span class='match'>ise<\/span><\/li>\n  <li>res<span class='match'>our<\/span>ce<\/li>\n  <li>r<span class='match'>ise<\/span><\/li>\n  <li>surpr<span class='match'>ise<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-9ffa65a4c70c25c43c19" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9ffa65a4c70c25c43c19">{"x":{"html":"<ul>\n  <li>advert<span class='match'>ise<\/span><\/li>\n  <li>col<span class='match'>our<\/span><\/li>\n  <li>c<span class='match'>our<\/span>se<\/li>\n  <li>c<span class='match'>our<\/span>t<\/li>\n  <li>enc<span class='match'>our<\/span>age<\/li>\n  <li>exerc<span class='match'>ise<\/span><\/li>\n  <li>fav<span class='match'>our<\/span><\/li>\n  <li>f<span class='match'>our<\/span><\/li>\n  <li>h<span class='match'>our<\/span><\/li>\n  <li>lab<span class='match'>our<\/span><\/li>\n  <li>otherw<span class='match'>ise<\/span><\/li>\n  <li>pract<span class='match'>ise<\/span><\/li>\n  <li>ra<span class='match'>ise<\/span><\/li>\n  <li>real<span class='match'>ise<\/span><\/li>\n  <li>res<span class='match'>our<\/span>ce<\/li>\n  <li>r<span class='match'>ise<\/span><\/li>\n  <li>surpr<span class='match'>ise<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ### Problem 5 {-}
 
@@ -338,8 +338,8 @@ phone <- c("212-555-7891", "(212)-555-7891")
 str_view(phone, "\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d|\\(\\d\\d\\d\\)-\\d\\d\\d-\\d\\d\\d\\d", match = TRUE)
 ```
 
-<!--html_preserve--><div id="htmlwidget-62d2c651c9d2a50c139e" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-62d2c651c9d2a50c139e">{"x":{"html":"<ul>\n  <li><span class='match'>212-555-7891<\/span><\/li>\n  <li><span class='match'>(212)-555-7891<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-420fa78e08387ccd0e12" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-420fa78e08387ccd0e12">{"x":{"html":"<ul>\n  <li><span class='match'>212-555-7891<\/span><\/li>\n  <li><span class='match'>(212)-555-7891<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ## 14.3.4 - Repetition {-}
 
@@ -372,8 +372,8 @@ string <- c("scratch", "apple")
 str_view(string, "^[^aeiou]{3}")
 ```
 
-<!--html_preserve--><div id="htmlwidget-f6558fd3c1edd66d2e91" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f6558fd3c1edd66d2e91">{"x":{"html":"<ul>\n  <li><span class='match'>scr<\/span>atch<\/li>\n  <li>apple<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-02626f345f70cdb867af" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-02626f345f70cdb867af">{"x":{"html":"<ul>\n  <li><span class='match'>scr<\/span>atch<\/li>\n  <li>apple<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 2. Have three or more vowels in a row.
 
@@ -383,8 +383,8 @@ string <- c("scratch", "aaapple")
 str_view(string, "^[aeiou]{3,}")
 ```
 
-<!--html_preserve--><div id="htmlwidget-e9cafc7a3f9afe17b29b" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e9cafc7a3f9afe17b29b">{"x":{"html":"<ul>\n  <li>scratch<\/li>\n  <li><span class='match'>aaa<\/span>pple<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-b307376f470f609f747e" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b307376f470f609f747e">{"x":{"html":"<ul>\n  <li>scratch<\/li>\n  <li><span class='match'>aaa<\/span>pple<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 3. Have two or more vowel consonant pairs in a row.
 
@@ -394,8 +394,8 @@ string <- c("banana", "coconut")
 str_view(string, "([aeiou][^aeiou]){2,}")
 ```
 
-<!--html_preserve--><div id="htmlwidget-f87d31d41bce0143d5e7" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f87d31d41bce0143d5e7">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li>c<span class='match'>oconut<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-2893be530bb9ee3f2b6f" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2893be530bb9ee3f2b6f">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li>c<span class='match'>oconut<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ### Problem 4 {-}
 
@@ -465,7 +465,7 @@ as_tibble(words) %>%
 ## # A tibble: 1 x 4
 ##   value letters vowels proportion
 ##   <chr>   <int>  <int>      <dbl>
-## 1 a           1      1         1.
+## 1 a           1      1          1
 ```
 
 ## 14.4.3 - Extract Matches {-}
@@ -481,8 +481,8 @@ In the previous example, you might have noticed that the regular expression matc
   str_view_all(more, colors)
 ```
 
-<!--html_preserve--><div id="htmlwidget-8bfee30995233dba7e6a" style="width:960px;height:auto;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8bfee30995233dba7e6a">{"x":{"html":"<ul>\n  <li>It is hard to erase <span class='match'>blue<\/span> or <span class='match'>red<\/span> ink.<\/li>\n  <li>The sky in the west is tinged with <span class='match'>orange<\/span> <span class='match'>red<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-2c778bac9610e308c69b" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2c778bac9610e308c69b">{"x":{"html":"<ul>\n  <li>It is hard to erase <span class='match'>blue<\/span> or <span class='match'>red<\/span> ink.<\/li>\n  <li>The sky in the west is tinged with <span class='match'>orange<\/span> <span class='match'>red<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ### Problem 2 {-}
 

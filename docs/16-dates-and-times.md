@@ -174,16 +174,16 @@ flights_dt %>%
 ## # A tibble: 328,063 x 5
 ##    origin dest  air_time air_time_calc air_time_diff
 ##    <chr>  <chr>    <dbl>         <dbl>         <dbl>
-##  1 EWR    IAH       227.          193.           34.
-##  2 LGA    IAH       227.          197.           30.
-##  3 JFK    MIA       160.          221.          -61.
-##  4 JFK    BQN       183.          260.          -77.
-##  5 LGA    ATL       116.          138.          -22.
-##  6 EWR    ORD       150.          106.           44.
-##  7 EWR    FLL       158.          198.          -40.
-##  8 LGA    IAD        53.           72.          -19.
-##  9 JFK    MCO       140.          161.          -21.
-## 10 LGA    ORD       138.          115.           23.
+##  1 EWR    IAH        227           193            34
+##  2 LGA    IAH        227           197            30
+##  3 JFK    MIA        160           221           -61
+##  4 JFK    BQN        183           260           -77
+##  5 LGA    ATL        116           138           -22
+##  6 EWR    ORD        150           106            44
+##  7 EWR    FLL        158           198           -40
+##  8 LGA    IAD         53            72           -19
+##  9 JFK    MCO        140           161           -21
+## 10 LGA    ORD        138           115            23
 ## # ... with 328,053 more rows
 ```
 
@@ -354,7 +354,7 @@ age(ymd("1992-03-14"))
 ```
 
 ```
-## [1] 26.18082
+## [1] 26.2274
 ```
 
 ### Problem 5 {-}
