@@ -46,29 +46,33 @@ An integer vector can take two possible values: any integer number or NA. A doub
 Brainstorm at least four functions that allow you to convert a double to an integer. How do they differ? Be precise.
 
 ``` {r 21.3.4}
+# 1)
 x <- c("a" = 2.1,"b" = 2.4,"c" = 4.3,"d" = 5.8)
 x <- as.integer(x)
 mode(x)
 class(x)
 #as.integer() strips attributes, such as names. It changes the class of the vector to integer, but does not change the object's mode, the way R stores the object.
 
+# 2)
 x <- c("a" = 2.1,"b" = 2.4,"c" = 4.3,"d" = 5.8)
 (class(x) <- "integer")
 mode(x)
 #This approach retains the vector's names, changes the class to integer, and leaves the mode unchanged.
 
+# 3)
 x <- c("a" = 2.1,"b" = 2.4,"c" = 4.3,"d" = 5.8)
 (storage.mode(x) <- "integer")
 class(x)
 #This approach retains names and changes the object's mode and class to integer. 
 
+# 4)
 x <- c("a" = 2.1,"b" = 2.4,"c" = 4.3,"d" = 5.8)
 (mode(x) <- "integer")
 class(x)
 #This approach retains names and changes the object's mode and class to integer. (Unsure how this differs from storage.mode())
 ```
 
-### Problem 4 {-}
+### Problem 5 {-}
 
 What functions from the readr package allow you to turn a string into logical, integer, and double vector?
 
@@ -82,6 +86,7 @@ What does mean(is.na(x)) tell you about a vector x?
 
 ``` {r 20.4.1a}
 #The function mean(is.na(x)) returns the proportion of NA values in the vector x: 
+
 x <- c(1, 2, 3, NA)
 mean(is.na(x))
 ```
@@ -90,6 +95,7 @@ What about sum(!is.finite(x))?
 
 ``` {r 20.4.1b}
 #The function returns the number of non-finite values in the vector x:
+
 x <- c(1, 2, 3, NA, Inf)
 sum(!is.finite(x))
 ```
@@ -114,7 +120,6 @@ is.vector(x, "numeric")
 ```
 
 Why does is.atomic() not agree with the definition of atomic vectors above?
-
 
 ``` {r 20.4.2b}
 # The above definition deems NULL objects to be of a different type than lists or atomic vectors, but is.atomic() returns TRUE if passed a NULL object:
@@ -203,5 +208,112 @@ x <- c(1, 3, 4, 5, NA)
 evens(x)
 ```
 
+### Problem 5 {-}
 
+Why is x[-which(x > 0)] not the same as x[x <= 0]
 
+The first subsetting vector, x[-which(x > 0)], works by returning a vector of negative indices in the vector x that are greater than zero, which are subsequently dropped when used to subset x. On the other hand, x[x <= 0] returns a vector of Booleans where TRUE is all cases where x is less than or equal to zero. If x is a heterogenous list of character and numeric values, x[-which(x > 0)] does not return an indice referring to the character value (since it is not greater than zero) and it is therefore not dropped during subsetting. In contrast, x[x <= 0] returns "NA" for the character value, which results in a NULL output:
+
+``` {r 20.4.5}
+x <- list(-1, "a", 2, 3)
+
+str(x[-which(x > 0)])
+str(x[x <= 0])
+```
+
+### Problem 6 {-}
+
+What happens when you subset with a positive integer that’s bigger than the length of the vector? 
+
+``` {r 20.4.6a}
+# Returns NA
+
+x <- c(1, 2, 3, 4, 5)
+
+str(x[6])
+```
+
+What happens when you subset with a name that doesn’t exist?
+
+``` {r 20.4.6b}
+# Also returns NA: 
+
+x <- c("a" = 1, "b" = 2, "c" = 3)
+
+str(x["d"])
+```
+## 20.5 - Recursive vectors (lists) {-}
+
+### Problem 1 {-}
+
+Draw the following list as a nested set: list(a, b, list(c, d), list(e, f)). 
+
+image:
+
+![Caption](docs/20-vectors/list_1.png)
+
+Draw the following list as a nested set: list(list(list(list(list(list(a)))))). 
+
+![Caption](docs/20-vectors/list_2.png)
+
+### Problem 2 {-}
+
+What happens if you subset a tibble as if you’re subsetting a list?
+
+``` {r 20.5.2a}
+# As with lists, different subsetting operators extract different aspects of tibbles. Double brackets simplify the output to an atomic vector while single brackets preserve the tibble structure:
+
+head(diamonds[[1]])
+head(diamonds[1])
+```
+
+ What are the key differences between a list and a tibble?
+
+A tibble is a type of list, but unlike a list it is always two-dimensional and always composed of equal length vectors.
+
+## 20.7 - Augmented vectors {-}
+
+### Problem 1 {-}
+
+What does hms::hms(3600) return? How does it print? What primitive type is the augmented vector built on top of? What attributes does it use?
+
+```{r 20.7.1}
+# It returns a "difftime" atomic vector of 3600 which prints as 01:00:00
+
+(x <- hms::hms(3600))
+
+str(x)
+
+# The augmented vector is built on top of a double vector: 
+
+typeof(x)
+
+# Its classes are "hms" and "difftime." It has a units attribute which indicates that the value is in seconds. 
+
+attributes(x)
+```
+
+### Problem 2 {-}
+
+Try and make a tibble that has columns with different lengths. What happens?
+
+``` {r 20.7.2, error=TRUE}
+# It returns the following error: 
+
+tibble(x = 1:10, y = 1:5)
+
+# tibble() will recycle a vector of length 1 to create a tibble: 
+
+tibble(x = 1:10, y = 1)
+```
+ 
+### Problem 3 {-}
+
+Based on the definition above, is it ok to have a list as a column of a tibble?
+
+``` {r 20.7.3}
+# Yes, as long as the list is the same length as the other vectors: 
+
+y <- tibble(x = 1:5, y = list(list(1:5), "string", 1:100, TRUE, 2))
+```
+ 
